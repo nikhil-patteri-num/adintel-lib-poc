@@ -1,0 +1,47 @@
+@import '../../assets/scss/constants/colors';
+@import '../../assets/scss/base/mixins';
+
+.custom-search {
+  position: relative;
+
+  &-input {
+    line-height: 2 !important;
+    padding-left: 24px !important;
+    padding-right: 26px !important;
+    font-family: system-ui;
+  }
+
+  &-query-status {
+    position: absolute;
+    top: 10px;
+    left: 4px;
+  }
+
+  .clear-query {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    font-size: 16px;
+    padding: 5px;
+    background-color: $white;
+    @include alignElement(null, center, center);
+  }
+
+  .valid,
+  .invalid {
+    font-size: 16px;
+  }
+
+  .valid {
+    color: $green;
+  }
+
+  .invalid {
+    color: $red;
+  }
+
+  .date-picker {
+    visibility: hidden;
+    bottom: 30px;
+  }
+}

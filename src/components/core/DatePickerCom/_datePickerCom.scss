@@ -1,0 +1,117 @@
+@import '../../assets/scss/constants/_colors.scss';
+@import '../../assets//scss/base/_mixins.scss';
+
+.date-picker,
+.date-picker-small {
+  position: relative;
+
+  .calender-icon {
+    position: absolute;
+    right: 5px;
+    top: 6px;
+  }
+  .icon-container {
+    .cross {
+      @include crossIconButton(8px);
+    }
+  }
+
+  .disabled {
+    background-color: $whisper;
+    border-color: $moonMist;
+    color: $grey;
+    cursor: default;
+    &::placeholder,
+    &::-moz-placeholder,
+    &::-webkit-input-placeholder {
+      color: $grey;
+    }
+  }
+}
+
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover,
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay,
+.flatpickr-day.notAllowed,
+.flatpickr-day.notAllowed.prevMonthDay,
+.flatpickr-day.notAllowed.nextMonthDay {
+  color: #aeaeae;
+}
+
+.flatpickr-months .flatpickr-month,
+.flatpickr-current-month .flatpickr-monthDropdown-months,
+span.flatpickr-weekday,
+.flatpickr-weekdays,
+.flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+  background: $deepteal;
+}
+
+span.flatpickr-weekday,
+.flatpickr-current-month,
+.flatpickr-monthDropdown-months,
+.flatpickr-monthDropdown-month {
+  color: $white;
+  font-weight: 500;
+}
+
+.flatpickr-calendar.arrowTop:after {
+  border-bottom-color: $deepteal;
+}
+
+.flatpickr-current-month,
+.flatpickr-monthDropdown-months,
+input.numInput.cur-year {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.flatpickr-days {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.flatpickr-day {
+  height: 33px;
+  line-height: 33px;
+}
+
+.date-picker {
+  &-input {
+    display: block;
+    border: 0.1px solid $sumo;
+    border-radius: 4px;
+    padding: 0.35rem;
+    font-size: 12px;
+    width: 100%;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $black;
+    box-sizing: border-box;
+  }
+  .icon-container {
+    .cross {
+      @include crossIconButton(8px);
+    }
+  }
+}
+
+.date-picker-small {
+  .date-picker-input {
+    display: block;
+    border: 0.1px solid $sumo;
+    border-radius: 4px;
+    padding: 0.35rem;
+    font-size: 10px;
+    width: 100%;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $black;
+    box-sizing: border-box;
+  }
+  .icon-container {
+    .cross {
+      @include crossIconButton(8px);
+    }
+  }
+}
