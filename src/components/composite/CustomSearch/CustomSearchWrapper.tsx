@@ -6,8 +6,8 @@ import './search.scss';
 
 export const CustomSearchWrapper = ({ searchData, handleSearchData }: { searchData: any; handleSearchData: any }) => {
     const [customSearchData, setCustomSearchData] = useState<any>();
-    const [searchQuery, setSearchQuery] = useState();
-    const [isQueryValid, setIsQueryValid] = useState(true);
+    // const [searchQuery, setSearchQuery] = useState();
+    // const [isQueryValid, setIsQueryValid] = useState(true);
 
     useEffect(() => {
         console.log(searchData);
@@ -32,12 +32,12 @@ export const CustomSearchWrapper = ({ searchData, handleSearchData }: { searchDa
     //     })
     // }
 
-    const handleOnChange = (args: any, args2: any, args3: any) => {
+    const handleOnChange = () => {
         // console.log(args);
-        setSearchQuery(args);
-        console.log(args2);
+        // setSearchQuery(args);
+        // console.log(args2);
         // console.log(args3);
-        setIsQueryValid(args3);
+        // setIsQueryValid(args3);
         const result = { ...customSearchData, searchResults: [] }
         // console.log(customSearchData);
         setCustomSearchData(result);
@@ -52,7 +52,7 @@ export const CustomSearchWrapper = ({ searchData, handleSearchData }: { searchDa
                 onSearch={handleSearchData}
                 planeQuery={''}
             />}
-            <div className={`query-label ${isQueryValid ? 'valid-text' : 'invalid-text'}`}>{searchQuery}</div>
+            {/* <div className={`query-label ${isQueryValid ? 'valid-text' : 'invalid-text'}`}>{searchQuery}</div> */}
         </div>
     )
 }
