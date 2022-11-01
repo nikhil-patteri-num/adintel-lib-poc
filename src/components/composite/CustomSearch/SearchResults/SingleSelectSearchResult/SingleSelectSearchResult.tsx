@@ -10,7 +10,9 @@ export const SingleSelectSearchResult = ({
   options,
   onOptionClick,
   highlight,
-  setShowResults
+  setShowResults,
+  isLoading,
+  showEmptyOption
 }: ISingleSelectSearchResult) => {
   const [focus, setFocus]: any = useState();
   const selectedRefs: { current: Array<RefObject<any>> } = React.useRef([]);
@@ -38,7 +40,7 @@ export const SingleSelectSearchResult = ({
   };
   return (
     <div className='search-body'>
-      {options && options.length > 0 ? (
+      {options && options.length > 0 && (
         <div>
           <div className='options scroller'>
             {options.map((inSearchOption: IBaseOption, index: number) => {
@@ -57,7 +59,9 @@ export const SingleSelectSearchResult = ({
             })}
           </div>
         </div>
-      ) : null}
+      )}
+      {showEmptyOption && !options.length && !isLoading && (<div className='empty-option'>No results found!</div>)}
+      {showEmptyOption && !options.length && isLoading && (<div className='empty-option'>Loading...</div>)}
     </div>
   );
 };

@@ -12,7 +12,9 @@ export const DynamicCustomResultRenderer = ({
   onOptionClick = () => {},
   highlight,
   setShowResults,
-  datePickerPosition
+  datePickerPosition,
+  isLoading,
+  showEmptyOption,
 }: IDynamicCustomResultRendererProps) => {
   const dateRef: any = useRef(null);
 
@@ -43,6 +45,8 @@ export const DynamicCustomResultRenderer = ({
         onOptionClick={onOptionClick}
         highlight={highlight}
         setShowResults={setShowResults}
+        isLoading={isLoading}
+        showEmptyOption={showEmptyOption}
       />
     );
   if (searchResultType === SearchResultType.datePicker)

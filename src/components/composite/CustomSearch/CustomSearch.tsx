@@ -31,6 +31,8 @@ interface ICustomSearchProps {
   onCheckBoxChecked: boolean;
   isLoading: boolean;
   onClearSearch: boolean;
+  onSearchTextChange: string;
+  showEmptyOption: boolean;
 }
 
 export const CustomSearch = (props: ICustomSearchProps) => {
@@ -43,6 +45,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     onCheckBoxChecked,
     isLoading,
     onClearSearch,
+    onSearchTextChange,
+    showEmptyOption
   } = props;
   const { columns, searchResults } = customSearchData;
   const [showResults, setShowResults] = useState(false);
@@ -68,6 +72,12 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       setQueryArray([]);
     }
   }, [onClearSearch]);
+
+  useEffect(() => {
+    if (onSearchTextChange.length) {
+      setQueryArray(onSearchTextChange.split(' '));
+    }
+  }, [onSearchTextChange]);
 
   useEffect(() => {
     const query = getSearchQueryReplacedByValues();
@@ -330,7 +340,6 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       );
 
       setQueryArray(newQueryArray);
-      console.log(changedWordArray);
       setDatePickerPosition({
         left:
         /** the below comment has to be uncommented once the angular canvas issue is resolved */
@@ -558,8 +567,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
         onChange={onInputChange}
         onClick={onInputClick}
         onKeyUp={onEnterClick}
-        placeholder={isLoading ? 'Loading...' : `Example: Product = 'Apple Rubber Pdts Inc - Corporate Promotion'`}
-        disabled={isLoading}
+        placeholder={`Example: Product = 'Apple Rubber Pdts Inc - Corporate Promotion'`}
       />
       {searchQuery.length ? (
         <Button
@@ -583,6 +591,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
             onOptionClick={onOptionClick}
             setShowResults={setShowResults}
             datePickerPosition={datePickerPosition}
+            isLoading={isLoading}
+            showEmptyOption={showEmptyOption}
           />
         </div>
       )}

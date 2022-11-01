@@ -16,6 +16,8 @@ export interface IDynamicCustomResultRendererProps {
   highlight?: string;
   setShowResults: any;
   datePickerPosition: any;
+  isLoading: boolean;
+  showEmptyOption: boolean;
 }
 
 export interface ISingleSelectSearchResult {
@@ -23,4 +25,6 @@ export interface ISingleSelectSearchResult {
   onOptionClick: (option: IBaseOption) => void;
   highlight?: string;
   setShowResults: any;
+  isLoading: boolean;
+  showEmptyOption: boolean;
 }
