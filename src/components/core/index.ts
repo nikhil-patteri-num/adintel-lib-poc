@@ -15,6 +15,6 @@ export { DatePicker } from './DatePickerCom';
 export { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 // export { SearchPopover, IPopoverProps } from './SearchPopover';
 export { Tooltip, tooltipPosition, ITooltipProps } from './Tooltip';
-export { createCanvas } from 'canvas';
+// export { createCanvas } from 'canvas';
 // export { FloatingButton } from './FloatingButton';
 // export { Table } from './Table';

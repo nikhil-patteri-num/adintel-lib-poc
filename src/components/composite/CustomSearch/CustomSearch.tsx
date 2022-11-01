@@ -17,7 +17,7 @@ import {
 } from './enums/CustomSearchEnums';
 import { faCheckCircle, faTimesCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { isValidSearchQuery } from './SearchQueryValidator';
-import { getWidthByText } from '../../utility/utils';
+// import { getWidthByText } from '../../utility/utils';
 import { Button } from '../../core';
 import { keyCode } from '../../utility/Constants';
 import './customSearch.scss';
@@ -29,6 +29,8 @@ interface ICustomSearchProps {
   planeQuery: string;
   onEnterButtonClick: () => void;
   onCheckBoxChecked: boolean;
+  isLoading: boolean;
+  onClearSearch: boolean;
 }
 
 export const CustomSearch = (props: ICustomSearchProps) => {
@@ -38,7 +40,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     onChange,
     onEnterButtonClick,
     planeQuery,
-    onCheckBoxChecked
+    onCheckBoxChecked,
+    isLoading,
+    onClearSearch,
   } = props;
   const { columns, searchResults } = customSearchData;
   const [showResults, setShowResults] = useState(false);
@@ -58,6 +62,12 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     document.addEventListener('mousedown', outSideClick);
     return () => document.removeEventListener('mousedown', outSideClick);
   }, []);
+
+  useEffect(() => {
+    if (onClearSearch) {
+      setQueryArray([]);
+    }
+  }, [onClearSearch]);
 
   useEffect(() => {
     const query = getSearchQueryReplacedByValues();
@@ -320,9 +330,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       );
 
       setQueryArray(newQueryArray);
+      console.log(changedWordArray);
       setDatePickerPosition({
         left:
-          getWidthByText(changedWordArray.join(' '), '12px system-ui') +
+        /** the below comment has to be uncommented once the angular canvas issue is resolved */
+          // getWidthByText(changedWordArray.join(' '), '12px system-ui') +
           datePickerDefaultLeftMargin,
         inputLeft:
           parseInt(queryRef.current.getBoundingClientRect().left, 10) +
@@ -376,14 +388,16 @@ export const CustomSearch = (props: ICustomSearchProps) => {
           modifiedColumnValue.split("'").join('').length >= 2
         )
           onSearch({
-            searchText: btoa(modifiedColumnValue.split("'").join('')),
+            // searchText: btoa(modifiedColumnValue.split("'").join('')),
+            searchText: modifiedColumnValue.split("'").join(''),
             id: currentColumn.id,
             currentValueKey: currentColumn.value
           });
       } else {
         if (/[a-zA-z]/.test(modifiedWord.substr(-1)))
           onSearch({
-            searchText: btoa(modifiedWord.split("'").join('')),
+            // searchText: btoa(modifiedWord.split("'").join('')),
+            searchText: modifiedWord.split("'").join(''),
             id: currentColumn.id,
             currentValueKey: currentColumn.value
           });
@@ -544,7 +558,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
         onChange={onInputChange}
         onClick={onInputClick}
         onKeyUp={onEnterClick}
-        placeholder='Find records using search query'
+        placeholder={isLoading ? 'Loading...' : `Example: Product = 'Apple Rubber Pdts Inc - Corporate Promotion'`}
+        disabled={isLoading}
       />
       {searchQuery.length ? (
         <Button
@@ -571,7 +586,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
           />
         </div>
       )}
-      {isValidSearchQuery(searchQuery) ? (<div>{planeQuery}</div>) : null}
+      {/* {isValidSearchQuery(searchQuery) ? (<div>{planeQuery}</div>) : null} */}
     </div>
   );
 };
