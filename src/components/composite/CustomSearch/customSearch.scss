@@ -45,3 +45,7 @@
     bottom: 30px;
   }
 }
+
+input.input.custom-search-input::placeholder {
+  color: lightgrey;
+}
