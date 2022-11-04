@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import { CustomSearch } from './CustomSearch';
+import { ISearchDataType } from './interfaces/CustomSearchInterfaces';
 import './search.scss';
 
 export interface CustomSearchWrapperProps {
-    searchData: any;
+    searchData: ISearchDataType;
     handleSearchData: any;
     plainQuery: string;
     onChange: any;

@@ -28,3 +28,21 @@ export interface ISingleSelectSearchResult {
   isLoading: boolean;
   showEmptyOption: boolean;
 }
+
+interface IColumnItem {
+  id?: number;
+  value: string;
+  label: string;
+  type?: string;
+}
+
+interface ISearchResultItem {
+  value: number;
+  label: string;
+  deactivated?: boolean;
+}
+
+export interface ISearchDataType {
+  columns: IColumnItem[];
+  searchResults: ISearchResultItem[];
+}
