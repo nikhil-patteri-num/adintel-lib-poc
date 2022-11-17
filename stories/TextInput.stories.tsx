@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Meta } from '@storybook/react'
-// import React from "react";
 import { inputType, TextInput } from "../src/components/core/TextInput/TextInput"
 
 export default {

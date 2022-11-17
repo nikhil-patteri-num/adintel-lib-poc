@@ -1,5 +1,5 @@
 {
-  "version": "0.1.46",
+  "version": "0.1.52",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -48,12 +48,16 @@
       "limit": "10 KB"
     }
   ],
-  "devDependencies": {
-    "@babel/core": "^7.19.3",
+  "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-regular-svg-icons": "^5.13.0",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/react-fontawesome": "^0.1.9",
+    "@types/react-flatpickr": "3.8.1",
+    "react-flatpickr": "3.10.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.19.3",
     "@size-limit/preset-small-lib": "^8.1.0",
     "@storybook/addon-essentials": "^6.5.12",
     "@storybook/addon-info": "^5.3.21",
@@ -64,7 +68,6 @@
     "@types/moment-timezone": "^0.5.12",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
-    "@types/react-flatpickr": "3.8.1",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
     "css-loader": "^5.2.6",
@@ -76,7 +79,6 @@
     "postcss-loader": "^4.0.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-flatpickr": "3.10.4",
     "react-is": "^18.2.0",
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.56.0",
