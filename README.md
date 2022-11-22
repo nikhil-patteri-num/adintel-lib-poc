@@ -30,52 +30,96 @@ This loads the stories from `./stories`.
 
 ### Angular Example
 
+Install react and react-dom as dependencies
+
+```bash
+npm install react@16.12.0 react-dom@16.12.0
+# or 
+yarn add react@16.12.0 react-dom@16.12.0
+```
+
+Create an angular component as below
 
 ```js
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { AfterViewInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output } from '@angular/core';
 import { CustomSearchWrapper } from 'adintel-lib-poc';
+import { debounce } from 'lodash';
 
 @Component({
   selector: 'react-custom-search',
   template: '<div id="rootId"></div>',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReactSearchComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
-  title = 'test-app';
-
   public rootId = 'rootId';
-  public searchData: any;
+  public isSearchClear = false;
+  @Input() searchData = { columns: [], searchResults: [] };
+  @Input() plainQuery: string = '';
+  @Output() getColumnDetails = new EventEmitter();
+  @Output() handleSearch = new EventEmitter();
+  @Output() setSearchString = new EventEmitter();
+  @Input() clearSearchData: boolean;
+  @Input() changedSearchText: string;
+  @Input() isLoading: boolean;
+  @Input() showEmptyOption: boolean;
 
   ngOnInit() {
+    this.getColumnDetails.emit();
   }
-  
-  ngOnChanges(changes: SimpleChanges) {
+
+  ngOnChanges() {
     this.render();
   }
-  
+
   ngAfterViewInit(): void {
     this.render();
   }
-  
+
   ngOnDestroy(): void {
-    
+
   }
 
   public handleSearchData = (payload: any) => {
+    this.handleSearch.emit(payload);
   }
+
+
+  public handleOnChange = (searchQuery, searchText, isValid) => {
+    this.setSearchString.emit({ text: searchText, query: searchQuery, isValid: isValid })
+  }
+
+  debouncedSearch = debounce(this.handleSearchData, 600);
 
   private render() {
     ReactDOM.render(React.createElement(CustomSearchWrapper,
       {
         searchData: this.searchData,
-        handleSearchData: this.handleSearchData
+        handleSearchData: this.debouncedSearch,
+        plainQuery: '',
+        onChange: this.handleOnChange,
+        onClearSearch: this.clearSearchData,
+        changedSearchText: this.changedSearchText,
+        isLoading: this.isLoading,
+        showEmptyOption: this.showEmptyOption
       }
-      ), document.getElementById(this.rootId));
+    ), document.getElementById(this.rootId));
   }
 }
 
+
 ```
+
+Add the stylesheet path as below in angular.json file
+```js
+
+  "styles": [
+    "node_modules/adintel-lib-poc/dist/adintel-lib-poc.cjs.development.css"
+  ],
+
+```
+
 
 <!-- The default example imports and live reloads whatever is in `/dist`, so if you are seeing an out of date component, make sure TSDX is running in watch mode like we recommend above. **No symlinking required**, we use [Parcel's aliasing](https://parceljs.org/module_resolution.html#aliases).
 
