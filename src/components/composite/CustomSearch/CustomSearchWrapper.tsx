@@ -25,7 +25,7 @@ export const CustomSearchWrapper = ({
     isLoading,
     showEmptyOption
 }: CustomSearchWrapperProps) => {
-    const [customSearchData, setCustomSearchData] = useState<any>({ columns: []});
+    const [customSearchData, setCustomSearchData] = useState<ISearchDataType>({ columns: [], searchResults: [] });
 
     useEffect(() => {
         setCustomSearchData(searchData);

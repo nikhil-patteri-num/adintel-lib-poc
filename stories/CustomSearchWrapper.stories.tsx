@@ -22,7 +22,7 @@ export const DefaultSearch = () => (
             onClearSearch={false}
             changedSearchText={''}
             isLoading={false}
-            showEmptyOption={true} />
+            showEmptyOption={false} />
     </div>
 );
 

@@ -1,85 +1,174 @@
-import { ISearchDataType } from "../src/components/composite/CustomSearch/interfaces/CustomSearchInterfaces";
+import {
+    ISearchDataType
+} from "../src/components/composite/CustomSearch/interfaces/CustomSearchInterfaces";
 
-export const sampleSearchData: ISearchDataType = {
-    columns: [
+export const sampleAllMediaData = {
+    "digital": [
         {
-            "id": 8,
-            "label": "Ad ID",
-            "value": "ad.adid",
-            "type": "string"
+            "id": 1,
+            "label": "Advertiser",
+            "type": "string",
+            "value": "upper(first_seen_advertiser_name)"
         },
         {
             "id": 2,
-            "label": "Advertiser",
-            "value": "upper(advertiser.name)",
-            "type": "string"
+            "label": "Category",
+            "type": "string",
+            "value": "category_name"
         },
         {
             "id": 3,
-            "label": "Category",
-            "value": "upper(category.name)",
-            "type": "string"
+            "label": "Creative ID",
+            "type": "string",
+            "value": "kantar_creative_id"
         },
         {
-            "id": 12,
-            "label": "Classified By",
-            "value": "upper(concat(appuser.firstname,' ',appuser.lastname))",
-            "type": "string"
-        },
-        {
-            "id": 11,
-            "label": "Classified On",
-            "value": "to_char(ad.classifiedon :: date, 'mm-dd-yyyy')",
-            "type": "date"
-        },
-        {
-            "id": 13,
-            "label": "Component Program",
-            "value": "upper(cptemplate.name)",
-            "type": "string"
-        },
-        {
-            "id": 10,
-            "label": "Indexed By",
-            "value": "upper(concat(t14.firstname,' ',t14.lastname))",
-            "type": "string"
-        },
-        {
-            "id": 9,
-            "label": "Indexed On",
-            "value": "to_char(ad.indexedon :: date, 'mm-dd-yyyy')",
-            "type": "date"
-        },
-        {
-            "id": 1,
-            "label": "Industry",
-            "value": "upper(industry.name)",
-            "type": "string"
-        },
-        {
-            "id": 7,
-            "label": "Language",
-            "value": "upper(language.name)",
-            "type": "string"
-        },
-        {
-            "id": 6,
-            "label": "Media",
-            "value": "upper(media.name)",
-            "type": "string"
+            "id": 4,
+            "label": "Parent",
+            "type": "string",
+            "value": "parent_product_name"
         },
         {
             "id": 5,
             "label": "Product",
-            "value": "upper(product.name)",
-            "type": "string"
+            "type": "string",
+            "value": "primary_product_name"
         },
         {
-            "id": 4,
-            "label": "Sub Category",
-            "value": "upper(subcategory.name)",
-            "type": "string"
+            "id": 6,
+            "label": "Product ID",
+            "type": "string",
+            "value": "primary_product_id"
+        },
+        {
+            "id": 7,
+            "label": "Site",
+            "type": "string",
+            "value": "upper(first_seen_media_property_name)"
+        },
+        {
+            "id": 8,
+            "label": "Title",
+            "type": "string",
+            "value": "upper(descriptive_media_title)"
         }
     ],
-    searchResults: []
+    "tv": [
+        {
+            "id": 19,
+            "label": "Advertiser",
+            "type": "string",
+            "value": "upper(first_seen_advertiser_name)"
+        },
+        {
+            "id": 20,
+            "label": "Category",
+            "type": "string",
+            "value": "category_name"
+        },
+        {
+            "id": 22,
+            "label": "Market",
+            "type": "string",
+            "value": "upper(first_seen_market_name)"
+        },
+        {
+            "id": 23,
+            "label": "Parent",
+            "type": "string",
+            "value": "parent_product_name"
+        },
+        {
+            "id": 24,
+            "label": "Product",
+            "type": "string",
+            "value": "primary_product_name"
+        },
+        {
+            "id": 25,
+            "label": "Product ID",
+            "type": "string",
+            "value": "primary_product_id"
+        },
+        {
+            "id": 26,
+            "label": "Station",
+            "type": "string",
+            "value": "upper(first_seen_media_property_name)"
+        },
+        {
+            "id": 21,
+            "label": "Creative ID",
+            "type": "string",
+            "value": "kantar_creative_id"
+        }
+    ],
+    "print": [
+        {
+            "id": 9,
+            "label": "Ad Type",
+            "type": "string",
+            "value": "upper(print_ad_type_n)"
+        },
+        {
+            "id": 10,
+            "label": "Category",
+            "type": "string",
+            "value": "category_name"
+        },
+        {
+            "id": 11,
+            "label": "Creative ID",
+            "type": "string",
+            "value": "kantar_creative_id"
+        },
+        {
+            "id": 12,
+            "label": "Headline",
+            "type": "string",
+            "value": "upper(headline_n)"
+        },
+        {
+            "id": 13,
+            "label": "Keyword",
+            "type": "string",
+            "value": "upper(_UNNEST__BSTART_keywords_BCLOSE__SPACE_keyword)"
+        },
+        {
+            "id": 14,
+            "label": "Market",
+            "type": "string",
+            "value": "upper(market)"
+        },
+        {
+            "id": 15,
+            "label": "Parent",
+            "type": "string",
+            "value": "parent_product_name"
+        },
+        {
+            "id": 16,
+            "label": "Product",
+            "type": "string",
+            "value": "primary_product_name"
+        },
+        {
+            "id": 17,
+            "label": "Product ID",
+            "type": "string",
+            "value": "primary_product_id"
+        },
+        {
+            "id": 18,
+            "label": "Publication Name",
+            "type": "string",
+            "value": "upper(publication_name)"
+        }
+    ]
+};
+
+
+export const sampleSearchData: ISearchDataType = {
+    columns: sampleAllMediaData['print'],
+    searchResults: [{ value: 0, label: "ONE AMERICA/21ST CNT/PSA" }]
 }

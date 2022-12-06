@@ -158,8 +158,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       }
       finalQueryArray.push(currentW);
     });
-
-    return finalQueryArray.join(' ');
+    const result = finalQueryArray.join(' ');
+    const finalResult = result.replace('parent_primary_product_name_name', 'parent_product_name');
+    return finalResult;
   };
 
   useEffect(() => {
