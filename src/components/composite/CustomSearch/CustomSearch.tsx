@@ -242,9 +242,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       (columnData: any) =>
         newColumnValue &&
         columnData.label.toLowerCase() ===
-          removeCharactersFromString(newColumnValue, ['('])
-            .toLowerCase()
-            .replace(/\'/gi, '')
+        removeCharactersFromString(newColumnValue, ['('])
+          .toLowerCase()
+          .replace(/\'/gi, '')
     );
     if (currentColumn) setLastColumn(currentColumn);
     return {
@@ -343,7 +343,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       setQueryArray(newQueryArray);
       setDatePickerPosition({
         left:
-        /** the below comment has to be uncommented once the angular canvas issue is resolved */
+          /** the below comment has to be uncommented once the angular canvas issue is resolved */
           // getWidthByText(changedWordArray.join(' '), '12px system-ui') +
           datePickerDefaultLeftMargin,
         inputLeft:
@@ -417,11 +417,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
         suggestions.filter((option: IBaseOption) =>
           option.label.toLowerCase().includes(
             modifiedWord &&
-              modifiedWord.split('(').join('') &&
-              modifiedWord
-                .split('(')
-                .join('')
-                .toLowerCase()
+            modifiedWord.split('(').join('') &&
+            modifiedWord
+              .split('(')
+              .join('')
+              .toLowerCase()
           )
         )
       );
@@ -469,22 +469,40 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   };
 
   const setOptionForStringTypeColumn = (lastConditionalOperator: string, option: { label: string; }, caretPosition: number | null) => {
-    setQueryArray(
-      queryArray.map((queryElement: any, index: number) => {
-        if (index === cursorElement.index) {
-          caretPosition = index;
-          const optionValue = getOptionValue(lastConditionalOperator, option.label);
-          if (optionValue) return optionValue;
-          else if (
-            columns.find(
-              (operator: any) => operator.label.toLowerCase() === option.label.toLowerCase()
-            )
+    let isReplaced: boolean = false;
+    const newQueryArray = queryArray.map((queryElement: any, index: number) => {
+      if (index === cursorElement.index) {
+        caretPosition = index;
+        const optionValue = getOptionValue(lastConditionalOperator, option.label);
+        // options if it's an operator or a dropdown selecton from search
+        if (optionValue) {
+          return optionValue;
+        } else if (
+          columns.find(
+            (operator: any) => operator.label.toLowerCase() === option.label.toLowerCase()
           )
-            return option.label.includes(' ') ? `'${option.label}'` : option.label;
-          else return `${option.label.includes(' ') ? `'${option.label}'` : `${option.label}`}`;
-        } else return queryElement;
-      })
-    );
+        ) {
+          //this conditon matches if it's a column
+          isReplaced = true;
+          return option.label.includes(' ') ? `'${option.label}'` : option.label;
+        } else {
+          return `${option.label.includes(' ') ? `'${option.label}'` : `${option.label}`}`;
+        }
+      } else if (!isReplaced && index > cursorElement.index) {
+        if (queryElement === 'AND' || queryElement === 'OR' || queryElement === 'ORDER BY') {
+          isReplaced = true;
+          return queryElement;
+        } else if (queryElement !== 'AND' && queryElement !== 'OR' && queryElement !== 'ORDER BY') {
+          return '';
+        }
+        isReplaced = true;
+        return queryElement;
+      } else {
+        // if no condition matches
+        return queryElement;
+      }
+    }).filter(item => item !== '');
+    setQueryArray(newQueryArray);
     return caretPosition;
   };
 
