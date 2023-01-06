@@ -25,7 +25,6 @@ export const createQueryArray = (queryArrayBySpace: []) => {
             if (char === '$') {
                 currentW += char;
             } else if (flag === 'VALUE' && (char === '"' || char === "'")) {
-                var opr = '';
                 if (char === '"') {
                     if (!startWithSingleQuotes && !startWithDoubleQuotes) {
                         startWithDoubleQuotes = true;
