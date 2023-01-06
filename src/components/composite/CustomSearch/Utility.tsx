@@ -123,7 +123,7 @@ export const createQueryArray = (queryArrayBySpace: []) => {
         //   finalQueryArray.push("")
         // }
     }
-
+    let lastString = finalQueryArray[finalQueryArray.length - 2];
     const result = {
         originalArray: queryArrayBySpace,
         resultArrayWithStringFormat,
@@ -134,10 +134,12 @@ export const createQueryArray = (queryArrayBySpace: []) => {
         startWithSingleQuotes,
         endWithSingleQuotes,
         lastChar,
+        lastString,
         lastSpace,
         resultQueryString: finalQueryArray.join(" "),
         flag
     }
+    // console.log('Result:', result);
     return result;
 };
 
@@ -160,4 +162,16 @@ export const getQueryArrayByQuery = (query: string) => {
     const res = createQueryArray(finalQueryArray);
     // console.log('Utility', res);
     return res.resultQueryArray;
+};
+
+export const countGivenChar = (str = '', ch = ' ') => {
+    let count = 0;
+    for (let i = 0; i < str.length; i++) {
+        const el = str[i];
+        if (el !== ch) {
+            continue;
+        }
+        count++;
+    }
+    return count;
 };

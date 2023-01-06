@@ -4,7 +4,7 @@ import { IBaseOption } from './interfaces/CustomSearchInterfaces';
 import { TextInput, inputType } from '../../core';
 import { Icon } from '../../core'
 import { DynamicCustomResultRenderer } from './DynamicCustomResultRenderer';
-import { createQueryArray, getQueryArrayByQuery } from './Utility'
+import { createQueryArray, getQueryArrayByQuery, countGivenChar } from './Utility'
 import {
   SearchResultType,
   logicalOperators,
@@ -62,7 +62,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   });
   const queryRef = useRef<any>();
   const searchQuery = queryArray.join(' ');
-  
+
   useEffect(() => {
     document.addEventListener('mousedown', outSideClick);
     return () => document.removeEventListener('mousedown', outSideClick);
@@ -314,7 +314,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       endWithDoubleQuotes,
       startWithSingleQuotes,
       endWithSingleQuotes,
-      flag
+      flag,
+      lastString
     } = res;
     newQueryArray = resultQueryArray;
     // .replace(/  +/g, ' ')
@@ -359,7 +360,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     setCurrentResultType(SearchResultType.singleSelect);
     let suggestions = [];
     if (flag === "VALUE") {
-      if (((startWithDoubleQuotes && endWithDoubleQuotes) || (startWithSingleQuotes && endWithSingleQuotes))) {
+      if ((!lastString.includes("IN")) && (/"/.test(lastString) || /'/.test(lastString)) && (countGivenChar(lastString, "'")%2 === 0 || countGivenChar(lastString, '"')%2 === 0) && ((startWithDoubleQuotes && endWithDoubleQuotes) || (startWithSingleQuotes && endWithSingleQuotes))) {
         suggestions =
           numberOfSpaces.length > 1
             ? []
@@ -371,6 +372,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
           ? []
           : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
     }
+
     if (
       !newQueryArray[modifiedWord] &&
       newQueryArray[modifiedWordIndex - 1] &&
