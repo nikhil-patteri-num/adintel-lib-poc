@@ -4,6 +4,7 @@ import { IBaseOption } from './interfaces/CustomSearchInterfaces';
 import { TextInput, inputType } from '../../core';
 import { Icon } from '../../core'
 import { DynamicCustomResultRenderer } from './DynamicCustomResultRenderer';
+import { createQueryArray, getQueryArrayByQuery, countGivenChar } from './Utility'
 import {
   SearchResultType,
   logicalOperators,
@@ -321,7 +322,20 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       setOptions(getAutoCompleteSuggestions(null, null, null));
       setShowResults(true);
     }
-    const newQueryArray: any = getIncompleteQuoteQueryArray(getQueryArrayByQuery(newQuery));
+    let newQueryArray: any = getQueryArrayByQuery(newQuery);
+    newQueryArray = getIncompleteQuoteQueryArray(newQueryArray);
+    const res = createQueryArray(newQueryArray);
+    const {
+      resultQueryArray,
+      lastSpace,
+      startWithDoubleQuotes,
+      endWithDoubleQuotes,
+      startWithSingleQuotes,
+      endWithSingleQuotes,
+      flag,
+      lastString
+    } = res;
+    newQueryArray = resultQueryArray;
     // .replace(/  +/g, ' ')
     const {
       lastExpression,
@@ -362,10 +376,21 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     }
     const numberOfSpaces = newQueryArray.filter((element: string) => element === '');
     setCurrentResultType(SearchResultType.singleSelect);
-    const suggestions =
-      numberOfSpaces.length > 1
-        ? []
-        : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
+    let suggestions = [];
+    if (flag === "VALUE") {
+      if ((!lastString.includes("IN")) && (/"/.test(lastString) || /'/.test(lastString)) && (countGivenChar(lastString, "'")%2 === 0 || countGivenChar(lastString, '"')%2 === 0) && ((startWithDoubleQuotes && endWithDoubleQuotes) || (startWithSingleQuotes && endWithSingleQuotes))) {
+        suggestions =
+          numberOfSpaces.length > 1
+            ? []
+            : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
+      }
+    } else {
+      suggestions =
+        numberOfSpaces.length > 1
+          ? []
+          : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
+    }
+
     if (
       !newQueryArray[modifiedWord] &&
       newQueryArray[modifiedWordIndex - 1] &&
