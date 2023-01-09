@@ -211,23 +211,23 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     return logicalOperators;
   };
 
-  const getQueryArrayByQuery = (query: string) => {
-    const finalQueryArray: any = [];
-    const wordsWithQuotesAndSpace: any = query.match(/'.*?'/g);
-    const queryArrayBySpace = query.replace(/'.*?'/g, '$').split(' ');
-    let spaceWordIndex = 0;
-    queryArrayBySpace.forEach((element: any) => {
-      let currentW = '';
-      for (const char of element) {
-        if (char === '$') {
-          currentW += wordsWithQuotesAndSpace[spaceWordIndex];
-          spaceWordIndex++;
-        } else currentW += char;
-      }
-      finalQueryArray.push(currentW);
-    });
-    return finalQueryArray;
-  };
+  // const getQueryArrayByQuery = (query: string) => {
+  //   const finalQueryArray: any = [];
+  //   const wordsWithQuotesAndSpace: any = query.match(/'.*?'/g);
+  //   const queryArrayBySpace = query.replace(/'.*?'/g, '$').split(' ');
+  //   let spaceWordIndex = 0;
+  //   queryArrayBySpace.forEach((element: any) => {
+  //     let currentW = '';
+  //     for (const char of element) {
+  //       if (char === '$') {
+  //         currentW += wordsWithQuotesAndSpace[spaceWordIndex];
+  //         spaceWordIndex++;
+  //       } else currentW += char;
+  //     }
+  //     finalQueryArray.push(currentW);
+  //   });
+  //   return finalQueryArray;
+  // };
 
   const setLastColumnValue = (newQueryArray: string[]) => {
     const modifiedWordIndex = newQueryArray.findIndex(
@@ -327,7 +327,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     const res = createQueryArray(newQueryArray);
     const {
       resultQueryArray,
-      lastSpace,
+      // lastSpace,
       startWithDoubleQuotes,
       endWithDoubleQuotes,
       startWithSingleQuotes,
@@ -471,11 +471,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       lastConditionalOperator &&
       lastConditionalOperator.toLowerCase() === inOperator.label.toLowerCase()
     ) {
-      return `('${label}'`;
+      return label.includes("'") ? `"${label}"` : `'${label}'`;
     } else if (
       conditionalOperators.find((operator: any) => operator.label === lastConditionalOperator)
     ) {
-      return `'${label}'`;
+      return label.includes("'") ? `"${label}"` : `'${label}'`;
     } else return null;
   };
 
