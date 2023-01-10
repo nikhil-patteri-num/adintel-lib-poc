@@ -263,6 +263,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     // });
 
     return {
+      newQueryArray,
       incompleteWordIndex,
       status: quotesCount % 2 === 0
     };
