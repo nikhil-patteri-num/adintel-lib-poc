@@ -9,12 +9,13 @@ import moment from 'moment';
 export const DynamicCustomResultRenderer = ({
   searchResultType,
   searchResults,
-  onOptionClick = () => {},
+  onOptionClick = () => { },
   highlight,
   setShowResults,
   datePickerPosition,
   isLoading,
   showEmptyOption,
+  activeSuggestion
 }: IDynamicCustomResultRendererProps) => {
   const dateRef: any = useRef(null);
 
@@ -41,7 +42,8 @@ export const DynamicCustomResultRenderer = ({
   if (searchResultType === SearchResultType.singleSelect)
     return (
       <SingleSelectSearchResult
-        options={searchResults? searchResults : []}
+        activeSuggestion={activeSuggestion}
+        options={searchResults ? searchResults : []}
         onOptionClick={onOptionClick}
         highlight={highlight}
         setShowResults={setShowResults}

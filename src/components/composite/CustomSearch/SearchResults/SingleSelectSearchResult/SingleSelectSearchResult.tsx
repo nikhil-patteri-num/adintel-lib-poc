@@ -12,7 +12,8 @@ export const SingleSelectSearchResult = ({
   highlight,
   setShowResults,
   isLoading,
-  showEmptyOption
+  showEmptyOption,
+  activeSuggestion
 }: ISingleSelectSearchResult) => {
   const [focus, setFocus]: any = useState();
   const selectedRefs: { current: Array<RefObject<any>> } = React.useRef([]);
@@ -42,21 +43,33 @@ export const SingleSelectSearchResult = ({
     <div className='search-body'>
       {options && options.length > 0 && (
         <div>
-          <div className='options scroller'>
-            {options.map((inSearchOption: IBaseOption, index: number) => {
-              return (
-                <SingleSelectResultOption
-                  key={index}
-                  option={inSearchOption}
-                  onClick={onOptionClick}
-                  index={index}
-                  focus={focus === index}
-                  onkeyPressed={handleKeyDown}
-                  highlight={highlight}
-                  optionRef={selectedRefs.current[index]}
-                />
-              );
-            })}
+          <div className='options scroller '>
+            <div className="suggestions">
+              {options.map((inSearchOption: IBaseOption, index: number) => {
+                let className;
+                if (index === activeSuggestion) {
+                  className = 'suggestion-active';
+                }
+                return (
+                  <div
+                    className={className}
+                    key={inSearchOption.label}
+                    // onClick={onOptionClick}
+                  >
+                    <SingleSelectResultOption
+                      key={index}
+                      option={inSearchOption}
+                      onClick={onOptionClick}
+                      index={index}
+                      focus={focus === index}
+                      onkeyPressed={handleKeyDown}
+                      highlight={highlight}
+                      optionRef={selectedRefs.current[index]}
+                    />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       )}

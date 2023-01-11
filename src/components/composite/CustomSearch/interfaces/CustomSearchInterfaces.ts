@@ -18,6 +18,7 @@ export interface IDynamicCustomResultRendererProps {
   datePickerPosition: any;
   isLoading: boolean;
   showEmptyOption: boolean;
+  activeSuggestion:any;
 }
 
 export interface ISingleSelectSearchResult {
@@ -27,6 +28,7 @@ export interface ISingleSelectSearchResult {
   setShowResults: any;
   isLoading: boolean;
   showEmptyOption: boolean;
+  activeSuggestion:any;
 }
 
 interface IColumnItem {
