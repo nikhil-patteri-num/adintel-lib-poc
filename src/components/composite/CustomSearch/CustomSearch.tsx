@@ -103,10 +103,6 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     }
   }, [inputCaret]);
 
-  useEffect(() => {
-    setActiveSuggestion(activeSuggestion);
-  }, [activeSuggestion])
-
   const getSearchQueryReplacedByValues = () => {
     const wordsWithQuotesAndSpace: any = searchQuery.match(/'.*?'/g);
     const columnsWithQuotes: any =
