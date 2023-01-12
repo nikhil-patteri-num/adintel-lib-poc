@@ -63,6 +63,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   const queryRef = useRef<any>();
   const searchQuery = queryArray.join(' ');
 
+  const [activeSuggestion, setActiveSuggestion] = useState(0);
+
+
   useEffect(() => {
     document.addEventListener('mousedown', outSideClick);
     return () => document.removeEventListener('mousedown', outSideClick);
@@ -99,6 +102,10 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       }
     }
   }, [inputCaret]);
+
+  useEffect(() => {
+    setActiveSuggestion(activeSuggestion);
+  }, [activeSuggestion])
 
   const getSearchQueryReplacedByValues = () => {
     const wordsWithQuotesAndSpace: any = searchQuery.match(/'.*?'/g);
@@ -361,11 +368,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     setCurrentResultType(SearchResultType.singleSelect);
     let suggestions = [];
     if (flag === "VALUE") {
-      if ((!lastString.includes("IN")) && 
-      (/"/.test(lastString) || /'/.test(lastString)) && 
-      (countGivenChar(lastString, "'") % 2 === 0 || countGivenChar(lastString, '"') % 2 === 0) && 
-      ((startWithDoubleQuotes && endWithDoubleQuotes) || (startWithSingleQuotes && endWithSingleQuotes)) &&
-      isValidSearchQuery(searchQuery)
+      if ((!lastString.includes("IN")) &&
+        (/"/.test(lastString) || /'/.test(lastString)) &&
+        (countGivenChar(lastString, "'") % 2 === 0 || countGivenChar(lastString, '"') % 2 === 0) &&
+        ((startWithDoubleQuotes && endWithDoubleQuotes) || (startWithSingleQuotes && endWithSingleQuotes)) &&
+        isValidSearchQuery(searchQuery)
       ) {
         suggestions =
           numberOfSpaces.length > 1
@@ -445,7 +452,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   };
 
   const onInputChange = (event: any) => {
-    suggestOptions(event.target.value);
+    const userInput = event.target.value;
+    setActiveSuggestion(0);
+    suggestOptions(userInput);
   };
 
   const getOptionValue = (lastConditionalOperator: string, label: string) => {
@@ -520,6 +529,10 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   };
 
   const onOptionClick = (option: any) => {
+    onOptionSelect(option);
+  };
+
+  const onOptionSelect = (option: any) => {
     const lastConditionalOperator = queryArray[queryArray.length - 2];
     let caretPosition: any = null;
     if (cursorElement) {
@@ -589,6 +602,27 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       onEnterButtonClick();
   };
 
+  const onKeyDown = (e: any) => {
+    // User pressed the enter key
+    if (e.keyCode === 13) {
+      onOptionSelect(options[activeSuggestion]);
+    }
+    // User pressed the up arrow
+    else if (e.keyCode === 38) {
+      if (activeSuggestion === 0) {
+        return;
+      }
+      setActiveSuggestion(prev => prev - 1)
+    }
+    // User pressed the down arrow
+    else if (e.keyCode === 40) {
+      if (options.length === activeSuggestion + 1) {
+        return;
+      }
+      setActiveSuggestion(prev => prev + 1)
+    }
+  };
+
   return (
     <div className='custom-search'>
       <TextInput
@@ -599,6 +633,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
         onChange={onInputChange}
         onClick={onInputClick}
         onKeyUp={onEnterClick}
+        onKeyDown={onKeyDown}
         placeholder={`Example: Product = 'Apple Rubber Pdts Inc - Corporate Promotion'`}
       />
       {searchQuery.length ? (
@@ -618,6 +653,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       {showResults && (
         <div id='dynamic-results' className='custom-search-results'>
           <DynamicCustomResultRenderer
+            activeSuggestion={activeSuggestion}
             searchResultType={currentResultType}
             searchResults={searchQuery.length > 0 ? options : []}
             onOptionClick={onOptionClick}

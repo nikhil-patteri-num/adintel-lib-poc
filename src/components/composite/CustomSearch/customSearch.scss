@@ -49,3 +49,13 @@
 input.input.custom-search-input::placeholder {
   color: lightgrey;
 }
+
+.suggestions {
+  .suggestion-active,
+  .suggestion-active:hover {
+    button {
+      background-color: #ccc !important;
+      color: #000;
+    }
+  }
+}
