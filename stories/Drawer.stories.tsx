@@ -1,0 +1,68 @@
+import React from 'react';
+import { Story, Meta } from '@storybook/react/types-6-0';
+import { DrawerWrapper } from '../src/components/composite/';
+import { IDrawerProps } from '../src/components/composite/Drawer/Drawer';
+import { sampleSidePanelData, ModuleNames } from './constants';
+export default {
+  component: DrawerWrapper,
+  title: 'Drawer'
+} as Meta;
+const Template: Story<IDrawerProps> = args => <DrawerWrapper {...args} />;
+
+const demoFnctn = () => {
+  // comment;
+};
+const defaultArgs: IDrawerProps = {
+  menuItems: [
+    {
+      key: 'dashboard',
+      icon: 'database',
+      submenus: [
+        { key: 'dashboard', value: 27, label: 'Dashboard' },
+        { key: 'user-reports', value: 28, label: 'User Reports' },
+        { key: 'universal-reports', value: 29, label: 'Universal Reports' }
+      ],
+      value: 1,
+      label: 'Dashboard'
+    },
+    {
+      key: 'queues',
+      icon: 'bars',
+      submenus: [
+        { key: 'divi', value: 32, label: 'DIVI' },
+        { key: 'indexing-queue', value: 3, label: 'Indexing Queue' },
+        { key: 'classification-queue/default', value: 4, label: 'Classification Queue' },
+        { key: 'component-queue', value: 5, label: 'Component Queue' },
+        { key: 'audit-queue/default', value: 6, label: 'Audit Queue' },
+        { key: 'query-queue', value: 7, label: 'Query Queue' }
+      ],
+      value: 2,
+      label: 'Queues'
+    }
+  ],
+  navigateToRoute: demoFnctn,
+  onSubMenuClick: demoFnctn,
+  defaultRoute: '/classification-queue/route'
+};
+
+export const DefaultDrawer = () => (
+  <div>
+    <DrawerWrapper
+      menuItems={sampleSidePanelData}
+      menuLocation={() => { }}
+      navigateToRoute={() => { }}
+      onSubMenuClick={() => { }}
+      showMenuBar={false}
+      ModuleNames={ModuleNames}
+    />
+  </div>
+);
+
+export const Default = Template.bind({});
+Default.args = {
+  ...defaultArgs
+};
+
+DefaultDrawer.args = {
+  ...defaultArgs
+};

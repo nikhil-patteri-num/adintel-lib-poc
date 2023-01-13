@@ -172,3 +172,183 @@ export const sampleSearchData: ISearchDataType = {
     columns: sampleAllMediaData['print'],
     searchResults: [{ value: 0, label: "ONE AMERICA/21ST CNT/PSA" }]
 }
+
+export const ModuleNames = {
+    classificationApp: '/classification?auth=',
+    ratesApp: '/ratesmanagement?auth=',
+    ingestionApp: '/ingestion?auth='
+  }
+
+  
+export const sampleSidePanelData = [
+    {
+        "key": "classification/#",
+        "label": "Classification",
+        "icon":"tasks",
+        "value": 5,
+        "submenus": [
+            {
+                "key": "classification/#/digital-mapping",
+                "label": "Digital Mapping",
+                "value": 6,
+                "submenus": null
+            },
+            {
+                "key": "classification/#/digital-classification",
+                "label": "Classification",
+                "value": 7,
+                "submenus": null
+            },
+            {
+                "key": "classification/#/review",
+                "label": "Creative Review",
+                "value": 8,
+                "submenus": null
+            },
+            {
+                "key": "classification/#/creative-assignment",
+                "label": "Creative Assignment",
+                "value": 9,
+                "submenus": null
+            },
+            {
+                "key": "classification/#/admin",
+                "label": "Admin",
+                "value": 10,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "ingestion/#",
+        "label": "Ingestion",
+        "icon":"archive",
+        "value": 11,
+        "submenus": [
+            {
+                "key": "ingestion/#/dashboard/adThenaIngestion",
+                "label": "Dashboard",
+                "value": 12,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/summaryView",
+                "label": "Ingestion Summary",
+                "value": 13,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/manualIngestion",
+                "label": "Declarative Files",
+                "value": 14,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "ratesmanagement/#",
+        "label": "Rates Management",
+        "icon":"tags",
+        "value": 15,
+        "submenus": [
+            {
+                "key": "ratesmanagement/#/rates-summary",
+                "label": "Media Properties",
+                "value": 16,
+                "submenus": null
+            },
+            {
+                "key": "ratesmanagement/#/rategroupsummary",
+                "label": "Rates Groups",
+                "value": 17,
+                "submenus": null
+            },
+            {
+                "key": "ratesmanagement/#/contacts",
+                "label": "Contacts",
+                "value": 18,
+                "submenus": null
+            },
+            {
+                "key": "ratesmanagement/#/admin-overview",
+                "label": "Admin",
+                "value": 19,
+                "submenus": null
+            },
+            {
+                "key": "ratesmanagement/#/coefficientmediasubtypes",
+                "label": "Programmatic Coefficients",
+                "value": 20,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "attribute-management",
+        "label": "Attribute Management",
+        "icon":"folder-open",
+        "value": 21,
+        "submenus": [
+            {
+                "key": "indexing-attribute",
+                "label": "Indexing Attribute",
+                "value": 22,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "useraccess/#",
+        "label": "User Access",
+        "icon":"users",
+        "value": 1,
+        "submenus": [
+            {
+                "key": "users",
+                "label": "Users",
+                "value": 2,
+                "submenus": null
+            },
+            {
+                "key": "roles",
+                "label": "Roles",
+                "value": 3,
+                "submenus": null
+            },
+            {
+                "key": "profiles",
+                "label": "Profiles",
+                "value": 4,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "template-management",
+        "label": "Template Management",
+        "icon":"file",
+        "value": 23,
+        "submenus": [
+            {
+                "key": "indexing-template",
+                "label": "Indexing Template",
+                "value": 24,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "general-settings",
+        "label": "General Settings",
+        "icon":"cog",
+        "value": 25,
+        "submenus": [
+            {
+                "key": "media-group",
+                "label": "Media Group",
+                "value": 26,
+                "submenus": null
+            }
+        ]
+    }
+]
