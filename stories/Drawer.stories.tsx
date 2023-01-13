@@ -1,6 +1,6 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
-import { DrawerWrapper } from '../src/components/composite/';
+import { DrawerWrapper, Drawer } from '../src/components/composite/';
 import { IDrawerProps } from '../src/components/composite/Drawer/Drawer';
 import { sampleSidePanelData, ModuleNames } from './constants';
 export default {
@@ -46,14 +46,14 @@ const defaultArgs: IDrawerProps = {
 };
 
 export const DefaultDrawer = () => (
+
   <div>
-    <DrawerWrapper
+    <Drawer
       menuItems={sampleSidePanelData}
       menuLocation={() => { }}
       navigateToRoute={() => { }}
-      onSubMenuClick={() => { }}
+      onSubMenuClick={(key:any) => {console.log(key); }}
       showMenuBar={false}
-      ModuleNames={ModuleNames}
     />
   </div>
 );
