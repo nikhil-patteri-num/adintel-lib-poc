@@ -8,7 +8,7 @@ export interface ISubMenuItem {
   value: any;
   label: string;
   key: string;
-  icon:any;
+  icon: any;
 }
 
 export interface IMenuItem extends ISubMenuItem {
@@ -111,15 +111,13 @@ export const Drawer = (props: IDrawerProps) => {
       <div className='drawer'>
         <div className='drawer-menu' id='menubar' ref={drawerRef}>
           {menuItems.map((menuItem: IMenuItem) => (
-            <>
-              <MenuItem
-                key={menuItem.key}
-                menu={menuItem}
-                activeMenuID={activeMenuID}
-                setActiveMenu={setActiveMenu}
-                expandMainDrawer={expandMainDrawer}
-              />
-            </>
+            <MenuItem
+              key={`menu-item-${menuItem.key}`}
+              menu={menuItem}
+              activeMenuID={activeMenuID}
+              setActiveMenu={setActiveMenu}
+              expandMainDrawer={expandMainDrawer}
+            />
           ))}
         </div>
         <CSSTransition
@@ -142,7 +140,7 @@ export const Drawer = (props: IDrawerProps) => {
                   className={`drawer-submenu-item ${isSubMenuActive(subMenu.key) ? 'submenu-active' : ''
                     }`}
                   onClick={(e: any) => setActiveSubMenu(e, subMenu.key)}
-                  key={subMenu.key}
+                  key={`label-${subMenu.key}`}
                   href={`${getOrigin()}#/${subMenu.key}`}
                 >
                   {subMenu.label}

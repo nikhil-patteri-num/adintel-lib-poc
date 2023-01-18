@@ -6,8 +6,12 @@ import { IMenuItem } from './Drawer';
 
 const iconList = Object.keys(Icons)
   .filter((key: any) => key !== 'fas' && key !== 'prefix')
-  .map((icon: any) => Icons[icon]);
-library.add(...iconList);
+  .map((icon: any) => Icons[icon as keyof typeof Icons]);
+// library.add(...iconList);
+iconList.map((item: any) => {
+  library.add(item);
+});
+
 
 interface IMenuItemProps {
   menu: IMenuItem;
