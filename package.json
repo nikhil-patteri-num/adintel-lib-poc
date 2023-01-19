@@ -1,5 +1,5 @@
 {
-  "version": "0.1.61",
+  "version": "0.1.67",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -68,6 +68,7 @@
     "@types/moment-timezone": "^0.5.12",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
+    "@types/react-transition-group": "^4.4.5",
     "autoprefixer": "^10.4.12",
     "babel-loader": "^8.2.5",
     "css-loader": "^5.2.6",
@@ -80,6 +81,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
+    "react-transition-group": "^4.4.5",
     "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.56.0",
     "sass-loader": "^10.1.1",
