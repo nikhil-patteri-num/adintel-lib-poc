@@ -51,8 +51,7 @@ export const DefaultDrawer = () => (
     <Drawer
       menuItems={sampleSidePanelData}
       menuLocation={() => { }}
-      navigateToRoute={() => { }}
-      onSubMenuClick={(key:any) => {console.log(key); }}
+      onSubMenuClick={(key: any) => { console.log(key); }}
       showMenuBar={false}
     />
   </div>

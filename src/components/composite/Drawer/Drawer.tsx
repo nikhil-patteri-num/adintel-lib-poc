@@ -18,7 +18,6 @@ export interface IMenuItem extends ISubMenuItem {
 export interface IDrawerProps {
   menuItems: IMenuItem[];
   menuLocation?: any;
-  navigateToRoute: (path: string) => void;
   onSubMenuClick: any;
   showMenuBar: boolean;
 }
