@@ -1,0 +1,38 @@
+@import '../../assets/scss/constants/colors.scss';
+
+.bg-simple {
+  background: $white;
+  color: $black;
+
+  a {
+    color: $black;
+  }
+}
+
+.bg-transparent {
+  background: transparent;
+}
+
+.bg-primary {
+  background: $deepteal;
+  color: $white;
+
+  a {
+    color: $white;
+  }
+}
+
+.disabled {
+  color: $grey;
+  background-color: $whisper;
+  border-color: $moonMist;
+  cursor: default;
+}
+
+.avoid-click {
+  pointer-events: none;
+}
+
+.flex {
+  display: flex;
+}

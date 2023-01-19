@@ -1,0 +1,11 @@
+@import '../../assets/scss/constants/colors.scss';
+
+.form-item-label {
+  margin-bottom: 0.3rem;
+  font-size: 12px;
+  color: $russianBlack;
+  .mandatory-icon {
+    color: $red;
+    font-size: 6px;
+  }
+}

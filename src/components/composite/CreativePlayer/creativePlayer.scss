@@ -1,0 +1,202 @@
+@import '../../assets/scss/constants/colors';
+@import '../../assets/scss/constants/zIndexes';
+@import '../../assets/scss/base/mixins';
+
+.view-all {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: $ziViewAllCreatives;
+  background: $backDropColor;
+  @include alignElement(flex, center, null);
+  flex-direction: column;
+
+  .spinner-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+    text-align: center;
+    width: 100px;
+    height: 100px;
+    color: white;
+
+    .spinner-text {
+      font-size: 12px;
+    }
+
+    .rotater {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      border-top: 1px solid white;
+      margin: auto;
+      animation-name: rotate;
+      animation-duration: 500ms;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .pdf-loading-text {
+    position: absolute;
+    top: 50%;
+    color: white;
+    transform: translate(-50%, -50%);
+  }
+
+  .document-creative-title {
+    color: white;
+  }
+
+  .close-button {
+    position: fixed;
+    top: 45px;
+    right: 10px;
+    background: transparent;
+    color: $white;
+    padding: 0;
+    font-size: 30px;
+  }
+
+  &-box {
+    margin-top: 40px;
+    margin-left: 55px;
+    width: calc(100% - 60px);
+    height: calc(100% - 40px);
+
+    &-header {
+      width: 30%;
+      display: flex;
+      align-items: center;
+      margin: auto;
+      font-weight: bold;
+      color: $white;
+      height: 35px;
+      margin-top: -38px;
+
+      * {
+        flex: 1;
+      }
+
+      .page-count {
+        text-align: center;
+      }
+
+      .left-page-toggle,
+      .right-page-toggle {
+        text-align: center;
+      }
+
+      .left-page-button,
+      .right-page-button {
+        font-size: 30px;
+        padding: 0;
+        background: transparent;
+        color: white;
+        width: auto;
+      }
+    }
+
+    &-titles,
+    &-documents {
+      display: flex;
+
+      * {
+        flex: 1;
+        text-align: center;
+
+        img {
+          width: 90%;
+        }
+      }
+    }
+
+    &-documents {
+      width: calc(100% - 0px);
+      height: calc(100% - 50px);
+      margin-top: 5px;
+      text-align: center;
+    }
+  }
+}
+
+@media ($largeScreenMedia) {
+  .view-all-box-header {
+    width: 20%;
+  }
+
+  .view-all-box-documents {
+    margin-top: 20px;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 30% 30%;
+  }
+}
+
+@media ($mediumScreenMedia) {
+  .view-all-box-header {
+    width: 30%;
+  }
+
+  .view-all-box-documents {
+    margin-top: 5px;
+  }
+}
+
+.report-issue-button {
+  color: $red;
+}
+
+.creative-details-container {
+  width: 100%;
+  height: 44%;
+  display: flex;
+  flex-direction: column;
+
+  .creative-icons-container {
+    height: 100%;
+    display: flex;
+    align-items: stretch;
+    position: relative;
+
+    .left-arrow {
+      align-items: center;
+      position: absolute;
+      left: 5px;
+      top: 45%;
+      transform: translateY(25%);
+      color: white;
+      background: $dimGrey;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .right-arrow {
+      align-items: center;
+      position: absolute;
+      right: 5px;
+      top: 45%;
+      transform: translateY(25%);
+      color: white;
+      background: $dimGrey;
+      z-index: 2;
+      cursor: pointer;
+    }
+  }
+}
+
+.multiple-creative-control {
+  width: 68%;
+  justify-content: center;
+  display: flex;
+}
