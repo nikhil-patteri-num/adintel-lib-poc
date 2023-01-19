@@ -1,13 +1,13 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react/types-6-0';
-import { DrawerWrapper, Drawer } from '../src/components/composite/';
+import { Drawer } from '../src/components/composite/';
 import { IDrawerProps } from '../src/components/composite/Drawer/Drawer';
-import { sampleSidePanelData, ModuleNames } from './constants';
+import { sampleSidePanelData } from './constants';
 export default {
-  component: DrawerWrapper,
+  component: Drawer,
   title: 'Drawer'
 } as Meta;
-const Template: Story<IDrawerProps> = args => <DrawerWrapper {...args} />;
+const Template: Story<IDrawerProps> = args => <Drawer {...args} />;
 
 const demoFnctn = () => {
   // comment;
