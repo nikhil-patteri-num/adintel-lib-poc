@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { useState } from 'react';
-import 'slick-carousel/slick/slick.css';
-import "slick-carousel/slick/slick-theme.css";
 import './Carousel.scss';
 import { ImageViewer } from '../ImageViewer/ImageViewer';
 
@@ -74,7 +72,7 @@ export const Carousel = ({ listItems, per_page }: ICarouselProps) => {
               // type="image"
               height="200px"
               width="100%"
-              // toggleMediaStatus={() => { console.log('df') }}
+            // toggleMediaStatus={() => { console.log('df') }}
             />
           </div>
         </>}

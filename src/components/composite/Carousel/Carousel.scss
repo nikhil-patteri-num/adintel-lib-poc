@@ -10,6 +10,7 @@
   }
 
   .img-current {
+    width: 100%;
     display: inherit;
     animation: fadeIn 5s;
     visibility: visible;
@@ -18,7 +19,7 @@
 
     .img-item {
       height: 50px;
-      width: 100%;
+      width: 33.3%;
       padding: 5px;
       justify-content: center;
       display: flex;
@@ -49,7 +50,7 @@
   }
 
   div#img_slides_wrapper {
-    width: 260px;
+    width: inherit;
     // height: 250px;
     display: flex;
     border: 2px solid #efefef;
