@@ -37,6 +37,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './creativePlayer.scss';
 // import EditCreativeModal from './EditCreativeModal';
 import { UNIVERSAL_SEARCH_READONLY_PARAM } from './Constants';
+import IFrameViewer from '../IFrameViewer';
+
 interface ICreativePlayerProps {
   title?: string;
   src: string;
@@ -63,6 +65,7 @@ interface ICreativePlayerProps {
   currentMediaIndex?: any;
   onCreativeEdit?: (payload: any) => void;
   onReviewThumbnailClick?: () => void;
+  htmlSrc?: any;
 }
 
 interface IMediaCreativeIssueContext {
@@ -75,10 +78,12 @@ interface IMediaCreativeIssueContext {
 }
 
 export enum MediaTypes {
-  video = 'video',
+  video = 'Video',
   audio = 'audio',
   image = 'image',
-  document = 'document'
+  document = 'document',
+  iframe = 'Frame',
+  html = 'Html'
 }
 
 export const MediaNotAvailable = () => {
@@ -93,6 +98,8 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   // let PDFJS = pdfjslib.PDFJS;
   // PDFJS.disableTextLayer = true;
   // PDFJS.disableWorker = true;
+  const showNewTab = false;
+  const showResSelector = false;
   const { type, title, src, playbackRate, playbackQuality, mediaList = [] } = props;
   const [showPlaybackContainer, setShowPlaybackContainer] = React.useState(false);
   const [showVideoQualityContainer, setShowVideoQualityContainer] = React.useState(false);
@@ -188,6 +195,12 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
         // return <PDFViewer {...creativeProps} pdfjsLib={pdfjsLib} />;
         return <></>
       }
+      case MediaTypes.iframe: {
+        return <IFrameViewer />;
+      }
+      case MediaTypes.html: {
+        return <div id={props.id} dangerouslySetInnerHTML={{ __html: src }}></div>
+      }
       default: {
         return <MediaNotAvailable />;
       }
@@ -282,7 +295,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   return (
     <>
       <div className='creative-player-title'>
-        <div className='title-label'>{title}</div>
+        <div className='title-label'>{title ? title : 'New Ad'}</div>
         <div className='multiple-creative-control'>
           {mediaList?.length > 1 ? (
             <div className='middle-div'>
@@ -290,7 +303,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
               {props.currentMediaIndex + 1} of {mediaList?.length}
             </div>
           ) : (
-              <> </>
+              <></>
             )}
         </div>
         <>
@@ -349,11 +362,11 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
               </div>
             ) : null}
 
-            {isVideoType() ? (
+            {showResSelector ? (
               <Tooltip text='Video Quality'>
                 <Button
                   id={Creative.playbackQualityButton}
-                  customClass='playback-quality'
+                  customClass='playback-rate'
                   onClick={() => {
                     setShowPlaybackContainer(false);
                     setShowVideoQualityContainer(!showVideoQualityContainer);
@@ -380,7 +393,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
                 />
               </div>
             ) : null}
-            {!isRadioType() ? (
+            {showNewTab ? (
               <Tooltip text={Creative.newTab}>
                 <Button
                   customClass='icon-wrapper new-tab-icon'

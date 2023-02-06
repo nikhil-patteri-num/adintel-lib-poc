@@ -45,7 +45,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   const {
     height,
     width,
-    isPlaying,
+    isPlaying = true,
     thumbnailPath,
     src,
     id,
@@ -60,7 +60,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
     onPreviewCreativeClick
   } = props;
 
-  const [isMediaPlaying, setMediaPlaying] = useState(isPlaying !== undefined ? isPlaying : false);
+  // const [isMediaPlaying, setMediaPlaying] = useState(isPlaying !== undefined ? isPlaying : false);
   const [isThumbnailVisible, setThumbnailVisible] = useState(
     thumbnailStatus !== undefined ? thumbnailStatus : true
   );
@@ -80,7 +80,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   };
 
   const setMediaPlayStatus = (status: boolean) => {
-    setMediaPlaying(status);
+    // setMediaPlaying(status);
     if (togglePlayerStatus) togglePlayerStatus(id, status);
   };
 
@@ -96,7 +96,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
 
     if (isEditMode) {
       if (parseInt(endTime, 10) !== 0 && progress.playedSeconds > parseInt(endTime, 10)) {
-        setMediaPlaying(false);
+        // setMediaPlaying(false);
       }
     }
   };
@@ -106,7 +106,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   };
 
   useEffect(() => {
-    setMediaPlaying(isPlaying !== undefined ? isPlaying : false);
+    // setMediaPlaying(isPlaying !== undefined ? isPlaying : false);
     if (isPlaying) {
       hideThumbnail();
     }
@@ -137,7 +137,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
     }
     playerRef.current.seekTo(startTime);
     hideThumbnail();
-    setMediaPlaying(true);
+    // setMediaPlaying(true);
     if (onPreviewCreativeClick) {
       onPreviewCreativeClick(startTime, endTime);
     }
@@ -158,7 +158,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   const onResetClick = () => {
     setStartTime('0');
     setEndTime('');
-    setMediaPlaying(false);
+    // setMediaPlaying(false);
     playerRef.current.seekTo(0);
   };
 
@@ -169,7 +169,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   };
 
   return (
-    <div className='media-player' style={{ width, height }}>
+    <div className='media-player'>
       <>
         {isEditMode ? (
           <div className='reset-button-div'>
@@ -180,7 +180,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
             </Tooltip>
           </div>
         ) : null}
-        {isThumbnailVisible ? (
+        {!isThumbnailVisible && (
           <div
             style={{
               backgroundImage: thumbnailPath
@@ -197,8 +197,6 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
               <Icon icon={faPlay} />
             </Button>
           </div>
-        ) : (
-          <></>
         )}
 
         <ReactPlayer
@@ -210,10 +208,10 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
             }
           }}
           controls={true}
-          playing={isMediaPlaying}
-          className={isThumbnailVisible ? 'player-hidden' : 'react-player-wrapper'}
-          width={width}
-          height={height}
+          playing={true}
+          className={'react-player-wrapper'}
+          width='100%'
+          height='100%'
           url={src}
           ref={playerRef}
           id={id}
@@ -224,6 +222,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
           onPause={() => setMediaPlayStatus(false)}
           onProgress={(progress: any) => onProgessChange(progress)}
           playbackRate={playbackRate}
+          onReady={() => setMediaPlayStatus(true)}
           // onSeek={onVideoSeek}
         />
 
