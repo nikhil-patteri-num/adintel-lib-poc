@@ -7,12 +7,12 @@ export default {
   component: Carousel,
   title: 'Carousel'
 } as Meta;
-const Template: Story<ICarouselProps> = args => <Carousel {...args} />;
+const Template: Story<ICarouselProps> = args => <div style={{ width: "285px" }}><Carousel {...args} /></div>;
 
 
 const defaultArgs: ICarouselProps = {
   listItems: imageSlider,
-  per_page:3
+  per_page:4
 };
 
 export const DefaultDrawer = () => (
