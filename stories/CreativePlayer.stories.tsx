@@ -32,6 +32,8 @@ export const VideoPlayer = () => (
             src={'https://www.youtube.com/watch?v=4WMBw2hX12o'}
             toggleMediaStatus={() => {}}
             type="Video"
+            currentMediaCount={1}
+            totalMediaCount={3}
             // height={400}
             // width={800}
         />

@@ -20,7 +20,7 @@ import {
   faPencilAlt,
   faImage
 } from '@fortawesome/free-solid-svg-icons';
-import { faPlayCircle } from '@fortawesome/free-regular-svg-icons';
+import { faArrowAltCircleLeft, faArrowAltCircleRight, faPlayCircle } from '@fortawesome/free-regular-svg-icons';
 import { PlaybackSelector } from './PlaybackSelector';
 import { routes } from '../../utility/Routes';
 // import { MessageService } from '../../utility/MessageService';
@@ -66,6 +66,10 @@ interface ICreativePlayerProps {
   onCreativeEdit?: (payload: any) => void;
   onReviewThumbnailClick?: () => void;
   htmlSrc?: any;
+  onPrevMediaClick?: () => void;
+  onNextMediaClick?: () => void;
+  currentMediaCount?: number;
+  totalMediaCount?: number;
 }
 
 interface IMediaCreativeIssueContext {
@@ -132,10 +136,10 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
 
   // };
 
-// const creativeEditSave =(payload: any) => {
-//   payload.callback =  () => trimCreativeSuccess();
-//   props.onCreativeEdit && props.onCreativeEdit(payload)
-// }
+  // const creativeEditSave =(payload: any) => {
+  //   payload.callback =  () => trimCreativeSuccess();
+  //   props.onCreativeEdit && props.onCreativeEdit(payload)
+  // }
 
   const handleClickOutside = (event: any): any => {
     if (playbackRef.current && playbackRef.current.contains(event.target)) {
@@ -178,14 +182,14 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
             togglePlayerStatus={toggleMediaStatus}
             {...modifiedPlayerProps}
             {...creativeProps}
-            setMediaInstanceProgress={() => {}}
+            setMediaInstanceProgress={() => { }}
             seekToStart={0}
           />
         );
       }
       case MediaTypes.audio: {
         return (
-          <MediaPlayer togglePlayerStatus={toggleMediaStatus} {...playerProps} {...creativeProps} setMediaInstanceProgress={() => {}} seekToStart={0} />
+          <MediaPlayer togglePlayerStatus={toggleMediaStatus} {...playerProps} {...creativeProps} setMediaInstanceProgress={() => { }} seekToStart={0} />
         );
       }
       case MediaTypes.image: {
@@ -297,14 +301,25 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
       <div className='creative-player-title'>
         <div className='title-label'>{title ? title : 'New Ad'}</div>
         <div className='multiple-creative-control'>
-          {mediaList?.length > 1 ? (
-            <div className='middle-div'>
-              {' '}
-              {props.currentMediaIndex + 1} of {mediaList?.length}
-            </div>
-          ) : (
-              <></>
-            )}
+          {props.currentMediaCount && props.totalMediaCount && <div className='middle-div'>
+            <Button
+              id={Creative.editVideo}
+              customClass='playback-rate-next'
+              onClick={props.onPrevMediaClick}
+              disabled={props.currentMediaCount === 1}
+            >
+              <Icon icon={faArrowAltCircleLeft} />
+            </Button>
+            {props.currentMediaCount} of {props.totalMediaCount}
+            <Button
+              id={Creative.editVideo}
+              customClass='playback-rate-next'
+              onClick={props.onNextMediaClick}
+              disabled={props.currentMediaCount === props.totalMediaCount}
+            >
+              <Icon icon={faArrowAltCircleRight} />
+            </Button>
+          </div>}
         </div>
         <>
           <div className='playback-rate-wrapper' ref={playbackRef}>
@@ -429,8 +444,8 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
               />
             </div>
           ) : (
-              <></>
-            )}
+            <></>
+          )}
           <div className='creative-player'>{getComponentByMediaType(type, props)}</div>
           {mediaList?.length > 1 ? (
             <div className='right-arrow'>
@@ -440,8 +455,8 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
               />
             </div>
           ) : (
-              <></>
-            )}
+            <></>
+          )}
         </div>
       </div>
 

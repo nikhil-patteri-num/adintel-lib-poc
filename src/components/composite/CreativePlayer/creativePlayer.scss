@@ -200,7 +200,7 @@
 }
 
 .multiple-creative-control {
-  // width: 68%;
+  width: 40%;
   justify-content: center;
   display: flex;
 }
@@ -277,8 +277,17 @@
     color: $deepteal;
   }
 
+  .playback-rate-next {
+    padding: 8px 16px;
+    background: none;
+    color: $deepteal;
+    font-size: 15px;
+  }
+
   .playback-rate-wrapper {
     display: flex;
+    width: 30%;
+    justify-content: flex-end;
   }
 
   .icon-wrapper {
