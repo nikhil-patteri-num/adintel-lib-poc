@@ -42,3 +42,5 @@ export { Drawer } from './Drawer/Drawer';
 import ReactPlayer from 'react-player';
 export { ReactPlayer };
 
+export { Carousel } from './Carousel/Carousel';
+
