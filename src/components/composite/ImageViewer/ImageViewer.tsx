@@ -11,6 +11,7 @@ export interface IImageViewerProps {
   id: string;
   width?: string | number;
   height?: string | number;
+  rotatable?: boolean;
 }
 
 enum Orientation {
@@ -19,7 +20,7 @@ enum Orientation {
 }
 
 export const ImageViewer = (props: IImageViewerProps) => {
-  const { src, id, width, height } = props;
+  const { src, id, width, height, rotatable = false } = props;
 
   const maxZoomOutHeight = 100;
   const maxZoomOutWidth = 100;
@@ -125,7 +126,7 @@ export const ImageViewer = (props: IImageViewerProps) => {
             images={[{ src }]}
             noNavbar={true}
             noImgDetails={true}
-            rotatable={false}
+            rotatable={rotatable}
             scalable={false}
             changeable={false}
           />

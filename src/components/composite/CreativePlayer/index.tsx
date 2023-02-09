@@ -70,6 +70,7 @@ interface ICreativePlayerProps {
   onNextMediaClick?: () => void;
   currentMediaCount?: number;
   totalMediaCount?: number;
+  rotatable?: boolean;
 }
 
 interface IMediaCreativeIssueContext {
