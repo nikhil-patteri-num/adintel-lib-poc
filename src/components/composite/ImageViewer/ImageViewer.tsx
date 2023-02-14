@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Button, buttonSize } from '../../core';
+import { Button } from '../../core';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
-import { faExpand, faPlus, faMinus } from '@fortawesome/free-solid-svg-icons';
+import { faExpand } from '@fortawesome/free-solid-svg-icons';
 import Viewer from 'react-viewer';
 import './imageViewer.scss';
+import ImageMagnifier from '../../core/ImageMagnifier';
 
 export interface IImageViewerProps {
   src: string;
@@ -22,8 +23,8 @@ enum Orientation {
 export const ImageViewer = (props: IImageViewerProps) => {
   const { src, id, width, height, rotatable = false } = props;
 
-  const maxZoomOutHeight = 100;
-  const maxZoomOutWidth = 100;
+  // const maxZoomOutHeight = 100;
+  // const maxZoomOutWidth = 100;
   const [fullScreen, setfullScreen] = useState(false);
   const [image, setImage] = useState<any>(null);
   const [orientation, setOrientation] = useState<Orientation | null>();
@@ -31,44 +32,45 @@ export const ImageViewer = (props: IImageViewerProps) => {
 
   const imageRef = useRef<any>(null);
 
-  const zoomIn = () => {
-    const creativeImage = imageRef.current;
-    const currentHeight = creativeImage.clientHeight;
-    const currentWidth = creativeImage.clientWidth;
+  // const zoomIn = () => {
+  //   const creativeImage = imageRef.current;
+  //   const currentHeight = creativeImage.clientHeight;
+  //   const currentWidth = creativeImage.clientWidth;
 
-    if (orientation === Orientation.Portrait)
-      creativeImage.style.height = currentHeight + 50 + 'px';
-    else creativeImage.style.width = currentWidth + 50 + 'px';
-  };
+  //   if (orientation === Orientation.Portrait)
+  //     creativeImage.style.height = currentHeight + 50 + 'px';
+  //   else creativeImage.style.width = currentWidth + 50 + 'px';
+  // };
 
-  const zoomOut = (): any => {
-    const creativeImage = imageRef.current;
-    const currentHeight = creativeImage.clientHeight;
-    const currentWidth = creativeImage.clientWidth;
+  // const zoomOut = (): any => {
+  //   const creativeImage = imageRef.current;
+  //   const currentHeight = creativeImage.clientHeight;
+  //   const currentWidth = creativeImage.clientWidth;
 
-    if (orientation === Orientation.Landscape) {
-      if (currentWidth < maxZoomOutWidth) return false;
-      creativeImage.style.width = currentWidth - 50 + 'px';
-    } else {
-      if (currentWidth < maxZoomOutHeight) return false;
-      creativeImage.style.height = currentHeight - 50 + 'px';
-    }
-  };
+  //   if (orientation === Orientation.Landscape) {
+  //     if (currentWidth < maxZoomOutWidth) return false;
+  //     creativeImage.style.width = currentWidth - 50 + 'px';
+  //   } else {
+  //     if (currentWidth < maxZoomOutHeight) return false;
+  //     creativeImage.style.height = currentHeight - 50 + 'px';
+  //   }
+  // };
 
   const onImageLoad = () => {
+    console.log(imageRef)
     const imageWidth = imageRef.current.clientWidth;
     const imageHeight = imageRef.current.clientHeight;
     if (imageHeight >= imageWidth) setOrientation(Orientation.Portrait);
     else setOrientation(Orientation.Landscape);
   };
 
-  const getImageStyle = () =>
-    ({
-      opacity: !orientation ? 0 : 1,
-      width: '',
-      height: orientation === Orientation.Portrait ? '100%' : '',
-      display: loading ? 'none' : ''
-    } as React.CSSProperties);
+  // const getImageStyle = () =>
+  //   ({
+  //     opacity: !orientation ? 0 : 1,
+  //     width: '',
+  //     height: orientation === Orientation.Portrait ? '100%' : '',
+  //     display: loading ? 'none' : ''
+  //   } as React.CSSProperties);
 
   const arrayBufferToBase64 = (buffer: any): any => {
     let binary = '';
@@ -100,22 +102,30 @@ export const ImageViewer = (props: IImageViewerProps) => {
                 <div className='spinner-text'>Loading</div>
               </div>
             )}
-            <img src={image} id={id} style={getImageStyle()} onLoad={onImageLoad} ref={imageRef} />
+              <ImageMagnifier
+                src={image}
+                id={id}
+                width={`${width}px`}
+                height={`${height}px`}
+                // style={getImageStyle()}
+                onLoad={onImageLoad}
+                ref={imageRef}
+              />
           </div>
         </div>
-        {!fullScreen && orientation ? (
+        {!fullScreen ? (
           <>
             <Button customClass='image-expand-button' onClick={() => setfullScreen(true)}>
               <Icon icon={faExpand} />
             </Button>
-            <div className='zoom-controls'>
+            {/* <div className='zoom-controls'>
               <Button size={buttonSize.small} onClick={zoomIn} customClass='zoom-controls-button'>
                 <Icon icon={faPlus} />
               </Button>
               <Button size={buttonSize.small} onClick={zoomOut} customClass='zoom-controls-button'>
                 <Icon icon={faMinus} />
               </Button>
-            </div>
+            </div> */}
           </>
         ) : (
           <Viewer

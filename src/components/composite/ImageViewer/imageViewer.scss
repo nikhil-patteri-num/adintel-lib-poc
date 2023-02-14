@@ -84,6 +84,8 @@
     text-align: center;
     transition-duration: 350ms;
     transition-timing-function: ease-in-out;
+    display: flex;
+    justify-content: center;
 
     img {
       transition-duration: 300ms;
