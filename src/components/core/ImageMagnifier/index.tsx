@@ -13,7 +13,7 @@ interface ImageMagnifierProps {
     zoomLevel?: number;
     style?: any;
     onLoad?: () => void;
-    ref: any
+    innerRef: any
 }
 
 const ImageMagnifier = (props: ImageMagnifierProps) => {
@@ -30,21 +30,22 @@ const ImageMagnifier = (props: ImageMagnifierProps) => {
         magnifierHeight = 100,
         magnifieWidth = 100,
         zoomLevel = 1.5,
-        ref
+        innerRef
     } = props;
     return (
         <div
             style={{
                 position: "relative",
                 height: height,
-                width: width
+                width: width,
+                overflow: 'auto'
             }}
         >
             <img
                 src={src}
                 id={id}
-                ref={ref}
-                style={{ height: height, width: width, cursor: 'none' }}
+                ref={innerRef}
+                style={{ width: width, cursor: 'none' }}
                 onMouseEnter={(e) => {
                     // update image size and turn-on magnifier
                     const elem = e.currentTarget;

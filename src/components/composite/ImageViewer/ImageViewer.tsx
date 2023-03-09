@@ -105,11 +105,11 @@ export const ImageViewer = (props: IImageViewerProps) => {
               <ImageMagnifier
                 src={image}
                 id={id}
-                width={`${width}px`}
+                width={`100%`}
                 height={`${height}px`}
                 // style={getImageStyle()}
                 onLoad={onImageLoad}
-                ref={imageRef}
+                innerRef={imageRef}
               />
           </div>
         </div>
