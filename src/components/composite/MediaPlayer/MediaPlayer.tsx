@@ -11,12 +11,12 @@ import {
   Tooltip,
   tooltipPosition
 } from '../../core';
-import { FontAwesomeIcon as Icon, FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import {
 //   // defaultMediaPlayerThumbnail,
 //   // MediaNotAvailable
 // } from '../../utility/Constants';
-import { faPlay, faSyncAlt } from '@fortawesome/free-solid-svg-icons';
+import { faSyncAlt } from '@fortawesome/free-solid-svg-icons';
 // import { MessageService } from '../../../Framework';
 import './mediaPlayer.scss';
 // import { ERROR_MESSAGES } from '../../../Application/src/utility/AppConstants';
@@ -43,10 +43,10 @@ export interface IMediaPlayerProps {
 
 export const MediaPlayer = (props: IMediaPlayerProps) => {
   const {
-    height,
-    width,
+    // height,
+    // width,
     isPlaying = true,
-    thumbnailPath,
+    // thumbnailPath,
     src,
     id,
     thumbnailStatus,
@@ -61,9 +61,9 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   } = props;
 
   // const [isMediaPlaying, setMediaPlaying] = useState(isPlaying !== undefined ? isPlaying : false);
-  const [isThumbnailVisible, setThumbnailVisible] = useState(
-    thumbnailStatus !== undefined ? thumbnailStatus : true
-  );
+  // const [isThumbnailVisible, setThumbnailVisible] = useState(
+  //   thumbnailStatus !== undefined ? thumbnailStatus : true
+  // );
 
   const playerRef: any = React.useRef(null);
 
@@ -75,7 +75,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   // const [showPickVideoForm, setShowPickVideoForm] = useState(false);
 
   const hideThumbnail = () => {
-    setThumbnailVisible(false);
+    // setThumbnailVisible(false);
     setMediaPlayStatus(true);
   };
 
@@ -117,7 +117,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
   }, [seekToStart]);
 
   useEffect(() => {
-    setThumbnailVisible(thumbnailStatus !== undefined ? thumbnailStatus : true);
+    // setThumbnailVisible(thumbnailStatus !== undefined ? thumbnailStatus : true);
     isMediaSroucePresent();
   }, [thumbnailStatus]);
 
@@ -180,7 +180,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
             </Tooltip>
           </div>
         ) : null}
-        {!isThumbnailVisible && (
+        {/* {!isThumbnailVisible && (
           <div
             style={{
               backgroundImage: thumbnailPath
@@ -197,7 +197,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
               <Icon icon={faPlay} />
             </Button>
           </div>
-        )}
+        )} */}
 
         <ReactPlayer
           config={{
@@ -208,7 +208,7 @@ export const MediaPlayer = (props: IMediaPlayerProps) => {
             }
           }}
           controls={true}
-          playing={true}
+          playing={isPlaying}
           className={'react-player-wrapper'}
           width='100%'
           height='100%'

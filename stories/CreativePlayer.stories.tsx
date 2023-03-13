@@ -34,6 +34,12 @@ export const VideoPlayer = () => (
             type="Video"
             currentMediaCount={1}
             totalMediaCount={3}
+            playerProps={{
+                isPlaying: false,
+                thumbnailStatus: false,
+                setMediaInstanceProgress: () => {},
+                seekToStart: 0,
+            }}
             // height={400}
             // width={800}
         />
