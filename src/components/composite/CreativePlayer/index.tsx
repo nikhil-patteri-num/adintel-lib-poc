@@ -8,7 +8,7 @@ import {
   playbackQualityList,
   playbackRateList,
   CREATIVE_PLAYER,
-  CreativeStatus
+  // CreativeStatus
 } from '../../utility/Constants';
 import { Button, Icon, Tooltip, tooltipPosition } from '../../core';
 import {
@@ -36,7 +36,7 @@ import { MediaCreativeIssueContext } from '../../utility/MediaCreativeIssueConte
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './creativePlayer.scss';
 // import EditCreativeModal from './EditCreativeModal';
-import { UNIVERSAL_SEARCH_READONLY_PARAM } from './Constants';
+// import { UNIVERSAL_SEARCH_READONLY_PARAM } from './Constants';
 import IFrameViewer from '../IFrameViewer';
 
 interface ICreativePlayerProps {
@@ -71,6 +71,7 @@ interface ICreativePlayerProps {
   currentMediaCount?: number;
   totalMediaCount?: number;
   rotatable?: boolean;
+  showEditIcon?: boolean;
 }
 
 interface IMediaCreativeIssueContext {
@@ -105,14 +106,14 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   // PDFJS.disableWorker = true;
   const showNewTab = false;
   const showResSelector = false;
-  const { type, title, src, playbackRate, playbackQuality, mediaList = [] } = props;
+  const { type, title, src, playbackRate, playbackQuality, mediaList = [], showEditIcon = false } = props;
   const [showPlaybackContainer, setShowPlaybackContainer] = React.useState(false);
   const [showVideoQualityContainer, setShowVideoQualityContainer] = React.useState(false);
   const [mediaProgressInSeconds, setMediaProgressInSeconds]: any = React.useState(0);
   // const [showReportMediaIssueModal, setShowReportMediaIssueModal] = React.useState(false);
   const playbackRef: any = React.useRef(null);
   // const [showVideoEditor, setShowVideoEditor] = React.useState(false);
-  const [isCreativeEditDone] = React.useState(false);
+  // const [isCreativeEditDone] = React.useState(false);
 
 
   const mediaCreativeIssueContext: any = React.useContext(
@@ -245,28 +246,28 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
     return title !== 'Similar Ad' && mediaCreativeIssueContext.show;
   };
 
-  const showEditCreativeOption = (): boolean => {
-    if (
-      (window.location.href.includes(routes.indexingDetailStepOne) ||
-        window.location.href.includes(routes.classificationDetailStep1) ||
-        window.location.href.includes(routes.audit)) &&
-      !window.location.href.includes('component') &&
-      !window.location.href.includes(routes.classificationDetailStep2) &&
-      !(
-        window.location.href.includes(routes.universalSearch) &&
-        window.location.href.includes(UNIVERSAL_SEARCH_READONLY_PARAM)
-      )
-    ) {
-      if (
-        mediaList?.[props.currentMediaIndex].high_res?.path &&
-        mediaList?.[props.currentMediaIndex].creative_id !== null
-      ) {
-        return true;
-      }
-      return false;
-    }
-    return true;
-  };
+  // const showEditCreativeOption = (): boolean => {
+  //   if (
+  //     (window.location.href.includes(routes.indexingDetailStepOne) ||
+  //       window.location.href.includes(routes.classificationDetailStep1) ||
+  //       window.location.href.includes(routes.audit)) &&
+  //     !window.location.href.includes('component') &&
+  //     !window.location.href.includes(routes.classificationDetailStep2) &&
+  //     !(
+  //       window.location.href.includes(routes.universalSearch) &&
+  //       window.location.href.includes(UNIVERSAL_SEARCH_READONLY_PARAM)
+  //     )
+  //   ) {
+  //     if (
+  //       mediaList?.[props.currentMediaIndex].high_res?.path &&
+  //       mediaList?.[props.currentMediaIndex].creative_id !== null
+  //     ) {
+  //       return true;
+  //     }
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   const showReviewThumbnailIcon = () => {
     if (
@@ -277,18 +278,18 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
     return false;
   }
 
-  const onCreativeEditClick = () => {
-    if (
-      mediaList[props.currentMediaIndex].status === CreativeStatus.IN_PROGRESS ||
-      isCreativeEditDone === true
-    ) {
-      // MessageService.showToastMessage(
-      //   "Creative trimming is under process. You can't trim it unless previous operations is done"
-      // );
-    } else {
-      // setShowVideoEditor(true);
-    }
-  };
+  // const onCreativeEditClick = () => {
+  //   if (
+  //     mediaList[props.currentMediaIndex].status === CreativeStatus.IN_PROGRESS ||
+  //     isCreativeEditDone === true
+  //   ) {
+  //     // MessageService.showToastMessage(
+  //     //   "Creative trimming is under process. You can't trim it unless previous operations is done"
+  //     // );
+  //   } else {
+  //     // setShowVideoEditor(true);
+  //   }
+  // };
 
   // const getCreativePathForEdit = () => {
   //   if (mediaList?.[props.currentMediaIndex].status === CreativeStatus.COMPLETE) {
@@ -324,12 +325,12 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
         </div>
         <>
           <div className='playback-rate-wrapper' ref={playbackRef}>
-            {isVideoType() && showEditCreativeOption() && title !== 'Similar Ad' ? (
+            {isVideoType() && showEditIcon && title !== 'Similar Ad' ? (
               <Tooltip text='Edit Video'>
                 <Button
                   id={Creative.editVideo}
                   customClass='playback-rate'
-                  onClick={onCreativeEditClick}
+                  onClick={props.onCreativeEdit}
                 // disabled={shouldDisableCreativeEdit()}
                 >
                   <Icon icon={faPencilAlt} />
