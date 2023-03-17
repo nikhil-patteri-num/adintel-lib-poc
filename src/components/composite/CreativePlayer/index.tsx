@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { MediaPlayer } from '../MediaPlayer/MediaPlayer';
 import { ImageViewer } from '../ImageViewer/ImageViewer';
+import { faExpand } from '@fortawesome/free-solid-svg-icons';
 // import { PDFViewer } from '../PDFViewer/PDFViewer';
 import {
   ERROR_MESSAGES,
@@ -38,6 +39,7 @@ import './creativePlayer.scss';
 // import EditCreativeModal from './EditCreativeModal';
 // import { UNIVERSAL_SEARCH_READONLY_PARAM } from './Constants';
 import IFrameViewer from '../IFrameViewer';
+import { useState } from 'react';
 
 interface ICreativePlayerProps {
   title?: string;
@@ -114,8 +116,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   const playbackRef: any = React.useRef(null);
   // const [showVideoEditor, setShowVideoEditor] = React.useState(false);
   // const [isCreativeEditDone] = React.useState(false);
-
-
+  const [fullScreen, setfullScreen] = useState(false); 
   const mediaCreativeIssueContext: any = React.useContext(
     MediaCreativeIssueContext.getInstance().context
   ) as IMediaCreativeIssueContext;
@@ -168,8 +169,12 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   const isVideoType = () => {
     return type === MediaTypes.video;
   };
+  const isImageType = () => {
+    return type === MediaTypes.image;
+  };
 
   const getComponentByMediaType = (creativeType: string, creativeProps: ICreativePlayerProps) => {
+    
     const { toggleMediaStatus, playerProps } = creativeProps;
     const modifiedPlayerProps = {
       ...playerProps,
@@ -195,7 +200,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
         );
       }
       case MediaTypes.image: {
-        return <ImageViewer {...creativeProps} />;
+        return <ImageViewer {...creativeProps} fullScreenView={fullScreen} onCloseViewerClick={onCloseViewerClick} />;
       }
       case MediaTypes.document: {
         // return <PDFViewer {...creativeProps} pdfjsLib={pdfjsLib} />;
@@ -246,6 +251,9 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
     return title !== 'Similar Ad' && mediaCreativeIssueContext.show;
   };
 
+  const onCloseViewerClick = (data:boolean) => {
+    setfullScreen(data)
+  }
   // const showEditCreativeOption = (): boolean => {
   //   if (
   //     (window.location.href.includes(routes.indexingDetailStepOne) ||
@@ -378,7 +386,13 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
                 />
               </div>
             ) : null}
-
+            {isImageType() ? (
+              <Tooltip text='Fullscreen'  position={tooltipPosition.bottom}>
+                <Button customClass='image-expand-button' onClick={() => setfullScreen(true)}>
+              <FontAwesomeIcon icon={faExpand} />
+            </Button>
+              </Tooltip>
+            ):null}
             {showResSelector ? (
               <Tooltip text='Video Quality'>
                 <Button

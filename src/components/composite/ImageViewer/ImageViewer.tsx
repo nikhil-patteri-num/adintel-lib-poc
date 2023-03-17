@@ -1,8 +1,5 @@
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
-import { Button } from '../../core';
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
-import { faExpand } from '@fortawesome/free-solid-svg-icons';
 import Viewer from 'react-viewer';
 import './imageViewer.scss';
 import ImageMagnifier from '../../core/ImageMagnifier';
@@ -13,6 +10,8 @@ export interface IImageViewerProps {
   width?: string | number;
   height?: string | number;
   rotatable?: boolean;
+  fullScreenView?:boolean;
+  onCloseViewerClick?: (data:boolean) => void;
 }
 
 enum Orientation {
@@ -31,6 +30,15 @@ export const ImageViewer = (props: IImageViewerProps) => {
   const [loading, setLoading] = useState(true);
 
   const imageRef = useRef<any>(null);
+useEffect(()=>{
+if(props.fullScreenView)
+{
+  setfullScreen(true);
+}
+else{
+  setfullScreen(false);
+}
+},[props.fullScreenView])
 
   // const zoomIn = () => {
   //   const creativeImage = imageRef.current;
@@ -63,7 +71,6 @@ export const ImageViewer = (props: IImageViewerProps) => {
     if (imageHeight >= imageWidth) setOrientation(Orientation.Portrait);
     else setOrientation(Orientation.Landscape);
   };
-
   // const getImageStyle = () =>
   //   ({
   //     opacity: !orientation ? 0 : 1,
@@ -78,7 +85,11 @@ export const ImageViewer = (props: IImageViewerProps) => {
     bytes.forEach((byte: any) => (binary += String.fromCharCode(byte)));
     return window.btoa(binary);
   };
-
+  const onCloseViewerHandler = ()=>{
+    setfullScreen(false);
+    if(props.onCloseViewerClick)
+      props.onCloseViewerClick(false);
+  }
   useEffect(() => {
     setLoading(true);
     fetch(src).then(response => {
@@ -115,9 +126,9 @@ export const ImageViewer = (props: IImageViewerProps) => {
         </div>
         {!fullScreen ? (
           <>
-            <Button customClass='image-expand-button' onClick={() => setfullScreen(true)}>
+            {/* <Button customClass='image-expand-button' onClick={() => setfullScreen(true)}>
               <Icon icon={faExpand} />
-            </Button>
+            </Button> */}
             {/* <div className='zoom-controls'>
               <Button size={buttonSize.small} onClick={zoomIn} customClass='zoom-controls-button'>
                 <Icon icon={faPlus} />
@@ -130,9 +141,7 @@ export const ImageViewer = (props: IImageViewerProps) => {
         ) : (
           <Viewer
             visible={fullScreen}
-            onClose={() => {
-              setfullScreen(false);
-            }}
+            onClose={onCloseViewerHandler}
             images={[{ src }]}
             noNavbar={true}
             noImgDetails={true}

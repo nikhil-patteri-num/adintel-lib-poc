@@ -1,19 +1,6 @@
 @import '../../assets/scss/constants/colors.scss';
 
-.image-expand-button {
-  font-size: 12px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  margin: 7px;
-  padding: 8px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: $lightBlack;
-  color: $lightWhite;
-  z-index: 1;
-}
+
 
 .image-zoombox {
   z-index: 1;
