@@ -1,0 +1,78 @@
+@import '../../assets/scss/constants/colors.scss';
+@import '../../assets/scss/base/mixins.scss';
+
+.media-player {
+  .thumbnail-viewer {
+    display: flex;
+
+    .video-play-button {
+      background: $lightWhite;
+      color: $black;
+      font-size: 17px;
+      outline: none;
+      margin: auto;
+      box-shadow: #828282c7 0px 0px 10px 1px;
+    }
+  }
+
+  .reset-button-div {
+    text-align: right;
+    width: 20px;
+    float: right;
+    position: relative;
+    z-index: 2;
+
+    .left-tooltip {
+      display: block;
+    }
+
+    .reset-button {
+      background: transparent;
+      color: #33eb9b;
+      padding: 2px;
+      position: sticky;
+      font-size: 15px;
+    }
+  }
+
+  .text-button-container {
+    margin-top: 25px;
+  }
+}
+
+.player-hidden {
+  display: none;
+}
+
+.media-box {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  z-index: 1;
+  background: $backDropColor;
+  @include alignElement(flex, center, null);
+  flex-direction: column;
+
+  .close-button {
+    text-align: right;
+    padding: 5px;
+
+    button {
+      float: right;
+      background: $black;
+      border-radius: 50%;
+      color: $lightWhite;
+      width: 40px;
+      height: 40px;
+      font-size: 17px;
+
+      &:hover {
+        background: $lightBlack;
+      }
+    }
+
+    font-size: 30px;
+    color: $white;
+    width: 100%;
+  }
+}
