@@ -357,7 +357,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
               </Tooltip>
             ) : null}
             {isRadioType() || isVideoType() ? (
-              <Tooltip text='Playback Speed'>
+              <Tooltip text='Playback Speed'  position={tooltipPosition.left}>
                 <Button
                   id={Creative.playbackRateButton}
                   customClass='playback-rate'
@@ -387,7 +387,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
               </div>
             ) : null}
             {isImageType() ? (
-              <Tooltip text='Fullscreen'  position={tooltipPosition.bottom}>
+              <Tooltip text='Fullscreen'  position={tooltipPosition.left}>
                 <Button customClass='image-expand-button' onClick={() => setfullScreen(true)}>
               <FontAwesomeIcon icon={faExpand} />
             </Button>
