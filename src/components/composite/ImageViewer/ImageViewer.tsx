@@ -65,7 +65,6 @@ else{
   // };
 
   const onImageLoad = () => {
-    console.log(imageRef)
     const imageWidth = imageRef.current.clientWidth;
     const imageHeight = imageRef.current.clientHeight;
     if (imageHeight >= imageWidth) setOrientation(Orientation.Portrait);
