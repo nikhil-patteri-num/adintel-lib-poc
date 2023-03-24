@@ -111,5 +111,16 @@ body {
 }
 
 .custom-wrapper {
-  padding: 16px 20%;
+  padding: 0;
+}
+
+.empty-option {
+  padding: 8px;
+  height: auto;
+  outline: none;
+  width: 100%;
+  display: block;
+  border-radius: 0;
+  background: #ffffff;
+  text-align: center;
 }

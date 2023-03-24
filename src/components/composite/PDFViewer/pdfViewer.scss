@@ -1,0 +1,144 @@
+@import '../../assets/scss/constants/colors.scss';
+@import '../../assets/scss/constants/zIndexes.scss';
+@import '../../assets/scss/base/mixins.scss';
+
+.pdf-viewer {
+  background: $lightBlack;
+  @include alignElement(flex, center, null);
+  color: $white;
+
+  .view-button {
+    background: transparent;
+    color: $lightWhite;
+    margin: 0 auto;
+    align-self: center;
+
+    &-icon {
+      font-size: 40px;
+    }
+
+    &-label {
+      font-size: 15px;
+      margin-top: 5px;
+    }
+  }
+
+  .pdf-container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: $ziPdfViewerContainer;
+    background: $backDropColor;
+    @include alignElement(flex, center, null);
+    flex-direction: column;
+
+    .close-button {
+      position: fixed;
+      top: 45px;
+      right: 10px;
+      background: transparent;
+      color: $white;
+      padding: 0;
+      font-size: 30px;
+    }
+
+    .pdf-info {
+      margin-top: 40px;
+      margin-left: 55px;
+      width: calc(100% - 60px);
+      height: calc(100% - 40px);
+
+      .pdf-header {
+        display: flex;
+        align-items: center;
+        margin: auto;
+        margin-top: 5px;
+        font-weight: bold;
+
+        * {
+          flex: 1;
+        }
+
+        .page-count {
+          text-align: center;
+        }
+
+        .left-page-toggle,
+        .right-page-toggle {
+          text-align: center;
+        }
+
+        .left-page-button,
+        .right-page-button {
+          font-size: 30px;
+          padding: 0;
+          background: transparent;
+          color: white;
+          width: auto;
+        }
+      }
+
+      .pdf-content {
+        width: 100%;
+        height: calc(100% - 50px);
+        text-align: center;
+      }
+    }
+
+    .spinner-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-left: -50px;
+      margin-top: -50px;
+      text-align: center;
+      width: 100px;
+      height: 100px;
+      color: white;
+
+      .spinner-text {
+        font-size: 12px;
+      }
+
+      .rotater {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        border: none;
+        border-top: 1px solid white;
+        margin: auto;
+        animation-name: rotate;
+        animation-duration: 500ms;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes rotate {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+}
+
+@media ($largeScreenMedia) {
+  .pdf-header {
+    width: 20%;
+  }
+
+  .pdf-content {
+    margin-top: 20px;
+  }
+}
+
+@media ($mediumScreenMedia) {
+  .pdf-header {
+    width: 30%;
+  }
+
+  .pdf-content {
+    margin-top: 5px;
+  }
+}

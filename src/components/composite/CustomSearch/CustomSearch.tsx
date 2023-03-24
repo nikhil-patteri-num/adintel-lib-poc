@@ -4,6 +4,7 @@ import { IBaseOption } from './interfaces/CustomSearchInterfaces';
 import { TextInput, inputType } from '../../core';
 import { Icon } from '../../core'
 import { DynamicCustomResultRenderer } from './DynamicCustomResultRenderer';
+import { createQueryArray, getQueryArrayByQuery, countGivenChar } from './Utility'
 import {
   SearchResultType,
   logicalOperators,
@@ -17,7 +18,7 @@ import {
 } from './enums/CustomSearchEnums';
 import { faCheckCircle, faTimesCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { isValidSearchQuery } from './SearchQueryValidator';
-import { getWidthByText } from '../../utility/utils';
+// import { getWidthByText } from '../../utility/utils';
 import { Button } from '../../core';
 import { keyCode } from '../../utility/Constants';
 import './customSearch.scss';
@@ -29,6 +30,10 @@ interface ICustomSearchProps {
   planeQuery: string;
   onEnterButtonClick: () => void;
   onCheckBoxChecked: boolean;
+  isLoading: boolean;
+  onClearSearch: boolean;
+  onSearchTextChange: string;
+  showEmptyOption: boolean;
 }
 
 export const CustomSearch = (props: ICustomSearchProps) => {
@@ -38,7 +43,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     onChange,
     onEnterButtonClick,
     planeQuery,
-    onCheckBoxChecked
+    onCheckBoxChecked,
+    isLoading,
+    onClearSearch,
+    onSearchTextChange,
+    showEmptyOption
   } = props;
   const { columns, searchResults } = customSearchData;
   const [showResults, setShowResults] = useState(false);
@@ -54,10 +63,25 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   const queryRef = useRef<any>();
   const searchQuery = queryArray.join(' ');
 
+  const [activeSuggestion, setActiveSuggestion] = useState(0);
+
+
   useEffect(() => {
     document.addEventListener('mousedown', outSideClick);
     return () => document.removeEventListener('mousedown', outSideClick);
   }, []);
+
+  useEffect(() => {
+    if (onClearSearch) {
+      setQueryArray([]);
+    }
+  }, [onClearSearch]);
+
+  useEffect(() => {
+    if (onSearchTextChange.length) {
+      setQueryArray(onSearchTextChange.split(' '));
+    }
+  }, [onSearchTextChange]);
 
   useEffect(() => {
     const query = getSearchQueryReplacedByValues();
@@ -138,8 +162,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       }
       finalQueryArray.push(currentW);
     });
-
-    return finalQueryArray.join(' ');
+    const result = finalQueryArray.join(' ');
+    const finalResult = result.replace('parent_primary_product_name_name', 'parent_product_name');
+    return finalResult;
   };
 
   useEffect(() => {
@@ -189,24 +214,6 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     return logicalOperators;
   };
 
-  const getQueryArrayByQuery = (query: string) => {
-    const finalQueryArray: any = [];
-    const wordsWithQuotesAndSpace: any = query.match(/'.*?'/g);
-    const queryArrayBySpace = query.replace(/'.*?'/g, '$').split(' ');
-    let spaceWordIndex = 0;
-    queryArrayBySpace.forEach((element: any) => {
-      let currentW = '';
-      for (const char of element) {
-        if (char === '$') {
-          currentW += wordsWithQuotesAndSpace[spaceWordIndex];
-          spaceWordIndex++;
-        } else currentW += char;
-      }
-      finalQueryArray.push(currentW);
-    });
-    return finalQueryArray;
-  };
-
   const setLastColumnValue = (newQueryArray: string[]) => {
     const modifiedWordIndex = newQueryArray.findIndex(
       (newElement: any, index: number) =>
@@ -221,9 +228,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       (columnData: any) =>
         newColumnValue &&
         columnData.label.toLowerCase() ===
-          removeCharactersFromString(newColumnValue, ['('])
-            .toLowerCase()
-            .replace(/\'/gi, '')
+        removeCharactersFromString(newColumnValue, ['('])
+          .toLowerCase()
+          .replace(/\'/gi, '')
     );
     if (currentColumn) setLastColumn(currentColumn);
     return {
@@ -249,16 +256,17 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     let incompleteWordIndex = -1;
     let quotesCount = 0;
 
-    newQueryArray.forEach((queryElement: any, index: number) => {
-      for (const char of queryElement) {
-        if (char === "'") {
-          incompleteWordIndex = index;
-          quotesCount++;
-        }
-      }
-    });
+    // newQueryArray.forEach((queryElement: any, index: number) => {
+    //   for (const char of queryElement) {
+    //     if (char === "'") {
+    //       incompleteWordIndex = index;
+    //       quotesCount++;
+    //     }
+    //   }
+    // });
 
     return {
+      newQueryArray,
       incompleteWordIndex,
       status: quotesCount % 2 === 0
     };
@@ -300,7 +308,20 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       setOptions(getAutoCompleteSuggestions(null, null, null));
       setShowResults(true);
     }
-    const newQueryArray: any = getIncompleteQuoteQueryArray(getQueryArrayByQuery(newQuery));
+    let newQueryArray: any = getQueryArrayByQuery(newQuery);
+    newQueryArray = getIncompleteQuoteQueryArray(newQueryArray);
+    const res = createQueryArray(newQueryArray);
+    const {
+      resultQueryArray,
+      // lastSpace,
+      startWithDoubleQuotes,
+      endWithDoubleQuotes,
+      startWithSingleQuotes,
+      endWithSingleQuotes,
+      flag,
+      lastString
+    } = res;
+    newQueryArray = resultQueryArray;
     // .replace(/  +/g, ' ')
     const {
       lastExpression,
@@ -322,7 +343,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       setQueryArray(newQueryArray);
       setDatePickerPosition({
         left:
-          getWidthByText(changedWordArray.join(' '), '12px system-ui') +
+          /** the below comment has to be uncommented once the angular canvas issue is resolved */
+          // getWidthByText(changedWordArray.join(' '), '12px system-ui') +
           datePickerDefaultLeftMargin,
         inputLeft:
           parseInt(queryRef.current.getBoundingClientRect().left, 10) +
@@ -340,10 +362,26 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     }
     const numberOfSpaces = newQueryArray.filter((element: string) => element === '');
     setCurrentResultType(SearchResultType.singleSelect);
-    const suggestions =
-      numberOfSpaces.length > 1
-        ? []
-        : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
+    let suggestions = [];
+    if (flag === "VALUE") {
+      if ((!lastString.includes("IN")) &&
+        (/"/.test(lastString) || /'/.test(lastString)) &&
+        (countGivenChar(lastString, "'") % 2 === 0 || countGivenChar(lastString, '"') % 2 === 0) &&
+        ((startWithDoubleQuotes && endWithDoubleQuotes) || (startWithSingleQuotes && endWithSingleQuotes)) &&
+        isValidSearchQuery(searchQuery)
+      ) {
+        suggestions =
+          numberOfSpaces.length > 1
+            ? []
+            : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
+      }
+    } else {
+      suggestions =
+        numberOfSpaces.length > 1
+          ? []
+          : getAutoCompleteSuggestions(lastExpression, currentColumn, newColumnValue);
+    }
+
     if (
       !newQueryArray[modifiedWord] &&
       newQueryArray[modifiedWordIndex - 1] &&
@@ -376,14 +414,16 @@ export const CustomSearch = (props: ICustomSearchProps) => {
           modifiedColumnValue.split("'").join('').length >= 2
         )
           onSearch({
-            searchText: btoa(modifiedColumnValue.split("'").join('')),
+            // searchText: btoa(modifiedColumnValue.split("'").join('')),
+            searchText: modifiedColumnValue.split("'").join(''),
             id: currentColumn.id,
             currentValueKey: currentColumn.value
           });
       } else {
         if (/[a-zA-z]/.test(modifiedWord.substr(-1)))
           onSearch({
-            searchText: btoa(modifiedWord.split("'").join('')),
+            // searchText: btoa(modifiedWord.split("'").join('')),
+            searchText: modifiedWord.split("'").join(''),
             id: currentColumn.id,
             currentValueKey: currentColumn.value
           });
@@ -393,11 +433,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
         suggestions.filter((option: IBaseOption) =>
           option.label.toLowerCase().includes(
             modifiedWord &&
-              modifiedWord.split('(').join('') &&
-              modifiedWord
-                .split('(')
-                .join('')
-                .toLowerCase()
+            modifiedWord.split('(').join('') &&
+            modifiedWord
+              .split('(')
+              .join('')
+              .toLowerCase()
           )
         )
       );
@@ -408,7 +448,9 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   };
 
   const onInputChange = (event: any) => {
-    suggestOptions(event.target.value);
+    const userInput = event.target.value;
+    setActiveSuggestion(0);
+    suggestOptions(userInput);
   };
 
   const getOptionValue = (lastConditionalOperator: string, label: string) => {
@@ -422,11 +464,11 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       lastConditionalOperator &&
       lastConditionalOperator.toLowerCase() === inOperator.label.toLowerCase()
     ) {
-      return `('${label}'`;
+      return label.includes("'") ? `"${label}"` : `'${label}'`;
     } else if (
       conditionalOperators.find((operator: any) => operator.label === lastConditionalOperator)
     ) {
-      return `'${label}'`;
+      return label.includes("'") ? `"${label}"` : `'${label}'`;
     } else return null;
   };
 
@@ -445,26 +487,48 @@ export const CustomSearch = (props: ICustomSearchProps) => {
   };
 
   const setOptionForStringTypeColumn = (lastConditionalOperator: string, option: { label: string; }, caretPosition: number | null) => {
-    setQueryArray(
-      queryArray.map((queryElement: any, index: number) => {
-        if (index === cursorElement.index) {
-          caretPosition = index;
-          const optionValue = getOptionValue(lastConditionalOperator, option.label);
-          if (optionValue) return optionValue;
-          else if (
-            columns.find(
-              (operator: any) => operator.label.toLowerCase() === option.label.toLowerCase()
-            )
+    let isReplaced: boolean = false;
+    const newQueryArray = queryArray.map((queryElement: any, index: number) => {
+      if (index === cursorElement.index) {
+        caretPosition = index;
+        const optionValue = getOptionValue(lastConditionalOperator, option.label);
+        // options if it's an operator or a dropdown selecton from search
+        if (optionValue) {
+          return optionValue;
+        } else if (
+          columns.find(
+            (operator: any) => operator.label.toLowerCase() === option.label.toLowerCase()
           )
-            return option.label.includes(' ') ? `'${option.label}'` : option.label;
-          else return `${option.label.includes(' ') ? `'${option.label}'` : `${option.label}`}`;
-        } else return queryElement;
-      })
-    );
+        ) {
+          //this conditon matches if it's a column
+          isReplaced = true;
+          return option.label.includes(' ') ? `'${option.label}'` : option.label;
+        } else {
+          return `${option.label.includes(' ') ? `'${option.label}'` : `${option.label}`}`;
+        }
+      } else if (!isReplaced && index > cursorElement.index) {
+        if (queryElement === 'AND' || queryElement === 'OR' || queryElement === 'ORDER BY') {
+          isReplaced = true;
+          return queryElement;
+        } else if (queryElement !== 'AND' && queryElement !== 'OR' && queryElement !== 'ORDER BY') {
+          return '';
+        }
+        isReplaced = true;
+        return queryElement;
+      } else {
+        // if no condition matches
+        return queryElement;
+      }
+    }).filter(item => item !== '');
+    setQueryArray(newQueryArray);
     return caretPosition;
   };
 
   const onOptionClick = (option: any) => {
+    onOptionSelect(option);
+  };
+
+  const onOptionSelect = (option: any) => {
     const lastConditionalOperator = queryArray[queryArray.length - 2];
     let caretPosition: any = null;
     if (cursorElement) {
@@ -534,6 +598,27 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       onEnterButtonClick();
   };
 
+  const onKeyDown = (e: any) => {
+    // User pressed the enter key
+    if (e.keyCode === 13) {
+      onOptionSelect(options[activeSuggestion]);
+    }
+    // User pressed the up arrow
+    else if (e.keyCode === 38) {
+      if (activeSuggestion === 0) {
+        return;
+      }
+      setActiveSuggestion(prev => prev - 1)
+    }
+    // User pressed the down arrow
+    else if (e.keyCode === 40) {
+      if (options.length === activeSuggestion + 1) {
+        return;
+      }
+      setActiveSuggestion(prev => prev + 1)
+    }
+  };
+
   return (
     <div className='custom-search'>
       <TextInput
@@ -544,7 +629,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
         onChange={onInputChange}
         onClick={onInputClick}
         onKeyUp={onEnterClick}
-        placeholder='Find records using search query'
+        onKeyDown={onKeyDown}
+        placeholder={`Example: Product = 'Apple Rubber Pdts Inc - Corporate Promotion'`}
       />
       {searchQuery.length ? (
         <Button
@@ -563,15 +649,18 @@ export const CustomSearch = (props: ICustomSearchProps) => {
       {showResults && (
         <div id='dynamic-results' className='custom-search-results'>
           <DynamicCustomResultRenderer
+            activeSuggestion={activeSuggestion}
             searchResultType={currentResultType}
             searchResults={searchQuery.length > 0 ? options : []}
             onOptionClick={onOptionClick}
             setShowResults={setShowResults}
             datePickerPosition={datePickerPosition}
+            isLoading={isLoading}
+            showEmptyOption={showEmptyOption}
           />
         </div>
       )}
-      {isValidSearchQuery(searchQuery) ? (<div>{planeQuery}</div>) : null}
+      {/* {isValidSearchQuery(searchQuery) ? (<div>{planeQuery}</div>) : null} */}
     </div>
   );
 };

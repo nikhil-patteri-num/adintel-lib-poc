@@ -1,0 +1,177 @@
+@import '../../assets/scss/constants/colors';
+@import '../../assets/scss/constants/zIndexes';
+@import '../../assets/scss/base/mixins';
+
+.drawer {
+  display: flex;
+
+  &-menu {
+    z-index: $ziDrawerMenu;
+    position: absolute;
+    width: 55px;
+    height: 100vh;
+    background: $deepteal;
+    transition-duration: 150ms;
+    transition-timing-function: ease-in-out;
+    overflow-x: hidden;
+    overflow-y: auto;
+    color: $white;
+    user-select: none;
+
+    &-item {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &-text {
+        font-weight: bold;
+        font-size: 13px;
+      }
+
+      &-icon {
+        width: 25px;
+        padding: 15px;
+        font-size: 18px;
+      }
+    }
+
+    &-item:hover {
+      background-color: #edece6;
+      color: $deepteal;
+    }
+  }
+
+  .context-menu-wrapper {
+    z-index: $ziDrawerContextMenuWrapper;
+
+    .action-menu {
+      border: 0.5px solid $greenHeavy;
+      font-size: 12px;
+      width: 105px;
+      font-weight: 400px;
+      padding: 5px;
+      background-color: $white;
+      box-shadow: 0.5px 0.5px 3px $grey;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: $lilyWhite;
+        cursor: pointer;
+      }
+
+      &-items {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      &-item {
+        cursor: pointer;
+        padding: 2px;
+      }
+    }
+  }
+
+  &-menu:hover {
+    width: 220px;
+  }
+
+  &-menu:hover .build-version {
+    display: block;
+  }
+
+  &-menu:hover &-menu-item-text {
+    opacity: 1;
+  }
+
+  &-submenu {
+    width: 165px;
+    margin-left: 55px;
+    height: calc(100vh - 40px);
+    background-color: #edece6;
+    color: $black;
+    z-index: 2;
+    position: absolute;
+
+    &-title {
+      padding: 20px;
+      font-weight: bold;
+      font-size: 13px;
+      color: $deepteal;
+    }
+
+    &-item {
+      padding: 10px;
+      padding-left: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      display: block;
+      text-decoration: none;
+      color: $black;
+    }
+
+    &-item:hover {
+      font-weight: bold;
+    }
+  }
+
+  .submenu-active {
+    font-weight: bold;
+  }
+
+  .menu-active {
+    background-color: #edece6;
+    color: black;
+  }
+
+  .collapse-drawer {
+    width: 55px !important;
+  }
+
+  .animate-submenu-exit {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+
+  .animate-submenu-exit-active {
+    opacity: 0;
+    transition-duration: 200ms;
+    transform: translateX(-200px);
+  }
+}
+
+@media ($mediumScreenMedia) {
+  .drawer-submenu {
+    width: 165px;
+  }
+
+  .drawer-menu-item {
+    width: 220px;
+  }
+
+  .drawer-menu:hover {
+    width: 220px;
+  }
+
+  .drawer-menu:hover .build-version {
+    display: block;
+  }
+}
+
+@media ($largeScreenMedia) {
+  .drawer-submenu {
+    width: 205px;
+  }
+
+  .drawer-menu:hover {
+    width: 260px;
+  }
+
+  .drawer-menu-item {
+    width: 260px;
+  }
+
+  .drawer-menu:hover .build-version {
+    display: block;
+  }
+}

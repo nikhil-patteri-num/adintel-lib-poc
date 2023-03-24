@@ -1,10 +1,13 @@
 import * as React from 'react';
-// import React from "react";
-import { inputType, TextInput } from "./TextInput";
+import { inputType, TextInput } from "../src/components/core/TextInput/TextInput"
 
 export default {
+    component: TextInput,
     title: "TextInput"
 };
+
+
+const Template = (args: any) => <TextInput {...args} />;
 
 export const Text = () => (
     <div>
@@ -23,3 +26,5 @@ export const Password = () => (
         <TextInput type={inputType.password} />
     </div>
 );
+
+export const Default = Template.bind({});

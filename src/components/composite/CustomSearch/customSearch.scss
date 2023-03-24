@@ -22,7 +22,7 @@
     right: 4px;
     top: 4px;
     font-size: 16px;
-    padding: 5px;
+    padding: 4px 4px 0px 4px;
     background-color: $white;
     @include alignElement(null, center, center);
   }
@@ -43,5 +43,19 @@
   .date-picker {
     visibility: hidden;
     bottom: 30px;
+  }
+}
+
+input.input.custom-search-input::placeholder {
+  color: lightgrey;
+}
+
+.suggestions {
+  .suggestion-active,
+  .suggestion-active:hover {
+    button {
+      background-color: #ebedec !important;
+      color: #000;
+    }
   }
 }

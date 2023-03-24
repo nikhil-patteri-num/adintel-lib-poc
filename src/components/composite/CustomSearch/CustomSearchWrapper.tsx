@@ -1,60 +1,57 @@
 import * as React from 'react';
 import { useEffect, useState } from "react";
 import { CustomSearch } from './CustomSearch';
-// import { bearerToken } from "../../../TestComponent/token";
+import { ISearchDataType } from './interfaces/CustomSearchInterfaces';
 import './search.scss';
 
-export const CustomSearchWrapper = ({ searchData, handleSearchData }: { searchData: any; handleSearchData: any }) => {
-    const [customSearchData, setCustomSearchData] = useState<any>();
-    const [searchQuery, setSearchQuery] = useState();
-    const [isQueryValid, setIsQueryValid] = useState(true);
+export interface CustomSearchWrapperProps {
+    searchData: ISearchDataType;
+    handleSearchData: any;
+    plainQuery: string;
+    onChange: any;
+    onClearSearch: boolean;
+    changedSearchText: string;
+    isLoading: boolean;
+    showEmptyOption: boolean;
+}
+
+export const CustomSearchWrapper = ({
+    searchData,
+    handleSearchData,
+    plainQuery,
+    onChange,
+    onClearSearch,
+    changedSearchText,
+    isLoading,
+    showEmptyOption
+}: CustomSearchWrapperProps) => {
+    const [customSearchData, setCustomSearchData] = useState<ISearchDataType>({ columns: [], searchResults: [] });
 
     useEffect(() => {
-        console.log(searchData);
         setCustomSearchData(searchData);
     }, [searchData])
 
-    // const handleSearchData = (payload: any) => {
-    //     // console.log(payload);
-    //     const urlConfig = {
-    //         method: 'GET',
-    //         headers: new Headers({
-    //             'Authorization': bearerToken
-    //         })
-    //     }
-    //     const url = `https://dev.api.adlake.numerator.cloud/api/classification/reference/customsearchfields/?search_text=${payload.searchText}&id=${payload.id}`;
-    //     fetch(url, urlConfig).then((res) => {
-    //         return res.json();
-    //     }).then((response) => {
-    //         const result = { ...customSearchData, searchResults: response.data.fields }
-    //         // console.log(customSearchData);
-    //         setCustomSearchData(result);
-    //     })
-    // }
-
-    const handleOnChange = (args: any, args2: any, args3: any) => {
-        // console.log(args);
-        setSearchQuery(args);
-        console.log(args2);
-        // console.log(args3);
-        setIsQueryValid(args3);
-        const result = { ...customSearchData, searchResults: [] }
-        // console.log(customSearchData);
+    const handleOnChange = (arg1: string, arg2: string, arg3: string) => {
+        const result = { ...customSearchData, searchResults: [] };
         setCustomSearchData(result);
+        onChange(arg1, arg2, arg3);
     }
+
     return (
         <div className='custom-wrapper'>
-            {customSearchData && <CustomSearch
+            <CustomSearch
                 customSearchData={customSearchData}
                 onChange={handleOnChange}
                 onCheckBoxChecked={true}
                 onEnterButtonClick={() => { }}
                 onSearch={handleSearchData}
-                planeQuery={''}
-            />}
-            <div className={`query-label ${isQueryValid ? 'valid-text' : 'invalid-text'}`}>{searchQuery}</div>
+                planeQuery={plainQuery}
+                isLoading={isLoading}
+                onClearSearch={onClearSearch}
+                onSearchTextChange={changedSearchText}
+                showEmptyOption={showEmptyOption}
+            />
+            {/* <div className={`query-label ${isQueryValid ? 'valid-text' : 'invalid-text'}`}>{searchQuery}</div> */}
         </div>
     )
 }
-
-// export default CustomSearchWrapper;

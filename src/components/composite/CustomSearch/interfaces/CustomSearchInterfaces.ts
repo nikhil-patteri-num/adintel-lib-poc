@@ -16,6 +16,9 @@ export interface IDynamicCustomResultRendererProps {
   highlight?: string;
   setShowResults: any;
   datePickerPosition: any;
+  isLoading: boolean;
+  showEmptyOption: boolean;
+  activeSuggestion:any;
 }
 
 export interface ISingleSelectSearchResult {
@@ -23,4 +26,25 @@ export interface ISingleSelectSearchResult {
   onOptionClick: (option: IBaseOption) => void;
   highlight?: string;
   setShowResults: any;
+  isLoading: boolean;
+  showEmptyOption: boolean;
+  activeSuggestion:any;
+}
+
+interface IColumnItem {
+  id?: number;
+  value: string;
+  label: string;
+  type?: string;
+}
+
+interface ISearchResultItem {
+  value: number;
+  label: string;
+  deactivated?: boolean;
+}
+
+export interface ISearchDataType {
+  columns: IColumnItem[];
+  searchResults: ISearchResultItem[];
 }

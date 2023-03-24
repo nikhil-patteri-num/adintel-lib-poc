@@ -1,0 +1,82 @@
+@import '../../assets/scss/constants/colors.scss';
+
+
+
+.image-zoombox {
+  z-index: 1;
+  background: $backDropColor;
+  display: flex;
+  position: relative;
+  align-items: center;
+  font-size: 30px;
+  color: $white;
+
+  .loading-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    color: $black;
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border-top: 1px solid $black;
+      border-radius: 50%;
+      animation-name: rotate;
+      animation-duration: 500ms;
+      animation-iteration-count: infinite;
+    }
+
+    .spinner-text {
+      font-size: 10px;
+      margin-top: 5px;
+    }
+
+    @keyframes rotate {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+}
+
+.zoom-controls {
+  position: absolute;
+  bottom: 15px;
+  transform: translate(-50%, -50%);
+  left: 50%;
+
+  &-button {
+    background-color: $lightBlack;
+    color: $lightWhite;
+    width: 30px;
+    height: 30px;
+    margin: 10px;
+    border-radius: 50%;
+  }
+}
+
+.zoom-container {
+  width: 100%;
+  height: 100%;
+
+  &-image {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition-duration: 350ms;
+    transition-timing-function: ease-in-out;
+    display: flex;
+    justify-content: center;
+
+    img {
+      transition-duration: 300ms;
+      transition-timing-function: ease-in-out;
+    }
+  }
+}
