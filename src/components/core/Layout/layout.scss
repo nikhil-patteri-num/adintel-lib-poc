@@ -1,0 +1,12 @@
+@import '../../assets/scss/constants/colors.scss';
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.page-container {
+  padding: 10px;
+  background: $whisper;
+  color: $black;
+  height: calc(100vh - 40px);
+}
