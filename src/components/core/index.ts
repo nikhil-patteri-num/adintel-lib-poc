@@ -1,10 +1,10 @@
 export { buttonSize, buttonVariant, Button } from './Button';
 export { TextInput, inputType, IInputProps } from './TextInput';
-// export { FormGroup, PageContainer } from './Layout';
+export { FormGroup, PageContainer } from './Layout';
 // export { Loader } from './Loader/Loader';
 // export { Card } from './Card';
 // export { CheckboxInput } from './CheckboxInput';
-// export { FormItemLabel, IFormItemLabelProps } from './FormItemLabel';
+export { FormItemLabel, IFormItemLabelProps } from './FormItemLabel';
 // export { ErrorMessage, IErrorMessageProps } from './ErrorMessage/ErrorMessage';
 // export { Dropdown, IDropdownOptions, DropdownPositions } from './Dropdown';
 // export { RadioGroup, RadioInput, IRadioGroupProps } from './Radio';

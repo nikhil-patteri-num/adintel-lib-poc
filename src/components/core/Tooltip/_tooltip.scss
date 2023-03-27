@@ -3,20 +3,24 @@
 .tooltiptext {
   visibility: hidden;
   min-width: 100px;
-  background-color: #fff;
-  box-shadow: 3px 4px 23px -3px rgba(0, 0, 0, 0.75);
-  font-size: 11px;
+  //background-color: #fff;
+  //box-shadow: 3px 4px 23px -3px rgba(0, 0, 0, 0.75);
+  font-size: 12px;
   text-align: center;
-  border-radius: 6px;
-  padding: 5px;
+  //border-radius: 6px;  
+    padding: 3px;
   position: absolute;
   z-index: $ziTooltip;
   font-weight: normal;
-  opacity: 0;
-  transition: opacity;
-  transition-delay: 1s;
-  transition-duration: 0.1s;
+  // opacity: 0;
+  // transition: opacity;
+  // transition-delay: 0.5s;
+  // transition-duration: 0.1s;
   pointer-events: none;
+  color: #464646 !important;
+    background-color: #FBE7F7 !important;
+    border: 1px solid #2581C4 !important;
+    border-radius: 4px !important;
 }
 
 .top-tooltip {
@@ -24,7 +28,7 @@
   display: flex;
   &:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
+    //opacity: 1;
   }
   .tooltiptext {
     bottom: 115%;
@@ -38,7 +42,7 @@
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: #fff transparent transparent transparent;
+      border-color: #464646 transparent transparent transparent;
     }
   }
 }
@@ -50,7 +54,7 @@
   display: flex;
   &:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
+    //opacity: 1;
   }
   .tooltiptext {
     top: 1px;
@@ -64,7 +68,7 @@
       margin-top: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent transparent transparent #fff;
+      border-color: transparent transparent transparent #464646;
     }
   }
 }
@@ -75,7 +79,7 @@
   display: flex;
   &:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
+    //opacity: 1;
   }
   .tooltiptext {
     top: 100%;
@@ -89,7 +93,7 @@
       margin-left: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent transparent #fff transparent;
+      border-color: transparent transparent #464646 transparent;
     }
   }
 }
@@ -100,7 +104,7 @@
   display: flex;
   &:hover .tooltiptext {
     visibility: visible;
-    opacity: 1;
+    //opacity: 1;
   }
   .tooltiptext {
     top: -2px;
@@ -113,7 +117,7 @@
       margin-top: -5px;
       border-width: 5px;
       border-style: solid;
-      border-color: transparent #fff transparent transparent;
+      border-color: transparent #464646 transparent transparent;
     }
   }
 }

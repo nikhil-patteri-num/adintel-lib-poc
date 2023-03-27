@@ -1,0 +1,122 @@
+.slider-container {
+  padding: 10px;
+  height: auto;
+
+  .img-slide-hide {
+    display: none;
+    visibility: hidden;
+    // opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+  }
+
+  .img-current {
+    width: 100%;
+    display: inherit;
+    animation: fadeIn 5s;
+    visibility: visible;
+    // opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+
+    .img-item {
+      height: 50px;
+      width: 33.3%;
+      padding: 5px;
+      justify-content: center;
+      display: flex;
+
+
+      img {
+        // height: 100%;
+        // width: 100%;
+        width: 100%;
+        max-width: 400px;
+        height: auto;
+
+
+      }
+    }
+
+    .active {
+      border: 1px solid #0ff;
+    }
+  }
+
+  .img-fade {}
+
+  .media-container {
+    height: auto;
+    width: auto;
+
+  }
+
+  div#img_slides_wrapper {
+    width: inherit;
+    // height: 250px;
+    display: flex;
+    border: 2px solid #efefef;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  // div#img_slides_wrapper div#img_slides {
+  //   overflow: hidden;
+  //   display: flex;
+  //   background-color: #0ff3;
+  // }
+
+  div.img_slide_arrow {
+    // color: transparent;
+    color: #ccc;
+    height: inherit;
+    // width: 40px;
+    position: absolute;
+    z-index: 2;
+    // background-color: red;
+    top: 22px;
+    margin-left: -10px;
+    margin-right: -10px;
+  }
+
+
+  div.img_slide_arrow#img_slide_right {
+    right: 0;
+  }
+
+  div.img_slide_arrow#img_slide_left span {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    cursor: pointer;
+  }
+
+  div.img_slide_arrow#img_slide_right span {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    right: 0;
+    cursor: pointer;
+  }
+
+  div#img_thumbnails {
+    width: 400px;
+    // height: 61px;
+    display: flex;
+    overflow: hidden;
+    // flex-wrap: wrap;
+    // justify-content: space-around;
+  }
+
+  // div#img_thumbnails img.imgThumbnail {
+  //   background-color: #888;
+  //   // margin: 5px;
+  // }
+
+  div#img_thumbnails img.imgThumbnail.active {
+    border: 2px solid #0ff;
+  }
+
+  .zoom-container-image img {
+    height: inherit;
+    width: inherit;
+  }
+
+}
