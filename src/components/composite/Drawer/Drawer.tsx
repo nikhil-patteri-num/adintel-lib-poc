@@ -2,13 +2,22 @@ import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { MenuItem } from './MenuItem';
 import { CSSTransition } from 'react-transition-group';
+import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
+import { dom, library } from '@fortawesome/fontawesome-svg-core'
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons'
 import './drawer.scss';
+
+library.add(faAngleDown)
+library.add(faAngleUp)
+dom.watch()
+
 
 export interface ISubMenuItem {
   value: any;
   label: string;
   key: string;
   icon: any;
+  submenus?: any;
 }
 
 export interface IMenuItem extends ISubMenuItem {
@@ -28,6 +37,7 @@ export const Drawer = (props: IDrawerProps) => {
   const [activeMenuID, setActiveMenuID] = useState<string | null>(null);
   const [activeSubMenuID, setActiveSubMenuID] = useState<string | null>(null);
   const [showSubMenu, setShowSubMenu] = useState<boolean>(false);
+  const [subMenuExpand, setSubMenuExpand] = useState<boolean>(true);
   const drawerRef: React.RefObject<HTMLDivElement> = useRef(null);
 
   useEffect(() => {
@@ -105,6 +115,60 @@ export const Drawer = (props: IDrawerProps) => {
     return subMenuKey === activeSubMenuID;
   };
 
+  const getMenu = (obj: any) => {
+    return (
+      <>
+        <a
+          data-test-id={obj.label}
+          className={`drawer-submenu-item ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
+            }`}
+          onClick={(e: any) => setActiveSubMenu(e, obj.key)}
+          key={`label-${obj.key}`}
+          href={`${getOrigin()}#/${obj.key}`}
+        >
+          {obj.label}</a>
+      </>
+    )
+
+  }
+
+  const getSubMenu = (obj: any) => {
+    return (
+      <>
+        <div
+          className={`drawer-submenu-item-head ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
+            }`}
+          onClick={() => {
+            setSubMenuExpand(!subMenuExpand);
+          }}
+        >{obj.label}
+          &nbsp;&nbsp;{obj && obj.submenus && <Icon icon={!subMenuExpand ? faAngleDown : faAngleUp} />}
+          {obj && obj.submenus && subMenuExpand &&
+            <>
+              <ul className='sub-menu-items-ul'>
+                {obj && obj.submenus.map((obj: any) => <li className='sub-menu-items-ul-li' key={`submenus-${obj.key}`} >
+                  <a
+                    data-test-id={obj.label}
+                    className={`drawer-submenu-list-item-link ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
+                      }`}
+                    onClick={(e: any) => {
+                      setActiveSubMenu(e, obj.key);
+                      e.stopPropagation();
+                    }}
+                    key={`label-${obj.key}`}
+                    href={`${getOrigin()}#/${obj.key}`}
+                  >
+                    {obj.label}</a>
+                </li>)}
+              </ul>
+            </>
+          }
+        </div>
+      </>
+    )
+
+  }
+
   return (
     <>
       <div className='drawer'>
@@ -134,16 +198,11 @@ export const Drawer = (props: IDrawerProps) => {
             </div>
             {getActiveMenuInfo() &&
               getActiveMenuInfo().submenus.map((subMenu: ISubMenuItem) => (
-                <a
-                  data-test-id={subMenu.label}
-                  className={`drawer-submenu-item ${isSubMenuActive(subMenu.key) ? 'submenu-active' : ''
-                    }`}
-                  onClick={(e: any) => setActiveSubMenu(e, subMenu.key)}
-                  key={`label-${subMenu.key}`}
-                  href={`${getOrigin()}#/${subMenu.key}`}
-                >
-                  {subMenu.label}
-                </a>
+                <React.Fragment key={`label-${subMenu.key}`}>
+                  {subMenu && subMenu.submenus ?
+                    getSubMenu(subMenu)
+                    : getMenu(subMenu)}
+                </React.Fragment>
               ))}
           </div>
         </CSSTransition>
