@@ -229,7 +229,17 @@ export const sampleSidePanelData = [
                 "key": "ingestion/#/dashboard/adThenaIngestion",
                 "label": "Dashboard",
                 "value": 12,
-                "submenus": null
+                "submenus": [{
+                    "key": "1",
+                    "label": "Dashboard 1",
+                    "icon": "archive",
+                    "value": 11,
+                }, {
+                    "key": "2",
+                    "label": "Dashboard 2",
+                    "icon": "archive",
+                    "value": 11,
+                }]
             },
             {
                 "key": "ingestion/#/summaryView",
