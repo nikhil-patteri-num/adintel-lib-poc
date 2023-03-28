@@ -16,7 +16,7 @@ export interface ISubMenuItem {
   value: any;
   label: string;
   key: string;
-  icon: any;
+  icon?: any;
   submenus?: any;
 }
 
@@ -24,15 +24,21 @@ export interface IMenuItem extends ISubMenuItem {
   submenus: ISubMenuItem[];
 }
 
+
+export interface IConfigProps {
+  customClass: string;
+}
+
 export interface IDrawerProps {
   menuItems: IMenuItem[];
   menuLocation?: any;
   onSubMenuClick: any;
   showMenuBar: boolean;
+  config?: IConfigProps;
 }
 
 export const Drawer = (props: IDrawerProps) => {
-  const { menuItems, menuLocation, onSubMenuClick, showMenuBar } = props;
+  const { menuItems, menuLocation, onSubMenuClick, showMenuBar, config } = props;
   const defaultRoute = menuLocation.pathname;
   const [activeMenuID, setActiveMenuID] = useState<string | null>(null);
   const [activeSubMenuID, setActiveSubMenuID] = useState<string | null>(null);
@@ -171,7 +177,7 @@ export const Drawer = (props: IDrawerProps) => {
 
   return (
     <>
-      <div className='drawer'>
+      <div className={`drawer ${config ? config.customClass : ''}`}>
         <div className='drawer-menu' id='menubar' ref={drawerRef}>
           {menuItems.map((menuItem: IMenuItem) => (
             <MenuItem
