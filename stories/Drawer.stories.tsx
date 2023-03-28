@@ -40,11 +40,13 @@ const defaultArgs: IDrawerProps = {
       label: 'Queues'
     }
   ],
-  navigateToRoute: demoFnctn,
   onSubMenuClick: demoFnctn,
-  defaultRoute: '/classification-queue/route'
+  showMenuBar: true
 };
 
+const config = {
+  customClass: 'my-drawer'
+}
 export const DefaultDrawer = () => (
 
   <div>
@@ -53,6 +55,7 @@ export const DefaultDrawer = () => (
       menuLocation={() => { }}
       onSubMenuClick={(key: any) => { console.log(key); }}
       showMenuBar={false}
+      config={config}
     />
   </div>
 );
