@@ -26,7 +26,8 @@ export interface IMenuItem extends ISubMenuItem {
 
 
 export interface IConfigProps {
-  customClass: string;
+  customClass?: string;
+  currentKey?: string;
 }
 
 export interface IDrawerProps {
@@ -45,6 +46,8 @@ export const Drawer = (props: IDrawerProps) => {
   const [showSubMenu, setShowSubMenu] = useState<boolean>(false);
   const [subMenuExpand, setSubMenuExpand] = useState<boolean>(true);
   const drawerRef: React.RefObject<HTMLDivElement> = useRef(null);
+  const currentKey = config && config.currentKey;
+  const customClass = config && config.customClass;
 
   useEffect(() => {
     if (defaultRoute && menuItems.length) {
@@ -142,8 +145,7 @@ export const Drawer = (props: IDrawerProps) => {
     return (
       <>
         <div
-          className={`drawer-submenu-item-head ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
-            }`}
+          className={`drawer-submenu-item-head ${currentKey === obj.key ? 'submenu-active' : ''} ${isSubMenuActive(obj.key) ? 'submenu-active' : ''}`}
           onClick={() => {
             setSubMenuExpand(!subMenuExpand);
           }}
@@ -177,7 +179,7 @@ export const Drawer = (props: IDrawerProps) => {
 
   return (
     <>
-      <div className={`drawer ${config ? config.customClass : ''}`}>
+      <div className={`drawer ${customClass ? customClass : ''}`}>
         <div className='drawer-menu' id='menubar' ref={drawerRef}>
           {menuItems.map((menuItem: IMenuItem) => (
             <MenuItem
