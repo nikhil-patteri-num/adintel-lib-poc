@@ -26,7 +26,8 @@ export interface IMenuItem extends ISubMenuItem {
 
 
 export interface IConfigProps {
-  customClass: string;
+  customClass?: string;
+  currentKey?: string;
 }
 
 export interface IDrawerProps {
@@ -35,11 +36,15 @@ export interface IDrawerProps {
   onSubMenuClick: any;
   showMenuBar: boolean;
   config?: IConfigProps;
+  subMenuAct: string;   // hover || click
 }
 
 export const Drawer = (props: IDrawerProps) => {
-  const { menuItems, menuLocation, onSubMenuClick, showMenuBar, config } = props;
+  const { menuItems, menuLocation, onSubMenuClick, showMenuBar, config, subMenuAct } = props;
+  const currentKey = config && config.currentKey;
+  const customClass = config && config.customClass;
   const defaultRoute = menuLocation.pathname;
+  const [selectedMenuID, setSelectedMenuID] = useState<string | null>(null);
   const [activeMenuID, setActiveMenuID] = useState<string | null>(null);
   const [activeSubMenuID, setActiveSubMenuID] = useState<string | null>(null);
   const [showSubMenu, setShowSubMenu] = useState<boolean>(false);
@@ -48,16 +53,17 @@ export const Drawer = (props: IDrawerProps) => {
 
   useEffect(() => {
     if (defaultRoute && menuItems.length) {
-      const defaultRouteKey = defaultRoute.substr(1);
+      //const defaultRouteKey = defaultRoute.substr(1);
       const activeMenu: IMenuItem = menuItems.find(
         (menuItem: any) =>
-          menuItem.key === defaultRouteKey ||
-          menuItem.submenus.find((subMenu: any) => subMenu.key === defaultRouteKey)
+          menuItem.key === defaultRoute ||
+          menuItem.submenus.find((subMenu: any) => subMenu.key === defaultRoute)
       ) as IMenuItem;
       const activeSubMenu =
         activeMenu &&
-        (activeMenu.submenus.find((subMenu: any) => subMenu.key === defaultRouteKey) as IMenuItem);
+        (activeMenu.submenus.find((subMenu: any) => subMenu.key === defaultRoute) as IMenuItem);
       if (activeMenu && activeSubMenu) {
+        setSelectedMenuID(activeMenu.key);
         setActiveMenuID(activeMenu.key);
         setActiveSubMenuID(activeSubMenu.key);
       }
@@ -101,6 +107,7 @@ export const Drawer = (props: IDrawerProps) => {
   };
 
   const setActiveMenu = (id: string): void => {
+    // setSelectedMenuID(id);
     setActiveMenuID(id);
     setShowSubMenu(true);
     collapseMainDrawer();
@@ -111,6 +118,7 @@ export const Drawer = (props: IDrawerProps) => {
   };
 
   const setActiveSubMenu = (e: any, key: string): void => {
+    setSelectedMenuID(key);
     setActiveSubMenuID(key);
     onSubMenuClick(key);
     setShowSubMenu(false);
@@ -121,12 +129,16 @@ export const Drawer = (props: IDrawerProps) => {
     return subMenuKey === activeSubMenuID;
   };
 
+  const setCurrentKeySelected = (key: string) => {
+    return currentKey === key ? 'submenu-active' : ''
+  }
+
   const getMenu = (obj: any) => {
     return (
       <>
         <a
           data-test-id={obj.label}
-          className={`drawer-submenu-item ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
+          className={`drawer-submenu-item ${setCurrentKeySelected(obj.key)} ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
             }`}
           onClick={(e: any) => setActiveSubMenu(e, obj.key)}
           key={`label-${obj.key}`}
@@ -142,8 +154,7 @@ export const Drawer = (props: IDrawerProps) => {
     return (
       <>
         <div
-          className={`drawer-submenu-item-head ${isSubMenuActive(obj.key) ? 'submenu-active' : ''
-            }`}
+          className={`drawer-submenu-item-head ${setCurrentKeySelected(obj.key)} ${isSubMenuActive(obj.key) ? 'submenu-active' : ''}`}
           onClick={() => {
             setSubMenuExpand(!subMenuExpand);
           }}
@@ -175,17 +186,38 @@ export const Drawer = (props: IDrawerProps) => {
 
   }
 
+  const checkSelectedSubmenu = (obj: any) => {
+    if (selectedMenuID === obj.key) {
+      return true
+    } else {
+      var tmp = obj.submenus.filter((item: any) => item.key === selectedMenuID);
+      if (obj.submenus && obj.submenus.submenus) {
+        var tmp1 = obj.submenus && obj.submenus.submenus.filter((item: any) => item.key === selectedMenuID);
+        if (tmp1.length > 0) {
+          return true
+        }
+      }
+      if (tmp.length > 0) {
+        return true
+      }
+    }
+    return false
+  }
+
   return (
     <>
-      <div className={`drawer ${config ? config.customClass : ''}`}>
-        <div className='drawer-menu' id='menubar' ref={drawerRef}>
+      <div className={`drawer ${customClass ? customClass : ''}`}>
+        <div className={`drawer-menu ${subMenuAct === 'click' ? 'drawer-menu-hover' : ''}`} id='menubar' ref={drawerRef}>
           {menuItems.map((menuItem: IMenuItem) => (
             <MenuItem
               key={`menu-item-${menuItem.key}`}
               menu={menuItem}
               activeMenuID={activeMenuID}
+              selectedMenuID={selectedMenuID}
+              selected={checkSelectedSubmenu(menuItem)}
               setActiveMenu={setActiveMenu}
               expandMainDrawer={expandMainDrawer}
+              subMenuAct={subMenuAct}
             />
           ))}
         </div>
