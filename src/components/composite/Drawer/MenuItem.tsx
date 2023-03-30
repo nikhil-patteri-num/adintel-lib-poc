@@ -16,12 +16,15 @@ iconList.map((item: any) => {
 interface IMenuItemProps {
   menu: IMenuItem;
   activeMenuID: string | null;
+  selectedMenuID: string | null;
   setActiveMenu: (menuID: string) => void;
   expandMainDrawer: any;
+  subMenuAct: string;  // hover || click
+  selected:boolean;
 }
 
 export const MenuItem = (props: IMenuItemProps) => {
-  const { menu, activeMenuID, setActiveMenu, expandMainDrawer } = props;
+  const { menu, activeMenuID, selectedMenuID, setActiveMenu, expandMainDrawer, subMenuAct,selected } = props;
   const { label, key, icon } = menu;
 
   const isMenuItemActive = (): boolean => {
@@ -32,16 +35,21 @@ export const MenuItem = (props: IMenuItemProps) => {
     <div
       key={key}
       data-test-id={key}
-      className={`drawer-menu-item ${isMenuItemActive() ? 'menu-active' : ''}`}
-      onMouseOver={!isMenuItemActive() ? expandMainDrawer : null}
-      onClick={() => setActiveMenu(key)}
+      className={`drawer-menu-item  ${selected || selectedMenuID === key ? 'menu-selected' : ''} ${isMenuItemActive() ? 'menu-active' : ''}`}
+      onMouseOver={() => {
+        !isMenuItemActive() ? expandMainDrawer : null;
+        if (subMenuAct === 'hover') {
+          setActiveMenu(key);
+        }
+      }}
+      onClick={() => subMenuAct === 'click' && setActiveMenu(key)}
     >
       <div className='drawer-menu-item-icon'>
         <Icon icon={icon} />
       </div>
-      <div data-test-id={label} className='drawer-menu-item-text'>
+      {subMenuAct === 'click' && <div data-test-id={label} className='drawer-menu-item-text'>
         {label}
-      </div>
+      </div>}
     </div>
   );
 };
