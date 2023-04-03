@@ -20,11 +20,11 @@ interface IMenuItemProps {
   setActiveMenu: (menuID: string) => void;
   expandMainDrawer: any;
   subMenuAct: string;  // hover || click
-  selected:boolean;
+  selected: boolean;
 }
 
 export const MenuItem = (props: IMenuItemProps) => {
-  const { menu, activeMenuID, selectedMenuID, setActiveMenu, expandMainDrawer, subMenuAct,selected } = props;
+  const { menu, activeMenuID, selectedMenuID, setActiveMenu, expandMainDrawer, subMenuAct, selected } = props;
   const { label, key, icon } = menu;
 
   const isMenuItemActive = (): boolean => {
@@ -45,7 +45,7 @@ export const MenuItem = (props: IMenuItemProps) => {
       onClick={() => subMenuAct === 'click' && setActiveMenu(key)}
     >
       <div className='drawer-menu-item-icon'>
-        <Icon icon={icon} />
+        {icon ? <Icon icon={icon} /> : <Icon icon={'arrow-circle-right'} />}
       </div>
       {subMenuAct === 'click' && <div data-test-id={label} className='drawer-menu-item-text'>
         {label}

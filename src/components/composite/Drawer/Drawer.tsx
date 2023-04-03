@@ -120,7 +120,7 @@ export const Drawer = (props: IDrawerProps) => {
   const setActiveSubMenu = (e: any, key: string): void => {
     setSelectedMenuID(key);
     setActiveSubMenuID(key);
-    onSubMenuClick(key);
+    onSubMenuClick  && onSubMenuClick(key);
     setShowSubMenu(false);
     e.preventDefault();
   };
