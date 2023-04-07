@@ -40,6 +40,7 @@ import './creativePlayer.scss';
 // import { UNIVERSAL_SEARCH_READONLY_PARAM } from './Constants';
 import IFrameViewer from '../IFrameViewer';
 import { useState } from 'react';
+import VideoPlayer from './VideoPlayer';
 
 interface ICreativePlayerProps {
   title?: string;
@@ -74,6 +75,8 @@ interface ICreativePlayerProps {
   totalMediaCount?: number;
   rotatable?: boolean;
   showEditIcon?: boolean;
+  controls?: boolean;
+  muted?: boolean;
 }
 
 interface IMediaCreativeIssueContext {
@@ -108,7 +111,8 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   // PDFJS.disableWorker = true;
   const showNewTab = false;
   const showResSelector = false;
-  const { type, title, src, playbackRate, playbackQuality, mediaList = [], showEditIcon = false } = props;
+  // const showPlaybackContainer = false;
+  const { type, title, src, playbackRate, playbackQuality, mediaList = [], showEditIcon = false, controls = false, muted = false } = props;
   const [showPlaybackContainer, setShowPlaybackContainer] = React.useState(false);
   const [showVideoQualityContainer, setShowVideoQualityContainer] = React.useState(false);
   const [mediaProgressInSeconds, setMediaProgressInSeconds]: any = React.useState(0);
@@ -131,6 +135,10 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
       document.removeEventListener('click', handleClickOutside);
     };
   });
+
+  React.useEffect(() => {
+    props.setPlaybackRate && props.setPlaybackRate(1);
+  }, [src])
 
   // const trimCreativeSuccess = () => {
   //   setShowVideoEditor(false);
@@ -176,21 +184,30 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   const getComponentByMediaType = (creativeType: string, creativeProps: ICreativePlayerProps) => {
     
     const { toggleMediaStatus, playerProps } = creativeProps;
-    const modifiedPlayerProps = {
-      ...playerProps,
-      setMediaInstanceProgressInSeconds,
-      retainVideoPlayedtime: mediaProgressInSeconds
-    };
+    // const modifiedPlayerProps = {
+    //   ...playerProps,
+    //   setMediaInstanceProgressInSeconds,
+    //   retainVideoPlayedtime: mediaProgressInSeconds
+    // };
 
     switch (creativeType) {
       case MediaTypes.video: {
         return (
-          <MediaPlayer
-            togglePlayerStatus={toggleMediaStatus}
-            {...modifiedPlayerProps}
-            {...creativeProps}
-            setMediaInstanceProgress={() => { }}
-            seekToStart={0}
+          // <MediaPlayer
+          //   togglePlayerStatus={toggleMediaStatus}
+          //   {...modifiedPlayerProps}
+          //   {...creativeProps}
+          //   setMediaInstanceProgress={() => { }}
+          //   seekToStart={0}
+          // />
+          <VideoPlayer
+            src={props.src}
+            controls={controls}
+            autoPlay
+            isPlaying={playerProps?.isPlaying || true}
+            loop={true}
+            playbackRate={playbackRate || 1}
+            muted={muted}
           />
         );
       }
