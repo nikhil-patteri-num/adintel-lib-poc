@@ -54,7 +54,7 @@ interface ICreativePlayerProps {
   fullScreenMode?: boolean;
   onCrossButtonClick?: () => void;
   playerProps?: {
-    isPlaying?: boolean;
+    // isPlaying?: boolean;
     thumbnailStatus?: boolean;
     setMediaInstanceProgress: (id: any, progress: number) => void;
     seekToStart: number;
@@ -77,6 +77,7 @@ interface ICreativePlayerProps {
   showEditIcon?: boolean;
   controls?: boolean;
   muted?: boolean;
+  isPlaying?: boolean;
 }
 
 interface IMediaCreativeIssueContext {
@@ -112,7 +113,18 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   const showNewTab = false;
   const showResSelector = false;
   // const showPlaybackContainer = false;
-  const { type, title, src, playbackRate, playbackQuality, mediaList = [], showEditIcon = false, controls = false, muted = false } = props;
+  const {
+    type,
+    title,
+    src,
+    playbackRate,
+    playbackQuality,
+    mediaList = [],
+    showEditIcon = false,
+    controls = false,
+    muted = false,
+    isPlaying = true
+  } = props;
   const [showPlaybackContainer, setShowPlaybackContainer] = React.useState(false);
   const [showVideoQualityContainer, setShowVideoQualityContainer] = React.useState(false);
   const [mediaProgressInSeconds, setMediaProgressInSeconds]: any = React.useState(0);
@@ -204,7 +216,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
             src={props.src}
             controls={controls}
             autoPlay
-            isPlaying={playerProps?.isPlaying || true}
+            isPlaying={isPlaying}
             loop={true}
             playbackRate={playbackRate || 1}
             muted={muted}
