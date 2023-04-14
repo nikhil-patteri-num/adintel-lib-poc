@@ -15,10 +15,9 @@ const demoFnctn = () => {
 const defaultArgs: IDrawerProps = {
   menuItems: sampleSidePanelData,
   subMenuAct: 'click',
-  menuLocation:{},
+  menuLocation: {},
   onSubMenuClick: demoFnctn,
-  showMenuBar: true,
-  menuRights:[{id:2},{id:3}]
+  showMenuBar: true
 };
 
 const config = {
@@ -37,7 +36,7 @@ export const DefaultDrawer = () => (
       showMenuBar={false}
       config={config}
       subMenuAct={`hover`}
-      menuRights={[{id:6},{id:8}]}
+      menuRights={[{ id: 6 }, { id: 8 }]}
     />
   </div>
 );

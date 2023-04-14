@@ -153,7 +153,7 @@ export const Drawer = (props: IDrawerProps) => {
 
 
   const getMenuAsPerRights = () => {
-    if (menuRights && menuRights.length > 0) {
+    if (menuRights !== undefined && menuRights && menuRights.length > 0) {
       let allowedMenus = menuRights.length > 0 ? menuRights.map((item: any) => item.id) : [];
       var menusToDisplay: any[] = [];
       if (menuItems) {
@@ -236,7 +236,7 @@ export const Drawer = (props: IDrawerProps) => {
     <>
       <div className={`drawer ${customClass ? customClass : ''}`}>
         <div className={`drawer-menu ${subMenuAct === 'click' ? 'drawer-menu-hover' : ''}`} id='menubar' ref={drawerRef}>
-          {getMenuAsPerRights().map((menuItem: IMenuItem) => (
+          {getMenuAsPerRights().length > 0 && getMenuAsPerRights().map((menuItem: IMenuItem) => (
             <MenuItem
               key={`menu-item-${menuItem.key}`}
               menu={menuItem}
