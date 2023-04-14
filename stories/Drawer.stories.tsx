@@ -17,7 +17,8 @@ const defaultArgs: IDrawerProps = {
   subMenuAct: 'click',
   menuLocation:{},
   onSubMenuClick: demoFnctn,
-  showMenuBar: true
+  showMenuBar: true,
+  menuRights:[{id:2},{id:3}]
 };
 
 const config = {
@@ -36,6 +37,7 @@ export const DefaultDrawer = () => (
       showMenuBar={false}
       config={config}
       subMenuAct={`hover`}
+      menuRights={[{id:6},{id:8}]}
     />
   </div>
 );
