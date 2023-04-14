@@ -153,24 +153,28 @@ export const Drawer = (props: IDrawerProps) => {
 
 
   const getMenuAsPerRights = () => {
-    let allowedMenus = menuRights.length > 0 ? menuRights.map((item: any) => item.id):[];
-    var menusToDisplay: any[] = [];
-    if (menuItems) {
-      var menus = menuItems;
-      menus.forEach((element: any) => {
-        var menuToShow: any[] = [];
-        element.submenus.forEach((submenu: any) => {
-          if (allowedMenus.includes(submenu.value)) {
-            menuToShow.push(submenu);
+    if (menuRights && menuRights.length > 0) {
+      let allowedMenus = menuRights.length > 0 ? menuRights.map((item: any) => item.id) : [];
+      var menusToDisplay: any[] = [];
+      if (menuItems) {
+        var menus = menuItems;
+        menus.forEach((element: any) => {
+          var menuToShow: any[] = [];
+          element.submenus.forEach((submenu: any) => {
+            if (allowedMenus.includes(submenu.value)) {
+              menuToShow.push(submenu);
+            }
+          })
+          if (menuToShow.length > 0) {
+            element.submenus = menuToShow;
+            menusToDisplay.push(element);
           }
-        })
-        if (menuToShow.length > 0) {
-          element.submenus = menuToShow;
-          menusToDisplay.push(element);
-        }
-      });
+        });
+      }
+      return menusToDisplay;
+    } else {
+      return menuItems;
     }
-    return menusToDisplay;
   }
 
 
