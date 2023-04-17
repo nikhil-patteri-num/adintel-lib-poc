@@ -18,6 +18,7 @@ export { PDFViewer } from './PDFViewer/PDFViewer';
 // export { Modal, IModal, ErrorModal, IErrorModal, ResizableFloatingModal } from './Modal';
 // export { FilterPopover, IFilterProps } from './FilterPopover';
 export { Drawer } from './Drawer/Drawer';
+export { Breadcrumbs } from './Breadcrumbs/Breadcrumbs';
 // export { BinarySwitch, IBinarySwitchProps } from './BinarySwitch';
 // export { Prompt, IPromptProps } from './Prompt';
 // export { NumericInput, IInputProps } from './NumericInput';
