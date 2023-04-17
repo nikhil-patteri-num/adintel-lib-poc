@@ -36,7 +36,7 @@ export const DefaultDrawer = () => (
       showMenuBar={false}
       config={config}
       subMenuAct={`hover`}
-      menuRights={[{ id: 6 }, { id: 8 }]}
+      
     />
   </div>
 );

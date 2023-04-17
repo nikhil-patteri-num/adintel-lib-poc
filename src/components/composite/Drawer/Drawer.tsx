@@ -37,11 +37,10 @@ export interface IDrawerProps {
   showMenuBar: boolean;
   config?: IConfigProps;
   subMenuAct: string;   // hover || click
-  menuRights?: any;
 }
 
 export const Drawer = (props: IDrawerProps) => {
-  const { menuItems, menuLocation, onSubMenuClick, showMenuBar, config, subMenuAct, menuRights } = props;
+  const { menuItems, menuLocation, onSubMenuClick, showMenuBar, config, subMenuAct } = props;
   const currentKey = config && config.currentKey;
   const customClass = config && config.customClass;
   const defaultRoute = menuLocation.pathname;
@@ -152,31 +151,6 @@ export const Drawer = (props: IDrawerProps) => {
   }
 
 
-  const getMenuAsPerRights = () => {
-    if (menuRights !== undefined && menuRights && menuRights.length > 0) {
-      let allowedMenus = menuRights.length > 0 ? menuRights.map((item: any) => item.id) : [];
-      var menusToDisplay: any[] = [];
-      if (menuItems) {
-        var menus = menuItems;
-        menus.forEach((element: any) => {
-          var menuToShow: any[] = [];
-          element.submenus.forEach((submenu: any) => {
-            if (allowedMenus.includes(submenu.value)) {
-              menuToShow.push(submenu);
-            }
-          })
-          if (menuToShow.length > 0) {
-            element.submenus = menuToShow;
-            menusToDisplay.push(element);
-          }
-        });
-      }
-      return menusToDisplay;
-    } else {
-      return menuItems;
-    }
-  }
-
 
   const getSubMenu = (obj: any) => {
     return (
@@ -236,7 +210,7 @@ export const Drawer = (props: IDrawerProps) => {
     <>
       <div className={`drawer ${customClass ? customClass : ''}`}>
         <div className={`drawer-menu ${subMenuAct === 'click' ? 'drawer-menu-hover' : ''}`} id='menubar' ref={drawerRef}>
-          {getMenuAsPerRights().length > 0 && getMenuAsPerRights().map((menuItem: IMenuItem) => (
+          {menuItems.map((menuItem: IMenuItem) => (
             <MenuItem
               key={`menu-item-${menuItem.key}`}
               menu={menuItem}
