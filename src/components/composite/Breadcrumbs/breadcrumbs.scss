@@ -1,0 +1,35 @@
+@import '../../assets/scss/constants/colors';
+@import '../../assets/scss/constants/zIndexes';
+@import '../../assets/scss/base/mixins';
+
+.breadcrumbs-container {
+  ul.breadcrumb {
+    padding: 10px 16px;
+    list-style: none;
+  }
+
+  ul.breadcrumb li {
+    display: inline;
+    font-size: 18px;
+  }
+
+  ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: #000;
+    content: "/\00a0";
+  }
+
+  ul.breadcrumb li a {
+    color: #000;
+    text-decoration: none;
+  }
+
+  ul.breadcrumb li a:hover {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .active-bredcrumb{
+    font-weight: bold;
+  }
+}
