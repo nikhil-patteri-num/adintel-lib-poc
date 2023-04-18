@@ -3,4 +3,5 @@ export * from './components/core/Button/index';
 export * from './components/composite/Drawer/index';
 export * from './components/composite/CreativePlayer/index';
 export * from './components/composite/Carousel/index';
+export * from './components/composite/Breadcrumbs/index';
 
