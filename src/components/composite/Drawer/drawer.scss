@@ -8,7 +8,7 @@
   &-menu {
     z-index: $ziDrawerMenu;
     position: absolute;
-    width: 55px;
+    width: 55px !important;
     height: 100vh;
     background: $deepteal;
     transition-duration: 150ms;
@@ -126,11 +126,12 @@
       text-decoration: none;
       color: $black;
 
-      .sub-menu-items-ul{
+      .sub-menu-items-ul {
         margin: 0px;
 
-        .sub-menu-items-ul-li{
+        .sub-menu-items-ul-li {
           padding: 10px;
+
           .drawer-submenu-list-item-link {
             text-decoration: none;
             cursor: pointer;
@@ -153,11 +154,8 @@
     background-color: #edece6;
     color: black;
   }
-  
-  .menu-selected{
-    background-color: #edece6;
-    color: black;
-  }
+
+
 
   .collapse-drawer {
     width: 55px !important;
@@ -174,6 +172,18 @@
     transform: translateX(-200px);
   }
 }
+
+
+.menu-selected {
+  background-color: #edece6;
+  color: #A84D97 !important;
+
+  svg {
+    color: #a84d97 !important;
+  }
+}
+
+
 
 // @media ($mediumScreenMedia) {
 //   .drawer-submenu {
