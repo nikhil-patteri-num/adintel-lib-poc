@@ -48,7 +48,7 @@ export const Drawer = (props: IDrawerProps) => {
   const defaultRoute = menuLocation.pathname;
   // const [selectedMenuID, setSelectedMenuID] = useState<string | null>(null);
   // const [activeMenuID, setActiveMenuID] = useState<string | null>(null);
-  const [activeSubMenuID, setActiveSubMenuID] = useState<string | null>(null);
+  // const [activeSubMenuID, setActiveSubMenuID] = useState<string | null>(null);
   const [showSubMenu, setShowSubMenu] = useState<boolean>(false);
   // const [subMenuExpand, setSubMenuExpand] = useState<boolean>(true);
   const [activeMenuInfo, setActiveMenuInfo] = useState<any>(null);
@@ -71,7 +71,7 @@ export const Drawer = (props: IDrawerProps) => {
       if (activeMenu && activeSubMenu) {
         // setSelectedMenuID(activeMenu.key);
         // setActiveMenuID(activeMenu.key);
-        setActiveSubMenuID(activeSubMenu.key);
+        // setActiveSubMenuID(activeSubMenu.key);
       }
     }
   }, [defaultRoute, menuItems]);
@@ -138,25 +138,38 @@ export const Drawer = (props: IDrawerProps) => {
 
   const setActiveSubMenu = (e: any, key: string): void => {
     // setSelectedMenuID(key);
-    setActiveSubMenuID(key);
+    // setActiveSubMenuID(key);
     onSubMenuClick && onSubMenuClick(key);
     setShowSubMenu(false);
     e.preventDefault();
   };
 
-  const isSubMenuActive = (subMenuKey: string) => {
-    return subMenuKey === activeSubMenuID;
-  };
+  // const isSubMenuActive = (subMenuKey: string) => {
+  //   return subMenuKey === activeSubMenuID;
+  // };
 
   const setCurrentKeySelected = (key: string) => {
-    return currentKey === key ? 'submenu-active' : ''
+    console.log(menuLocation, currentKey, key, currentKey && isExactMatch(key, currentKey))
+    return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
   }
 
 
+  const escapeRegExpMatch = function (s:any) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  };
+  const isExactMatch = (str:any, match:any) => {
+    return new RegExp(`\\b${escapeRegExpMatch(match)}\\b`).test(str)
+  }
 
-  const selectDefaultMenu = (obj: any) => {
+  const selectDefaultMenu = (obj:any) => {
     var cls = '';
-    var tmp = obj.submenus.filter((item: any) => item && item.key.includes(currentKey));
+    var tmp = obj.submenus.filter((item:any) => {
+      var key;
+      key = item.key.replace('-', '')
+      if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
+        return item
+      }
+    });
     if (tmp.length > 0) {
       return `${cls} menu-selected`
     }
@@ -217,8 +230,7 @@ export const Drawer = (props: IDrawerProps) => {
                 <React.Fragment key={`label-${subMenu.key}`}>
                   <a
                     data-test-id={subMenu.label}
-                    className={`drawer-submenu-item ${setCurrentKeySelected(subMenu.key)} ${isSubMenuActive(subMenu.key) ? 'submenu-active' : ''
-                      }`}
+                    className={`drawer-submenu-item ${setCurrentKeySelected(subMenu.key)}`}
                     onClick={(e: any) => setActiveSubMenu(e, subMenu.key)}
                     key={`label-${subMenu.key}`}
                     href={`${getOrigin()}#/${subMenu.key}`}
