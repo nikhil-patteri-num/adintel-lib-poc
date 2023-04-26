@@ -149,7 +149,6 @@ export const Drawer = (props: IDrawerProps) => {
   // };
 
   const setCurrentKeySelected = (key: string) => {
-    console.log(menuLocation, currentKey, key, currentKey && isExactMatch(key, currentKey))
     return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
   }
 
