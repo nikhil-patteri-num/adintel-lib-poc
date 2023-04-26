@@ -184,111 +184,120 @@ export const sampleSidePanelData = [
     {
         "key": "classification/#",
         "label": "Classification",
-        "icon": "tasks",
         "value": 5,
+        "icon": "tasks",
         "submenus": [
-            {
-                "key": "classification/#/digital-mapping",
-                "label": "Digital Mapping",
-                "value": 6,
-                "submenus": null
-            },
-            {
-                "key": "classification/#/digital-classification",
-                "label": "Classification",
-                "value": 7,
-                "submenus": null
-            },
-            {
-                "key": "classification/#/review",
-                "label": "Creative Review",
-                "value": 8,
-                "submenus": null
-            },
             {
                 "key": "classification/#/creative-assignment",
                 "label": "Creative Assignment",
                 "value": 9,
+                "icon": null,
                 "submenus": null
             },
             {
                 "key": "classification/#/admin",
                 "label": "Admin",
                 "value": 10,
+                "icon": null,
                 "submenus": null
             }
         ]
     },
     {
-        "key": "ingestion/#",
-        "label": "Ingestion",
-        "icon": "archive",
+        "key": "ingestion/#/dashboard",
+        "label": "Dashboard",
         "value": 11,
+        "icon": "archive",
         "submenus": [
             {
                 "key": "ingestion/#/dashboard/adThenaIngestion",
-                "label": "Dashboard",
-                "value": 12,
-                "submenus": [{
-                    "key": "1",
-                    "label": "Dashboard 1",
-                    "icon": "archive",
-                    "value": 11,
-                }, {
-                    "key": "2",
-                    "label": "Dashboard 2",
-                    "icon": "archive",
-                    "value": 11,
-                }]
-            },
-            {
-                "key": "ingestion/#/summaryView",
-                "label": "Ingestion Summary",
-                "value": 13,
+                "label": "AdThena - Ingestion",
+                "value": 0,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "ingestion/#/manualIngestion",
-                "label": "Declarative Files",
-                "value": 14,
-                "submenus": null
-            }
-        ]
-    },
-    {
-        "key": "ratesmanagement/#",
-        "label": "Rates Management",
-        "icon": "tags",
-        "value": 15,
-        "submenus": [
-            {
-                "key": "ratesmanagement/#/rates-summary",
-                "label": "Media Properties",
-                "value": 16,
+                "key": "ingestion/#/dashboard/DigitalAVODIngestionReport",
+                "label": "AVOD - Ingestion",
+                "value": 0,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "ratesmanagement/#/rategroupsummary",
-                "label": "Rates Groups",
-                "value": 17,
+                "key": "ingestion/#/dashboard/bisIngestion",
+                "label": "BIS - Ingestion",
+                "value": 0,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "ratesmanagement/#/contacts",
-                "label": "Contacts",
-                "value": 18,
+                "key": "ingestion/#/dashboard/categoryAverage",
+                "label": "Category Average",
+                "value": 0,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "ratesmanagement/#/admin-overview",
-                "label": "Admin",
-                "value": 19,
+                "key": "ingestion/#/dashboard/CreativeProcessingReport",
+                "label": "Creative Processing",
+                "value": 0,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "ratesmanagement/#/coefficientmediasubtypes",
-                "label": "Programmatic Coefficients",
-                "value": 20,
+                "key": "ingestion/#/dashboard/creativeStats",
+                "label": "Creative Stats",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/creativeVolume",
+                "label": "Creative Volume",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/mappingActivity",
+                "label": "Mapping Activity",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/pathmaticsIngestion",
+                "label": "Pathmatics - Ingestion",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/qaResults",
+                "label": "Quality Assurance (QA)",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/DigitalQueueCountsReport",
+                "label": "Queue Counts",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/DigitalUncodedAdsReport",
+                "label": "Uncoded Ads",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ingestion/#/dashboard/DigitalUserClassificationActivityReport",
+                "label": "User Classification Activity",
+                "value": 0,
+                "icon": null,
                 "submenus": null
             }
         ]
@@ -296,39 +305,50 @@ export const sampleSidePanelData = [
     {
         "key": "attribute-management",
         "label": "Attribute Management",
-        "icon": "folder-open",
         "value": 21,
+        "icon": "folder-open",
         "submenus": [
             {
                 "key": "indexing-attribute",
                 "label": "Indexing Attribute",
                 "value": 22,
+                "icon": null,
                 "submenus": null
             }
         ]
     },
     {
-        "key": "useraccess/#",
-        "label": "User Access",
-        "icon": "users",
-        "value": 1,
+        "key": "ratesmanagement/#",
+        "label": "Rates Management",
+        "value": 15,
+        "icon": "tags",
         "submenus": [
             {
-                "key": "users",
-                "label": "Users",
-                "value": 2,
+                "key": "ratesmanagement/#/rategroupsummary",
+                "label": "Rates Groups",
+                "value": 17,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "roles",
-                "label": "Roles",
-                "value": 3,
+                "key": "ratesmanagement/#/contacts",
+                "label": "Contacts",
+                "value": 18,
+                "icon": null,
                 "submenus": null
             },
             {
-                "key": "profiles",
-                "label": "Profiles",
-                "value": 4,
+                "key": "ratesmanagement/#/coefficientmediasubtypes",
+                "label": "Programmatic Coefficients",
+                "value": 20,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "ratesmanagement/#/admin-overview",
+                "label": "Rate Admin",
+                "value": 19,
+                "icon": null,
                 "submenus": null
             }
         ]
@@ -336,27 +356,73 @@ export const sampleSidePanelData = [
     {
         "key": "template-management",
         "label": "Template Management",
-        "icon": "file",
         "value": 23,
+        "icon": "file",
         "submenus": [
             {
                 "key": "indexing-template",
                 "label": "Indexing Template",
                 "value": 24,
+                "icon": null,
                 "submenus": null
             }
         ]
     },
     {
-        "key": "general-settings",
-        "label": "General Settings",
-        "icon": "cog",
-        "value": 25,
+        "key": "useraccess/#",
+        "label": "User Access",
+        "value": 1,
+        "icon": "users",
         "submenus": [
             {
-                "key": "media-group",
-                "label": "Media Group",
-                "value": 26,
+                "key": "users",
+                "label": "Users",
+                "value": 2,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "roles",
+                "label": "Roles",
+                "value": 3,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "profiles",
+                "label": "Profiles",
+                "value": 4,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "admin",
+        "label": "Admin",
+        "value": 25,
+        "icon": "cog",
+        "submenus": [
+            {
+                "key": "descriptors",
+                "label": "Manage Descriptors",
+                "value": 27,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "attribution/#",
+        "label": "Attribution",
+        "value": 28,
+        "icon": "chart-line",
+        "submenus": [
+            {
+                "key": "tv-queue",
+                "label": "TV Queue",
+                "value": 29,
+                "icon": null,
                 "submenus": null
             }
         ]

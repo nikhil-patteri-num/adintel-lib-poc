@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
+// import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import * as Icons from '@fortawesome/free-solid-svg-icons';
 import './drawer.scss';
+import CustomIcons from './Icons';
+
 const iconList = Object.keys(Icons)
   .filter((key: any) => key !== 'fas' && key !== 'prefix')
   .map((icon: any) => Icons[icon as keyof typeof Icons]);
@@ -154,7 +156,7 @@ export const Drawer = (props: IDrawerProps) => {
 
 
   const escapeRegExpMatch = function (s:any) {
-    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    return s && s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   };
   const isExactMatch = (str:any, match:any) => {
     return new RegExp(`\\b${escapeRegExpMatch(match)}\\b`).test(str)
@@ -164,7 +166,7 @@ export const Drawer = (props: IDrawerProps) => {
     var cls = '';
     var tmp = obj.submenus.filter((item:any) => {
       var key;
-      key = item.key.replace('-', '')
+      key = item && item.key && item.key.replace('-', '')
       if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
         return item
       }
@@ -206,7 +208,8 @@ export const Drawer = (props: IDrawerProps) => {
               }}
             >
               <div className='drawer-menu-item-icon'>
-                {menuItem.icon ? <Icon icon={menuItem.icon} /> : <Icon icon={'arrow-circle-right'} />}
+                {/* {menuItem.icon ? <Icon icon={menuItem.icon} /> : <Icon icon={'arrow-circle-right'} />} */}
+                <CustomIcons type={menuItem.icon} />
               </div>
             </div>
           ))}
