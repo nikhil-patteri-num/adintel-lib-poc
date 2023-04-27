@@ -151,6 +151,10 @@ export const Drawer = (props: IDrawerProps) => {
   // };
 
   const setCurrentKeySelected = (key: string) => {
+    var path = window.location.hash.replace('#/', '');
+    if(path !== currentKey){
+      return path && isExactMatch(key, path) ? 'submenu-active' : ''
+    }
     return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
   }
 
