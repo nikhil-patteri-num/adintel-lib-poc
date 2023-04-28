@@ -152,39 +152,37 @@ export const Drawer = (props: IDrawerProps) => {
 
   const setCurrentKeySelected = (key: string) => {
     var path = window.location.hash.replace('#/', '');
-    if(path !== currentKey){
+    if (path !== currentKey) {
       return path && isExactMatch(key, path) ? 'submenu-active' : ''
     }
     return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
   }
 
 
-  const escapeRegExpMatch = function (s:any) {
+  const escapeRegExpMatch = function (s: any) {
     return s && s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
   };
-  const isExactMatch = (str:any, match:any) => {
+  const isExactMatch = (str: any, match: any) => {
     return new RegExp(`\\b${escapeRegExpMatch(match)}\\b`).test(str)
   }
 
-  const selectDefaultMenu = (obj:any) => {
+  const selectDefaultMenu = (obj: any) => {
     var cls = '';
     var path = window.location.hash.replace('#/', '');
-    var tmp = obj.submenus.filter((item:any) => {
+    var tmp = obj.submenus.filter((item: any) => {
       var key;
-      key = item && item.key && item.key.replace('-', '')     
-      if(path && currentKey){
-        if(path !== currentKey){
-          if (isExactMatch(key, path && path.replace('-', ''))) {
-            return item
-          }
-        }else{
-          if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
-            return item
-          }
+      key = item && item.key && item.key.replace('-', '')
+      if (path) {
+        if (isExactMatch(key, path && path.replace('-', ''))) {
+          return item
         }
-      }       
-    });   
-    
+      } else if (currentKey) {
+        if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
+          return item
+        }
+      }
+    });
+
     if (tmp.length > 0) {
       return `${cls} menu-selected`
     }
