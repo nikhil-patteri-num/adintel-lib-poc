@@ -168,13 +168,21 @@ export const Drawer = (props: IDrawerProps) => {
 
   const selectDefaultMenu = (obj:any) => {
     var cls = '';
+    var path = window.location.hash.replace('#/', '');
     var tmp = obj.submenus.filter((item:any) => {
       var key;
-      key = item && item.key && item.key.replace('-', '')
-      if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
-        return item
+      key = item && item.key && item.key.replace('-', '')      
+      if(path !== currentKey){
+        if (isExactMatch(key, path && path.replace('-', ''))) {
+          return item
+        }
+      }else{
+        if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
+          return item
+        }
       }
-    });
+    });   
+    
     if (tmp.length > 0) {
       return `${cls} menu-selected`
     }
