@@ -183,6 +183,32 @@
   }
 }
 
+
+
+.menu-active {
+  background-color: #edece6;
+  color: black;
+  svg {
+    color: #000 !important;
+    path,circle,rect{
+      stroke: #000 !important;
+    }
+  }
+}
+
+.menu-selected {
+  background-color: #edece6;
+  color: #A84D97 !important;
+
+  svg {
+    color: #a84d97 !important;
+    path,circle,rect{
+      stroke: #a84d97 !important;
+    }
+  }
+}
+
+
 .drawer-menu-item-icon{
   svg{
     height: 24px;
