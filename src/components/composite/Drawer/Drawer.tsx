@@ -219,9 +219,9 @@ export const Drawer = (props: IDrawerProps) => {
                 setActiveId(menuItem.key);
               }}
             >
-              <div className='drawer-menu-item-icon'>
+              <div className={`drawer-menu-item-icon svg-${menuItem.icon}`}>
                 {/* {menuItem.icon ? <Icon icon={menuItem.icon} /> : <Icon icon={'arrow-circle-right'} />} */}
-                <CustomIcons type={menuItem.icon} />
+                <CustomIcons type={menuItem.icon} label={menuItem.label} />
               </div>
             </div>
           ))}

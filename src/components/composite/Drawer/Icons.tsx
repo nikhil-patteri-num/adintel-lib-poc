@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './drawer.scss';
 
-const CustomIcons = ({ type }: any) => {
+const CustomIcons = ({ type,label }: any) => {
 
     const getDashboardSvg = () => {
         return (

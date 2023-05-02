@@ -23,7 +23,7 @@ const defaultArgs: IDrawerProps = {
 
 const config = {
   customClass: 'my-drawer',
-  currentKey:'admin'
+  currentKey:'indexing-template'
 }
 const menuLocation = {
   pathname: 'classification/#/digital-mapping'
