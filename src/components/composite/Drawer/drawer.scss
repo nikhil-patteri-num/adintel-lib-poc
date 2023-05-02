@@ -286,15 +286,99 @@
   background-color: #edece6;
   color: #A84D97 !important;
 
-  svg {
+    // Dashboard SVG
+  .dashboard-svg-icon svg {
+    // color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill: #a84d97 !important;
+    }
+  }
+
+  // Classification SVG
+  .classification-svg-icon svg {
     color: #a84d97 !important;
 
     path,
     circle,
     rect {
+      stroke:  #a84d97 !important;
+    }
+  }
+
+  // Attribute management SVG
+  .attribute-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill:  #a84d97 !important;
+    }
+  }
+
+  // Rates management SVG
+  .rates-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill:  #a84d97 !important;
+    }
+  }
+
+  // Template management SVG
+  .template-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      stroke: #fff !important;
+      fill: #a84d97 !important;
+    }
+  }
+
+  // User Access SVG
+  .user-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill:  #a84d97 !important;
       stroke: #a84d97 !important;
     }
   }
+
+  // Admin SVG
+  .admin-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill: #a84d97 !important;
+      stroke: #fff !important;
+    }
+  }
+
+  // Attribution SVG
+  .attribution-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill: #a84d97 !important;
+    }
+  }
+
+
+
 }
 
 

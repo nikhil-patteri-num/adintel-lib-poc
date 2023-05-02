@@ -18,7 +18,7 @@ const defaultArgs: IDrawerProps = {
   menuLocation: {},
   onSubMenuClick: demoFnctn,
   showMenuBar: true,
-  config:{currentKey:'admin'}
+  config:{currentKey:'tv-queue'}
 };
 
 const config = {
