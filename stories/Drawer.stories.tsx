@@ -17,11 +17,13 @@ const defaultArgs: IDrawerProps = {
   subMenuAct: 'click',
   menuLocation: {},
   onSubMenuClick: demoFnctn,
-  showMenuBar: true
+  showMenuBar: true,
+  config:{currentKey:'users'}
 };
 
 const config = {
-  customClass: 'my-drawer'
+  customClass: 'my-drawer',
+  currentKey:'indexing-template'
 }
 const menuLocation = {
   pathname: 'classification/#/digital-mapping'
