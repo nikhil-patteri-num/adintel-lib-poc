@@ -59,6 +59,9 @@ export const Drawer = (props: IDrawerProps) => {
 
   const [activeId, setActiveId] = useState<any>(null);
 
+  const path = window.location.hash.split("?auth");
+  const currentPath = path && path[0].replace('#/', '');
+
   useEffect(() => {
     if (defaultRoute && menuItems.length) {
       //const defaultRouteKey = defaultRoute.substr(1);
@@ -151,11 +154,14 @@ export const Drawer = (props: IDrawerProps) => {
   // };
 
   const setCurrentKeySelected = (key: string) => {
-    var path = window.location.hash.replace('#/', '');
-    if (path !== currentKey) {
-      return path && isExactMatch(key, path) ? 'submenu-active' : ''
+    // var path = window.location.hash.replace('#/', '');
+    if (key.endsWith(currentPath)) {
+      if (currentPath !== currentKey) {
+        return currentPath && isExactMatch(key, currentPath) ? 'submenu-active' : ''
+      }
+      return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
     }
-    return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
+    return ''
   }
 
 
@@ -168,17 +174,18 @@ export const Drawer = (props: IDrawerProps) => {
 
   const selectDefaultMenu = (obj: any) => {
     var cls = '';
-    var path = window.location.hash.replace('#/', '');
     var tmp = obj.submenus.filter((item: any) => {
       var key;
       key = item && item.key && item.key.replace('-', '')
-      if (path) {
-        if (isExactMatch(key, path && path.replace('-', ''))) {
-          return item
-        }
-      } else if (currentKey) {
-        if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
-          return item
+      if (item && item.key && item.key.endsWith(currentPath)) {
+        if (currentPath) {
+          if (isExactMatch(key, currentPath && currentPath.replace('-', ''))) {
+            return item
+          }
+        } else if (currentKey) {
+          if (isExactMatch(key, currentKey && currentKey.replace('-', ''))) {
+            return item
+          }
         }
       }
     });

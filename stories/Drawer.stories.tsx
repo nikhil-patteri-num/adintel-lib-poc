@@ -18,7 +18,7 @@ const defaultArgs: IDrawerProps = {
   menuLocation: {},
   onSubMenuClick: demoFnctn,
   showMenuBar: true,
-  config:{currentKey:'indexing-template'}
+  config:{currentKey:'users'}
 };
 
 const config = {
