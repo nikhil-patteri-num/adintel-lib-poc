@@ -210,6 +210,15 @@
       stroke: #000 !important;
     }
   }
+  .productmaintenance-svg-icon svg {
+    color: #000 !important;
+
+    path,
+    circle,
+    rect {
+      stroke: #000 !important;
+    }
+  }
 
   // Attribute management SVG
   .attribute-svg-icon svg {
@@ -298,6 +307,15 @@
 
   // Classification SVG
   .classification-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      stroke:  #a84d97 !important;
+    }
+  }
+  .productmaintenance-svg-icon svg {
     color: #a84d97 !important;
 
     path,
