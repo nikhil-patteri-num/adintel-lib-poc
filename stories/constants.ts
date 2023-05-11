@@ -401,7 +401,7 @@ export const sampleSidePanelData = [
         "key": "ProductMaintenance/#",
         "label": "Product Maintenance",
         "value": 1,
-        "icon": "ProductMaintenance",
+        "icon": "productmaintenance",
         "submenus": [
             {
                 "key": "Products",

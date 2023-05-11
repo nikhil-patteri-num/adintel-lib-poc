@@ -164,7 +164,7 @@ const CustomIcons = ({ type }: any) => {
         case 'chart-line':
             content = getAttributionSvg();
             break;
-        case 'ProductMaintenance':
+        case 'productmaintenance':
                 content = getProductMaintenanceSvg();
                 break;
         default:
