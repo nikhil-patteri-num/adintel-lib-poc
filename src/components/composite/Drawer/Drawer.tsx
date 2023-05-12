@@ -148,7 +148,7 @@ export const Drawer = (props: IDrawerProps) => {
           }
         }
       }
-      if (createEditCheck(key)) {
+      if (createEditCheck(item.key)) {
         return item
       }
     });
