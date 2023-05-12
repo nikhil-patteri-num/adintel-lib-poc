@@ -1,3 +1,5 @@
+@import '../../assets/scss/constants/colors.scss';
+
 .slider-container {
   padding: 10px;
   height: auto;
@@ -5,7 +7,6 @@
   .img-slide-hide {
     display: none;
     visibility: hidden;
-    // opacity: 0;
     transition: visibility 0s, opacity 0.5s linear;
   }
 
@@ -14,34 +15,57 @@
     display: inherit;
     animation: fadeIn 5s;
     visibility: visible;
-    // opacity: 0;
     transition: visibility 0s, opacity 0.5s linear;
 
     .img-item {
       height: 50px;
-      width: 33.3%;
+      width: 100px;
       padding: 5px;
       justify-content: center;
       display: flex;
-
+      position: relative;
 
       img {
-        // height: 100%;
-        // width: 100%;
         width: 100%;
         max-width: 400px;
         height: auto;
+      }
 
+      button {
+        background: none;
+        border: none;
+        color: white;
+        position: absolute;
+        right: 0;
+        margin-top: 8px;
+        margin-right: 10px;
+      }
 
+      .checked-icon {
+        color: #af0;
+      }
+      .unchecked-icon {
+        color: rgb(186, 186, 186);
       }
     }
-
-    .active {
-      border: 1px solid #0ff;
+    .img-item:hover img {
+      transform: scale(1.5);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      display: flex;
+      height: 100px;
+      width: 100px;
+      z-index: 1000;
     }
+    .img-item:hover button {
+      margin-right: 5px;
+      margin-top: 5px;
+      right: 0;
+      position: absolute;
+      z-index: 1000;
+    }
+
   }
 
-  .img-fade {}
 
   .media-container {
     height: auto;
@@ -51,28 +75,18 @@
 
   div#img_slides_wrapper {
     width: inherit;
-    // height: 250px;
     display: flex;
     border: 2px solid #efefef;
     justify-content: space-between;
-    margin-bottom: 20px;
     position: relative;
   }
 
-  // div#img_slides_wrapper div#img_slides {
-  //   overflow: hidden;
-  //   display: flex;
-  //   background-color: #0ff3;
-  // }
 
   div.img_slide_arrow {
-    // color: transparent;
     color: #ccc;
     height: inherit;
-    // width: 40px;
     position: absolute;
     z-index: 2;
-    // background-color: red;
     top: 22px;
     margin-left: -10px;
     margin-right: -10px;
@@ -97,18 +111,9 @@
   }
 
   div#img_thumbnails {
-    width: 400px;
-    // height: 61px;
     display: flex;
-    overflow: hidden;
-    // flex-wrap: wrap;
-    // justify-content: space-around;
   }
 
-  // div#img_thumbnails img.imgThumbnail {
-  //   background-color: #888;
-  //   // margin: 5px;
-  // }
 
   div#img_thumbnails img.imgThumbnail.active {
     border: 2px solid #0ff;
