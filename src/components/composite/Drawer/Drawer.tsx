@@ -1,19 +1,8 @@
 import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { CSSTransition } from 'react-transition-group';
-// import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import * as Icons from '@fortawesome/free-solid-svg-icons';
 import './drawer.scss';
 import CustomIcons from './Icons';
-
-const iconList = Object.keys(Icons)
-  .filter((key: any) => key !== 'fas' && key !== 'prefix')
-  .map((icon: any) => Icons[icon as keyof typeof Icons]);
-// library.add(...iconList);
-iconList.map((item: any) => {
-  library.add(item);
-});
 
 
 export interface ISubMenuItem {
@@ -44,43 +33,16 @@ export interface IDrawerProps {
 }
 
 export const Drawer = (props: IDrawerProps) => {
-  const { menuItems, menuLocation, onSubMenuClick, showMenuBar, config, subMenuAct } = props;
+  const { menuItems, onSubMenuClick, showMenuBar, config, subMenuAct } = props;
   const currentKey = config && config.currentKey;
   const customClass = config && config.customClass;
-  const defaultRoute = menuLocation.pathname;
-  // const [selectedMenuID, setSelectedMenuID] = useState<string | null>(null);
-  // const [activeMenuID, setActiveMenuID] = useState<string | null>(null);
-  // const [activeSubMenuID, setActiveSubMenuID] = useState<string | null>(null);
   const [showSubMenu, setShowSubMenu] = useState<boolean>(false);
-  // const [subMenuExpand, setSubMenuExpand] = useState<boolean>(true);
   const [activeMenuInfo, setActiveMenuInfo] = useState<any>(null);
   const drawerRef: React.RefObject<HTMLDivElement> = useRef(null);
-
-
   const [activeId, setActiveId] = useState<any>(null);
 
   const path = window.location.hash.split("?auth");
   const currentPath = path && path[0].replace('#/', '');
-
-  useEffect(() => {
-    if (defaultRoute && menuItems.length) {
-      //const defaultRouteKey = defaultRoute.substr(1);
-      const activeMenu: IMenuItem = menuItems.find(
-        (menuItem: any) =>
-          menuItem.key === defaultRoute ||
-          menuItem.submenus.find((subMenu: any) => subMenu.key === defaultRoute)
-      ) as IMenuItem;
-      const activeSubMenu =
-        activeMenu &&
-        (activeMenu.submenus.find((subMenu: any) => subMenu.key === defaultRoute) as IMenuItem);
-      if (activeMenu && activeSubMenu) {
-        // setSelectedMenuID(activeMenu.key);
-        // setActiveMenuID(activeMenu.key);
-        // setActiveSubMenuID(activeSubMenu.key);
-      }
-    }
-  }, [defaultRoute, menuItems]);
-
 
   useEffect(() => {
     document.addEventListener('mousedown', onOutSideClick);
@@ -131,8 +93,6 @@ export const Drawer = (props: IDrawerProps) => {
   };
 
   const setActiveMenu = (): void => {
-    // setSelectedMenuID(id);
-    // setActiveMenuID(id);
     setShowSubMenu(true);
     collapseMainDrawer();
   };
@@ -141,29 +101,29 @@ export const Drawer = (props: IDrawerProps) => {
     return activeMenuInfo;
   };
 
-  const setActiveSubMenu = (e: any, key: string): void => {
-    // setSelectedMenuID(key);
-    // setActiveSubMenuID(key);
-    onSubMenuClick && onSubMenuClick(key);
+  const setActiveSubMenu = (e: any, obj: any): void => {
+    onSubMenuClick && onSubMenuClick(obj.key);
     setShowSubMenu(false);
     e.preventDefault();
   };
 
-  // const isSubMenuActive = (subMenuKey: string) => {
-  //   return subMenuKey === activeSubMenuID;
-  // };
 
   const setCurrentKeySelected = (key: string) => {
-    // var path = window.location.hash.replace('#/', '');
     if (key.endsWith(currentPath)) {
       if (currentPath !== currentKey) {
         return currentPath && isExactMatch(key, currentPath) ? 'submenu-active' : ''
       }
       return currentKey && isExactMatch(key, currentKey) ? 'submenu-active' : ''
     }
+    if (createEditCheck(key)) {
+      return 'submenu-active'
+    }
     return ''
   }
 
+  const createEditCheck = (key: string) => {
+    return (key.includes(currentPath) || currentPath.includes(key)) && (currentPath.includes('edit') || currentPath.includes('create'))
+  }
 
   const escapeRegExpMatch = function (s: any) {
     return s && s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
@@ -188,6 +148,9 @@ export const Drawer = (props: IDrawerProps) => {
           }
         }
       }
+      if (createEditCheck(key)) {
+        return item
+      }
     });
 
     if (tmp.length > 0) {
@@ -195,6 +158,8 @@ export const Drawer = (props: IDrawerProps) => {
     }
     return `${cls} `
   }
+
+ 
 
   const getActivemenu = (obj: string) => {
     var cls = '';
@@ -205,12 +170,9 @@ export const Drawer = (props: IDrawerProps) => {
   }
 
   const showSubMenus = (obj: any) => {
-    // setActiveMenuID(obj.key);
     setShowSubMenu(true);
     setActiveMenuInfo(obj);
   }
-
-
 
   return (
     <>
@@ -220,14 +182,13 @@ export const Drawer = (props: IDrawerProps) => {
             <div
               key={`menu-item-${menuItem.key}`}
               data-test-id={`menu-item-${menuItem.key}`}
-              className={`drawer-menu-item  ${selectDefaultMenu(menuItem)} ${getActivemenu(menuItem.key)}`}
+              className={`drawer-menu-item  ${selectDefaultMenu(menuItem)} ${getActivemenu(menuItem.key)} `}
               onMouseOver={() => {
                 showSubMenus(menuItem);
                 setActiveId(menuItem.key);
               }}
             >
               <div className={`drawer-menu-item-icon svg-${menuItem.icon}`}>
-                {/* {menuItem.icon ? <Icon icon={menuItem.icon} /> : <Icon icon={'arrow-circle-right'} />} */}
                 <CustomIcons type={menuItem.icon} label={menuItem.label} />
               </div>
             </div>
@@ -251,8 +212,8 @@ export const Drawer = (props: IDrawerProps) => {
                 <React.Fragment key={`label-${subMenu.key}`}>
                   <a
                     data-test-id={subMenu.label}
-                    className={`drawer-submenu-item ${setCurrentKeySelected(subMenu.key)}`}
-                    onClick={(e: any) => setActiveSubMenu(e, subMenu.key)}
+                    className={`drawer-submenu-item ${setCurrentKeySelected(subMenu.key)} `}
+                    onClick={(e: any) => setActiveSubMenu(e, subMenu)}
                     key={`label-${subMenu.key}`}
                     href={`${getOrigin()}#/${subMenu.key}`}
                   >
