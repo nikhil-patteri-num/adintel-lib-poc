@@ -40,8 +40,12 @@ export const Drawer = (props: IDrawerProps) => {
   const [activeMenuInfo, setActiveMenuInfo] = useState<any>(null);
   const drawerRef: React.RefObject<HTMLDivElement> = useRef(null);
   const [activeId, setActiveId] = useState<any>(null);
-
-  const path = window.location.hash.split("?auth");
+  const hashPath = window.location.hash;
+  if(hashPath.includes("?auth")){
+    var path = hashPath.split("?auth");
+  }else{
+    var path = hashPath.split("?filterConfig");
+  }
   const currentPath = path && path[0].replace('#/', '');
 
   useEffect(() => {
