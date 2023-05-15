@@ -78,6 +78,7 @@ interface ICreativePlayerProps {
   controls?: boolean;
   muted?: boolean;
   isPlaying?: boolean;
+  handleVideoFullScreen?: () => void;
 }
 
 interface IMediaCreativeIssueContext {
@@ -123,7 +124,8 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
     showEditIcon = false,
     controls = false,
     muted = false,
-    isPlaying = true
+    isPlaying = true,
+    handleVideoFullScreen
   } = props;
   const [showPlaybackContainer, setShowPlaybackContainer] = React.useState(false);
   const [showVideoQualityContainer, setShowVideoQualityContainer] = React.useState(false);
@@ -385,7 +387,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
                 </Button>
               </Tooltip>
             ) : null}
-            {isRadioType() || isVideoType() ? (
+            {isRadioType() || isVideoType() && controls ? (
               <Tooltip text='Playback Speed'  position={tooltipPosition.left}>
                 <Button
                   id={Creative.playbackRateButton}
@@ -418,6 +420,13 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
             {isImageType() ? (
               <Tooltip text='Fullscreen'  position={tooltipPosition.left}>
                 <Button customClass='image-expand-button' onClick={() => setfullScreen(true)}>
+              <FontAwesomeIcon icon={faExpand} />
+            </Button>
+              </Tooltip>
+            ):null}
+            {!isImageType() && !controls ? (
+              <Tooltip text='Fullscreen'  position={tooltipPosition.left}>
+                <Button customClass='image-expand-button' onClick={() => handleVideoFullScreen && handleVideoFullScreen()}>
               <FontAwesomeIcon icon={faExpand} />
             </Button>
               </Tooltip>
