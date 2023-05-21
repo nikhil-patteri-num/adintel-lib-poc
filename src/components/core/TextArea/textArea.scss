@@ -1,0 +1,39 @@
+@import '../../assets/scss/constants/colors.scss';
+
+textarea {
+  display: block;
+  border: 0.1px solid $sumo;
+  border-radius: 4px;
+  padding: 0.35rem;
+  font-size: 12px;
+  font-family: sans-serif;
+  width: 100%;
+  color: $black;
+  box-sizing: border-box;
+  resize: none;
+  overflow: auto;
+}
+.expandable {
+  resize: vertical;
+  min-height: 28px;
+}
+
+textarea::-webkit-scrollbar {
+  width: 7px;
+  border-radius: 10px;
+}
+
+/* Track */
+textarea::-webkit-scrollbar-track {
+  background: $white;
+}
+
+/* Handle */
+textarea::-webkit-scrollbar-thumb {
+  background: $grey30;
+}
+
+/* Handle on hover */
+textarea::-webkit-scrollbar-thumb:hover {
+  background: $black50;
+}

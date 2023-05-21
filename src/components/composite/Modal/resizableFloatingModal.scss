@@ -1,0 +1,56 @@
+@import '../../assets/scss/constants/colors.scss';
+@import '../../assets/scss/constants/zIndexes.scss';
+
+.draggable-modal {
+  background-color: transparent;
+  -webkit-transition: background-color 500ms linear;
+  -ms-transition: background-color 500ms linear;
+  transition: background-color 500ms linear;
+  position: unset;
+  display: flex;
+  justify-content: center;
+
+  .modal-content {
+    z-index: $ziModal;
+    overflow: auto;
+    transform: none;
+    min-height: 300px;
+    min-width: 600px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    .modal-header {
+      cursor: move;
+      user-select: none;
+    }
+    .modal-footer {
+      user-select: none;
+    }
+  }
+}
+.draggable-modal.dragging,
+.draggable-modal.resizing-bottom,
+.draggable-modal.resizing-right {
+  position: absolute;
+  user-select: none;
+  background-color: $backDropColor;
+  -webkit-transition: background-color 500ms linear;
+  -ms-transition: background-color 500ms linear;
+  transition: background-color 500ms linear;
+}
+.draggable-modal.dragging {
+  cursor: move;
+}
+.draggable-modal.resizing-bottom {
+  cursor: row-resize;
+}
+.draggable-modal.resizing-right {
+  cursor: col-resize;
+}
+
+.disable-background {
+  background-color: $backDropColor;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
