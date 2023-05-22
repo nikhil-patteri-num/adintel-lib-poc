@@ -1,0 +1,28 @@
+@import '../../assets/scss/constants/colors.scss';
+
+.checkbox {
+  .checkmark {
+    display: flex;
+    position: relative;
+    align-items: baseline;
+    .checkbox-button {
+      line-height: 1;
+      padding: 0;
+      height: 0;
+      input[type='checkbox'] {
+        position: absolute;
+        opacity: 0;
+      }
+      .icon {
+        color: #00e36b;
+        .disabled {
+          color: grey;
+        }
+      }
+    }
+  }
+  &-label {
+    font-size: 12px;
+    margin-left: 5px;
+  }
+}

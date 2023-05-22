@@ -1,0 +1,16 @@
+@import '../../assets/scss/constants/colors.scss';
+@import '../../assets/scss/base/mixins.scss';
+.error-modal-error-content {
+  @include alignElement(flex, center, null);
+  flex: 1;
+  .error-icon {
+    font-size: 50px;
+    color: $red;
+  }
+  .error-info {
+    &.hide-ml {
+      margin-left: 0px;
+    }
+    margin-left: 10px;
+  }
+}
