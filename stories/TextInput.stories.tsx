@@ -12,7 +12,9 @@ const Template = (args: any) => <TextInput {...args} />;
 export const Text = () => (
     <div>
         <TextInput type={inputType.text} />
+       
     </div>
+    
 );
 
 export const Email = () => (
