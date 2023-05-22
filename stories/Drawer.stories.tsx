@@ -23,10 +23,10 @@ const defaultArgs: IDrawerProps = {
 
 const config = {
   customClass: 'my-drawer',
-  currentKey:'indexing-template'
+  currentKey:'Products'
 }
 const menuLocation = {
-  pathname: 'classification/#/digital-mapping'
+  pathname: 'Products'
 }
 export const DefaultDrawer = () => (
 

@@ -398,6 +398,91 @@ export const sampleSidePanelData = [
         ]
     },
     {
+        "key": "ProductMaintenance/#",
+        "label": "Product Maintenance",
+        "value": 1,
+        "icon": "productmaintenance",
+        "submenus": [
+            {
+                "key": "Products",
+                "label": "Products",
+                "value": 2,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "Advertisers",
+                "label": "Advertisers",
+                "value": 3,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "Brands",
+                "label": "Brands",
+                "value": 4,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "Categories",
+                "label": "Categories",
+                "value": 5,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "Descriptortypes",
+                "label": "Descriptor types",
+                "value": 6,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "Parents",
+                "label": "Parents",
+                "value": 7,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "Productnames",
+                "label": "Product names",
+                "value": 8,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "Producttags",
+                "label": "Product tags",
+                "value": 9,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "Subsidiaries",
+                "label": "Subsidiaries",
+                "value": 10,
+                "icon": null,
+                "submenus": null
+            }
+            ,
+            {
+                "key": "UltimateOwners",
+                "label": "Ultimate Owners",
+                "value": 11,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
         "key": "admin",
         "label": "Admin",
         "value": 25,
