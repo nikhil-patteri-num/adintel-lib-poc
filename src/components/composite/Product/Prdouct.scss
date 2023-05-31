@@ -71,8 +71,8 @@
   float: left;
   width: 50%;
 }
-.checkboxalignment2{
-  margin-left: 551px;
+.checkboxalignmentbr{
+ /// margin-left: 551px;
   margin-top: -14px;
 }
 .heyperlink{
@@ -99,7 +99,7 @@
 }
 .checkboxdesign
 {
-  margin-left: 46px;
+  margin-left: 53px;
   margin-top: -18px;
 }
 .contentstyle {
@@ -118,4 +118,8 @@ div.container {
 div.child {
   flex: 40%;
   padding-right: 5px;
+}
+.lgbrandallignment
+{
+  float: right;
 }

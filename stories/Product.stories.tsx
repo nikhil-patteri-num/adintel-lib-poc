@@ -19,8 +19,8 @@ export const DefaultProduct = () => (
 
   <div>
     <Product
-     Editmode={false}
-     Productmode={true} 
+     isEditmode={false}
+     isProductmode={true} 
     />
   </div>
 );
