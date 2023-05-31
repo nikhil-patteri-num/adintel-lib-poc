@@ -169,7 +169,15 @@ export const Product = (props: IProductProps) => {
         </FormGroup>
          <FormGroup >
         <FormItemLabel>Product Preview</FormItemLabel>
-        {'< Product Name > : < Product Type > : < Product Descriptor >'}
+        <TextInput
+            id={'ProductPreview'}
+            type={inputType.text}
+            name={'ChangeDate'}
+            value={''}
+            maxLength={50}
+            disabled={true}
+          />
+        {/* {'< Product Name > : < Product Type > : < Product Descriptor >'} */}
        {/* <div className='checkboxalignment2'>
         <CheckboxInput 
                   id={'checkbox'}
@@ -240,7 +248,7 @@ export const Product = (props: IProductProps) => {
           />
         </FormGroup>
          )}
-        <FormGroup>
+        <FormGroup customClass={`${!isEditmode ? 'commentstyle' : ''}`}>
           <FormItemLabel isMandatory>Markets</FormItemLabel>
           <Dropdown
             id={'Markets'}
