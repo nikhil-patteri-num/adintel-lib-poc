@@ -21,9 +21,8 @@ export const Product = (props: IProductProps) => {
   const [ClassName,setClassName]=useState();
   return (
     <>
-     <div id="content"  className={`${!isEditmode && isProductmode ? 'contentstyle' : ''}`}>
-     <div id="left">
-  <div className='Productdetails'>
+     
+  <div className='container'>
       {/* <FormGroup>
           <FormItemLabel isMandatory>Category</FormItemLabel>
           <Dropdown
@@ -39,6 +38,7 @@ export const Product = (props: IProductProps) => {
   <a href="#b" className='removeunderline'>Default Link Color</a>
   <a href="#b" className='heyperlink removeunderline'>Changed Link Color</a></p>
         </div> */}
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Class Name</FormItemLabel>
           <Dropdown
@@ -49,6 +49,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Class Name'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Product Name</FormItemLabel>
           <TextInput
@@ -59,6 +61,8 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Product Type</FormItemLabel>
           <Dropdown
@@ -69,6 +73,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Product Type'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Descriptor Type(s)</FormItemLabel>
           <Dropdown
@@ -79,6 +85,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Descriptor Type'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         {/* <FormGroup>
           <FormItemLabel isMandatory>Descriptor</FormItemLabel>
           <Dropdown
@@ -109,6 +117,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Licensee Brand'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Licensor Brand</FormItemLabel>
           <Dropdown
@@ -131,6 +141,11 @@ export const Product = (props: IProductProps) => {
        
         </div>
         </FormGroup>
+        </div>
+        
+        
+       
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Rank</FormItemLabel>
           <Dropdown
@@ -140,6 +155,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Rank'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory> Product Tags</FormItemLabel>
           <Dropdown
@@ -149,6 +166,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Product Tags'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Status</FormItemLabel>
           <Dropdown
@@ -158,6 +177,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Status'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory>Referred to</FormItemLabel>
           <Dropdown
@@ -167,6 +188,8 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Referred to'}
           />
         </FormGroup>
+        </div>
+        <div className='child'>
          <FormGroup >
         <FormItemLabel>Product Preview</FormItemLabel>
         <TextInput
@@ -188,11 +211,11 @@ export const Product = (props: IProductProps) => {
         </div> */}
          </FormGroup>
         
-      </div>
-      </div>
-
-  <div id="right">
+         </div>
+       
+  
   {(isEditmode) && (!isProductmode) && (
+     <div className='child'>
   <FormGroup>
           <FormItemLabel isMandatory={true}>
           Create User
@@ -205,8 +228,10 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
          )} 
           {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
         <FormGroup>
         <FormItemLabel isMandatory={true}>
            Create Date
@@ -219,8 +244,10 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
           )} 
            {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
         <FormGroup>
           <FormItemLabel isMandatory={true}>
             Change User
@@ -233,8 +260,10 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
         )}
           {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
         <FormGroup>
         <FormItemLabel isMandatory={true}>
             Change Date
@@ -247,8 +276,10 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
          )}
-        <FormGroup customClass={`${!isEditmode ? 'commentstyle' : ''}`}>
+         <div className='child'>
+        <FormGroup >
           <FormItemLabel isMandatory>Markets</FormItemLabel>
           <Dropdown
             id={'Markets'}
@@ -257,7 +288,9 @@ export const Product = (props: IProductProps) => {
             placeholder={'Search for Markets'}
           />
         </FormGroup>
+        </div>
         {(isEditmode) && (!isProductmode) && (
+           <div className='child'>
         <FormGroup>
         <FormItemLabel isMandatory={true}>
         Recent Creatives
@@ -270,8 +303,10 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
           )}
             {(isEditmode) && (!isProductmode) && (
+               <div className='child'>
         <FormGroup>
         <FormItemLabel isMandatory={true}>
         Activity
@@ -284,8 +319,10 @@ export const Product = (props: IProductProps) => {
             maxLength={50}
           />
         </FormGroup>
+        </div>
        )}
        {(isEditmode) && (!isProductmode) && (
+         <div className='child'>
         <FormGroup >
           
         <FormItemLabel>Previous Comments</FormItemLabel>
@@ -297,7 +334,9 @@ export const Product = (props: IProductProps) => {
            
           />
          </FormGroup>
+         </div>
          )}
+          <div className='child'>
   <FormGroup >
         <FormItemLabel>{`${isEditmode? 'New Comment' : 'Comment'}`}</FormItemLabel>
         <TextArea
@@ -308,8 +347,9 @@ export const Product = (props: IProductProps) => {
            
           />
          </FormGroup>
+         </div>
   </div>
-      </div>
+     
     </>
   );
 };
