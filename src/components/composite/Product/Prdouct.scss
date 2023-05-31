@@ -71,7 +71,7 @@
   float: left;
   width: 50%;
 }
-.checkboxalignment{
+.checkboxalignment2{
   margin-left: 419px;
   margin-top: -14px;
 }
@@ -81,4 +81,31 @@
 .removeunderline{
   text-decoration:none
 }
+#content {
+  padding: 0.5rem;
+  display: flex;
+}
 
+#left,
+#right {
+  padding: 0.5rem;
+  flex-grow: 1;
+  color: #fff;
+}
+.checkboxalignment
+{
+  margin-left: 268px;
+  margin-top: -9px;
+}
+.checkboxdesign
+{
+  margin-left: 46px;
+  margin-top: -18px;
+}
+.contentstyle {
+  padding: 0.5rem;
+  display: table-caption!important;
+}
+.commentstyle{
+  margin-top: -17px;
+}

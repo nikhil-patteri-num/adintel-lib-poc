@@ -11,12 +11,24 @@ const demoFnctn = () => {
   // comment;
 };
 const defaultArgs: IProductProps = {
+  isEditmode:true,
+  isProductmode:true
 };
 
+export const DefaultProduct = () => (
 
+  <div>
+    <Product
+     Editmode={false}
+     Productmode={true} 
+    />
+  </div>
+);
 
 export const Default = Template.bind({});
 Default.args = {
   ...defaultArgs
 };
-
+DefaultProduct.args = {
+  ...defaultArgs
+};
