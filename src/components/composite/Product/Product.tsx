@@ -19,6 +19,15 @@ export const Product = (props: IProductProps) => {
   const [DescriptorType, setDescriptorType] = useState();
   const [Brand, setBrand] = useState();
   const [ClassName,setClassName]=useState();
+  const [Descriptor,setDescriptor]=useState();
+  const [ProductName,setProductName]=useState();
+  const [LicenseeBrand,setLicenseeBrand]=useState();
+  const [LicensorBrand,setLicensorBrand]=useState();
+  const [Rank,setRank]=useState();
+  const [ProductTags,setProductTags]=useState();
+  const [Status,setStatus]=useState();
+  const [Referredto,setReferredto]=useState();
+  const [Markets,setMarkets]=useState();
   return (
     <>
      
@@ -37,8 +46,8 @@ export const Product = (props: IProductProps) => {
         <div  className={`${!isProductmode ? 'hide' : ''}`}>
        <div className='role-container-right'>
         <p>
-  <a href="#b" className='removeunderline'>Default Link Color</a>
-  <a href="#b" className='heyperlink removeunderline'>Changed Link Color</a></p>
+  <a href="#b" className='removeunderline'>General guidlines</a>
+  <a href="#b" className='heyperlink removeunderline'>Category Instructions</a></p>
         </div> 
         </div>
         </div>
@@ -76,9 +85,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Descriptor(s)</FormItemLabel>
           <Dropdown
             id={'Descriptor'}
-            value={DescriptorType}
+            value={Descriptor}
             options={[]}
-            onClick={(value: any) => setDescriptorType(value)}
+            onClick={(value: any) => setDescriptor(value)}
             placeholder={'Search for Descriptor Type'}
           />
         </FormGroup>
@@ -88,9 +97,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Product Name</FormItemLabel>
            <Dropdown
             id={'ProductName'}
-            value={ProductType}
+            value={ProductName}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            onClick={(value: any) => setProductName(value)}
             placeholder={'Search for ProductName'}
           />
         </FormGroup>
@@ -101,9 +110,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Licensee Brand</FormItemLabel>
           <Dropdown
             id={'LicenseeBrand'}
-            value={Brand}
+            value={LicenseeBrand}
             options={[]}
-            onClick={(value: any) => setBrand(value)}
+            onClick={(value: any) => setLicenseeBrand(value)}
             placeholder={'Search for Licensee Brand'}
           />
         </FormGroup>
@@ -115,9 +124,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Licensor Brand</FormItemLabel>
           <Dropdown
             id={'LicensorBrand'}
-            value={Brand}
+            value={LicensorBrand}
             options={[]}
-            onClick={(value: any) => setBrand(value)}
+            onClick={(value: any) => setLicensorBrand(value)}
             placeholder={'Search for Licensor Brand'}
           />
         </FormGroup>
@@ -142,7 +151,8 @@ export const Product = (props: IProductProps) => {
           <Dropdown
             id={'Brand'}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            value={Brand}
+            onClick={(value: any) => setBrand(value)}
             placeholder={'Search for Brand'}
           />
         </FormGroup>
@@ -154,7 +164,8 @@ export const Product = (props: IProductProps) => {
           <Dropdown
             id={'Rank'}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            value={Rank}
+            onClick={(value: any) => setRank(value)}
             placeholder={'Search for Rank'}
           />
         </FormGroup>
@@ -163,11 +174,12 @@ export const Product = (props: IProductProps) => {
         {(!isProductmode) && (
         <div className='child'>
         <FormGroup>
-          <FormItemLabel isMandatory> Product Tags</FormItemLabel>
+          <FormItemLabel isMandatory>Product Tags</FormItemLabel>
           <Dropdown
             id={'ProductTags'}
+            value={ProductTags}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            onClick={(value: any) => setProductTags(value)}
             placeholder={'Search for Product Tags'}
           />
         </FormGroup>
@@ -179,8 +191,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Status</FormItemLabel>
           <Dropdown
             id={'Status'}
+            value={Status}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            onClick={(value: any) => setStatus(value)}
             placeholder={'Search for Status'}
           />
         </FormGroup>
@@ -192,8 +205,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Referred to</FormItemLabel>
           <Dropdown
             id={'Referredto'}
+            value={Referredto}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            onClick={(value: any) => setReferredto(value)}
             placeholder={'Search for Referred to'}
           />
         </FormGroup>
@@ -300,8 +314,9 @@ export const Product = (props: IProductProps) => {
           <FormItemLabel isMandatory>Markets</FormItemLabel>
           <Dropdown
             id={'Markets'}
+            value={Markets}
             options={[]}
-            onClick={(value: any) => setProductType(value)}
+            onClick={(value: any) => setMarkets(value)}
             placeholder={'Search for Markets'}
           />
         </FormGroup>
