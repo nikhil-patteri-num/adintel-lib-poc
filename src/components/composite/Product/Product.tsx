@@ -242,7 +242,20 @@ export const Product = (props: IProductProps) => {
          </FormGroup>
         
          </div>
-            
+         {(!isProductmode) && (
+           <div className='child'>
+        <FormGroup >
+          <FormItemLabel isMandatory>Markets</FormItemLabel>
+          <Dropdown
+            id={'Markets'}
+            value={Markets}
+            options={[]}
+            onClick={(value: any) => setMarkets(value)}
+            placeholder={'Search for Markets'}
+          />
+        </FormGroup>
+        </div>
+         )}
   {(isEditmode) && (!isProductmode) && (
      <div className='child'>
   <FormGroup>
@@ -308,20 +321,7 @@ export const Product = (props: IProductProps) => {
         </FormGroup>
         </div>
          )}
-          {(!isProductmode) && (
-           <div className='child'>
-        <FormGroup >
-          <FormItemLabel isMandatory>Markets</FormItemLabel>
-          <Dropdown
-            id={'Markets'}
-            value={Markets}
-            options={[]}
-            onClick={(value: any) => setMarkets(value)}
-            placeholder={'Search for Markets'}
-          />
-        </FormGroup>
-        </div>
-         )}
+        
         {(isEditmode) && (!isProductmode) && (
            <div className='child'>
         <FormGroup>
