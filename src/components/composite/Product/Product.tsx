@@ -28,6 +28,7 @@ export const Product = (props: IProductProps) => {
   const [Status,setStatus]=useState();
   const [Referredto,setReferredto]=useState();
   const [Markets,setMarkets]=useState();
+  const [isNationalChecked, setIsNational] = useState(true);
   return (
     <>
      
@@ -40,7 +41,7 @@ export const Product = (props: IProductProps) => {
             value={ClassName}
             options={[]}
             onClick={(value: any) => setClassName(value)}
-            placeholder={'Search for Class Name'}
+            placeholder={'Search by Class Code or Name'}
           />
         </FormGroup> 
         <div  className={`${!isProductmode ? 'hide' : ''}`}>
@@ -138,6 +139,7 @@ export const Product = (props: IProductProps) => {
                   checked={true}
                   label={''}
                   value={true}
+                  onChange={(value : any)=> setIsNational(value)}
                 />
        
         </div>
@@ -222,7 +224,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'ChangeDate'}
             value={''}
-            maxLength={50}
+            maxLength={150}
             disabled={true}
           />
           )} 
@@ -252,6 +254,7 @@ export const Product = (props: IProductProps) => {
             options={[]}
             onClick={(value: any) => setMarkets(value)}
             placeholder={'Search for Markets'}
+            disabled = {isNationalChecked}
           />
         </FormGroup>
         </div>
@@ -267,7 +270,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'CreateUser'}
             value={''}
-            maxLength={50}
+            maxLength={150}
           />
         </FormGroup>
         </div>
@@ -284,7 +287,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'CreateDate'}
             value={''}
-            maxLength={50}
+            maxLength={150}
           />
         </FormGroup>
         </div>
@@ -300,7 +303,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'ChangeUser'}
             value={''}
-            maxLength={50}
+            maxLength={150}
           />
         </FormGroup>
         </div>
@@ -316,7 +319,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'ChangeDate'}
             value={''}
-            maxLength={50}
+            maxLength={150}
           />
         </FormGroup>
         </div>
@@ -333,7 +336,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'RecentCreatives'}
             value={''}
-            maxLength={50}
+            maxLength={150}
           />
         </FormGroup>
         </div>
@@ -349,7 +352,7 @@ export const Product = (props: IProductProps) => {
             type={inputType.text}
             name={'Activity'}
             value={''}
-            maxLength={50}
+            maxLength={150}
           />
         </FormGroup>
         </div>
