@@ -71,19 +71,21 @@
   float: left;
   width: 50%;
 }
-.checkboxalignment2{
-  margin-left: 419px;
+.checkboxalignmentbr{
+ /// margin-left: 551px;
   margin-top: -14px;
 }
+.checkboxalignmentpr{
+   margin-left: 450px;
+   margin-top: -14px;
+ }
 .heyperlink{
   float: right;
+  font-style: italic;
 }
 .removeunderline{
-  text-decoration:none
-}
-#content {
-  padding: 0.5rem;
-  display: flex;
+  text-decoration:none;
+  font-style: italic;
 }
 
 #left,
@@ -99,7 +101,7 @@
 }
 .checkboxdesign
 {
-  margin-left: 46px;
+  margin-left: 53px;
   margin-top: -18px;
 }
 .contentstyle {
@@ -108,4 +110,26 @@
 }
 .commentstyle{
   margin-top: -17px;
+}
+
+div.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div.child {
+  flex: 40%;
+  padding-right: 10px;
+}
+.lgbrandallignment
+{
+  float: right;
+}
+div.childprd {
+  flex: 67%;
+  padding-right: 5px;
+}
+.hide
+{
+  display: none;
 }

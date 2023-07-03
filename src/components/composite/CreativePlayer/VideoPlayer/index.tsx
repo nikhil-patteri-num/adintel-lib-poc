@@ -41,6 +41,7 @@ const VideoPlayer = ({
 
     return (
         <video
+            id="creative-react-video-player"
             ref={videoRef}
             src={src}
             controls={controls}
