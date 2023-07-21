@@ -5,3 +5,4 @@ export * from './components/composite/CreativePlayer/index';
 export * from './components/composite/Carousel/index';
 export * from './components/composite/Breadcrumbs/index';
 export * from './components/composite/Product/index';
+export * from './components/composite/MultiSelect/index';

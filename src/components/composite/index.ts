@@ -44,4 +44,4 @@ import ReactPlayer from 'react-player';
 export { ReactPlayer };
 
 export { Carousel } from './Carousel/Carousel';
-
+export { MultiSelect } from './MultiSelect';

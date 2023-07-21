@@ -1,0 +1,181 @@
+@import '../../assets/scss/constants/colors.scss';
+@import '../../assets/scss/base/mixins.scss';
+
+.multiselect {
+  font-size: 12px;
+  position: relative;
+
+  &-placeholder {
+    color: rgba($color: $black, $alpha: 0.7);
+    font-size: 12px;
+  }
+
+  &-button {
+    border: 0.1px solid $deepteal;
+    width: 100%;
+    height: 28px;
+    @include alignElement(flex, center, null);
+    position: relative;
+    padding: 0px 6px;
+    background: $white;
+
+    .chips-container {
+      display: flex;
+      width: auto;
+
+      .partially-disabled-chip {
+        background-color: $mediumGrey;
+        pointer-events: none;
+      }
+
+      .deactivated-chip {
+        background-color: $deactivate;
+      }
+    }
+
+    .icon-container {
+      position: absolute;
+      cursor: pointer;
+      right: 6px;
+
+      .cross-button,
+      .down-arrow-btn {
+        bottom: 9px;
+        padding: 0px;
+        background-color: $white;
+        color: $deepteal;
+        font-size: 10px;
+        margin-left: 6px;
+      }
+    }
+  }
+
+  .multiselect-all {
+    cursor: pointer;
+    outline: none;
+    border-bottom: 1px solid $lightBlack;
+    padding: 12px 8px;
+    @include alignElement(flex, center, null);
+    height: 13px;
+    font-size: 12px;
+    background: $white;
+
+    .check-box {
+      font-size: 18px;
+      color: $deepteal;
+    }
+
+    .deactivated-check-box {
+      color: $deactivate;
+      font-size: 18px;
+    }
+
+    .multiselect-option-label {
+      margin-left: 5px;
+    }
+
+    &:hover,
+    &:focus {
+      background: $lilyWhite;
+      cursor: pointer;
+    }
+  }
+
+  .chip,
+  .more-label {
+    font-size: 11px;
+    padding: 2px 8px;
+    background: $deepteal;
+    color: $white;
+    margin: 2px;
+    height: 13px;
+    border-radius: 14px;
+    text-align: center;
+    align-items: center;
+    display: flex;
+  }
+
+  &-body {
+    margin-top: 2px;
+    box-shadow: 0px 3px 8px $shadowGrey;
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+
+    .multiselect-search input {
+      border: none;
+      outline: none;
+      border-radius: 0;
+      padding: 10px;
+    }
+
+    .multiselect-search {
+      border-bottom: 1px solid $grey;
+    }
+
+    .multiselect-options {
+      background: $white;
+      max-height: 150px;
+
+      .check-box {
+        color: $deepteal;
+        font-size: 18px;
+      }
+
+      .deactivated-check-box {
+        color: $deactivate;
+        font-size: 18px;
+      }
+
+      .partially-disabled-option {
+        pointer-events: none;
+        opacity: 0.6;
+      }
+
+      .multiselect-option {
+        outline: none;
+        @include alignElement(flex, center, null);
+        padding: 0px 8px;
+        height: 30px;
+        cursor: pointer;
+        background: $white;
+
+        &-label {
+          margin-left: 5px;
+          line-height: 1.5;
+        }
+
+        &:hover,
+        &:focus {
+          background: $lilyWhite;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &.disabled {
+    cursor: default;
+
+    .multiselect-button {
+      color: grey;
+      background-color: #eee;
+      border-color: #c8c8c2;
+      pointer-events: none;
+
+      .chips-container {
+        .more-label {
+          pointer-events: all;
+        }
+      }
+    }
+
+    .btn:disabled {
+      opacity: 1;
+    }
+
+    :focus {
+      outline: none;
+    }
+  }
+}
