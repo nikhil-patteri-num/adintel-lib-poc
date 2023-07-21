@@ -116,6 +116,7 @@
     .multiselect-options {
       background: $white;
       max-height: 150px;
+      overflow-y: scroll;
 
       .check-box {
         color: $deepteal;
