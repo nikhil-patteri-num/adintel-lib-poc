@@ -11,6 +11,7 @@
     color: $lightBlack;
     box-shadow: 0.5px 0.5px 3px grey;
   }
+
   &-secondary-header {
     background-color: $deepteal;
     color: $white;
@@ -67,24 +68,29 @@
     }
   }
 }
+
 .article {
   float: left;
   width: 50%;
 }
-.checkboxalignmentbr{
- /// margin-left: 551px;
+
+.checkboxalignmentbr {
+  /// margin-left: 551px;
   margin-top: -14px;
 }
-.checkboxalignmentpr{
-   margin-left: 450px;
-   margin-top: -14px;
- }
-.heyperlink{
+
+.checkboxalignmentpr {
+  margin-left: 450px;
+  margin-top: -14px;
+}
+
+.heyperlink {
   float: right;
   font-style: italic;
 }
-.removeunderline{
-  text-decoration:none;
+
+.removeunderline {
+  text-decoration: none;
   font-style: italic;
 }
 
@@ -94,21 +100,23 @@
   flex-grow: 1;
   color: #fff;
 }
-.checkboxalignment
-{
-  margin-left: 268px;
-  margin-top: -9px;
+
+.checkboxalignment {
+  display: flex;
+  justify-content: space-evenly;
 }
-.checkboxdesign
-{
+
+.checkboxdesign {
   margin-left: 53px;
   margin-top: -18px;
 }
+
 .contentstyle {
   padding: 0.5rem;
-  display: table-caption!important;
+  display: table-caption !important;
 }
-.commentstyle{
+
+.commentstyle {
   margin-top: -17px;
 }
 
@@ -117,19 +125,32 @@ div.container {
   flex-wrap: wrap;
 }
 
+.content {
+  padding: 0.5rem;
+  display: flex;
+}
+
+.left,
+.right {
+  padding: 0.5rem;
+  flex-grow: 1;
+  color: #fff;
+}
+
 div.child {
   flex: 40%;
   padding-right: 10px;
 }
-.lgbrandallignment
-{
+
+.lgbrandallignment {
   float: right;
 }
+
 div.childprd {
   flex: 67%;
   padding-right: 5px;
 }
-.hide
-{
+
+.hide {
   display: none;
 }

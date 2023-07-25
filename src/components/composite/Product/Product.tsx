@@ -1,14 +1,6 @@
 import React, { useState } from 'react';
 import './Prdouct.scss';
-import {
-  FormGroup,
-  FormItemLabel,
-  Dropdown,
-  TextArea,
-  CheckboxInput,
-  TextInput,
-  inputType,
-} from '../../core';
+import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput, inputType } from '../../core';
 
 export interface IProductProps {
   isEditmode: boolean;
@@ -25,7 +17,7 @@ export const Product = (props: IProductProps) => {
   const [ProductName, setProductName] = useState();
   const [LicenseeBrand, setLicenseeBrand] = useState();
   const [LicensorBrand, setLicensorBrand] = useState();
-  const [Rank, setRank] = useState(false);
+  const [Rank, setRank] = useState();
   const [ProductTags, setProductTags] = useState();
   const [Status, setStatus] = useState();
   const [Referredto, setReferredto] = useState();
@@ -33,357 +25,351 @@ export const Product = (props: IProductProps) => {
   const [isNationalChecked, setIsNational] = useState(true);
   return (
     <>
-      <div className="container">
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel isMandatory>Class Name</FormItemLabel>
-            <Dropdown
-              id={'ClassName'}
-              value={ClassName}
-              options={[]}
-              onClick={(value: any) => setClassName(value)}
-              placeholder={'Search by Class Code or Name'}
-            />
-          </FormGroup>
-          <div className={`${!isProductmode ? 'hide' : ''}`}>
-            <div className="role-container-right">
-              <p>
-                <a href="#b" className="removeunderline">
-                  General guidlines
-                </a>
-                <a href="#b" className="heyperlink removeunderline">
-                  Category Instructions
-                </a>
-              </p>
+      <div className={`${isProductmode ? 'container' : 'content'}`}>
+        <div className={`${isProductmode ? '' : 'left'}`}>
+          <div className={`${isProductmode ? 'childprd' : 'child'}`} >
+            <FormGroup>
+              <FormItemLabel isMandatory>Class Name</FormItemLabel>
+              <Dropdown
+                id={'ClassName'}
+                value={ClassName}
+                options={[]}
+                onClick={(value: any) => setClassName(value)}
+                placeholder={'Search by Class Code or Name'}
+              />
+            </FormGroup>
+            <div className={`${!isProductmode ? 'hide' : ''}`}>
+              <div className='role-container-right'>
+                <p>
+                  <a href="#b" className='removeunderline'>General guidlines</a>
+                  <a href="#b" className='heyperlink removeunderline'>Category Instructions</a></p>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel isMandatory>Product Type</FormItemLabel>
-            <Dropdown
-              id={'ProductType'}
-              value={ProductType}
-              options={[]}
-              onClick={(value: any) => setProductType(value)}
-              placeholder={'Search for Product Type'}
-            />
-          </FormGroup>
-        </div>
-
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel isMandatory>Descriptor Type(s)</FormItemLabel>
-            <Dropdown
-              id={'DescriptorType'}
-              value={DescriptorType}
-              options={[]}
-              onClick={(value: any) => setDescriptorType(value)}
-              placeholder={'Search for Descriptor Type'}
-            />
-          </FormGroup>
-        </div>
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel isMandatory>Descriptor(s)</FormItemLabel>
-            <Dropdown
-              id={'Descriptor'}
-              value={Descriptor}
-              options={[]}
-              onClick={(value: any) => setDescriptor(value)}
-              placeholder={'Search for Descriptor Type'}
-            />
-          </FormGroup>
-        </div>
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel isMandatory>Product Name</FormItemLabel>
-            <Dropdown
-              id={'ProductName'}
-              value={ProductName}
-              options={[]}
-              onClick={(value: any) => setProductName(value)}
-              placeholder={'Search for ProductName'}
-            />
-          </FormGroup>
-        </div>
-        {!isProductmode && (
-          <div className="child">
+          <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
-              <FormItemLabel isMandatory>Licensee Brand</FormItemLabel>
+              <FormItemLabel isMandatory>Product Type</FormItemLabel>
               <Dropdown
-                id={'LicenseeBrand'}
-                value={LicenseeBrand}
+                id={'ProductType'}
+                value={ProductType}
                 options={[]}
-                onClick={(value: any) => setLicenseeBrand(value)}
-                placeholder={'Search for Licensee Brand'}
+                onClick={(value: any) => setProductType(value)}
+                placeholder={'Search for Product Type'}
               />
             </FormGroup>
           </div>
-        )}
-        {!isProductmode && (
-          <div className="child">
+          <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
-              <FormItemLabel isMandatory>Licensor Brand</FormItemLabel>
+              <FormItemLabel>Descriptor Type(s)</FormItemLabel>
               <Dropdown
-                id={'LicensorBrand'}
-                value={LicensorBrand}
+                id={'DescriptorType'}
+                value={DescriptorType}
                 options={[]}
-                onClick={(value: any) => setLicensorBrand(value)}
-                placeholder={'Search for Licensor Brand'}
+                onClick={(value: any) => setDescriptorType(value)}
+                placeholder={'Search for Descriptor Type'}
               />
             </FormGroup>
-            <FormGroup customClass="checkboxalignmentbr">
-              <div className="lgbrandallignment">
-                <FormItemLabel>National</FormItemLabel>
-                <CheckboxInput
-                  customClass="checkboxdesign"
-                  id={'checkbox'}
-                  checked={isNationalChecked}
-                  label={''}
-                  value={isNationalChecked}
-                  onChange={() => setIsNational(!isNationalChecked)}
+          </div>
+          <div className={`${isProductmode ? 'childprd' : 'child'}`} >
+            <FormGroup>
+              <FormItemLabel>Descriptor(s)</FormItemLabel>
+              <Dropdown
+                id={'Descriptor'}
+                value={Descriptor}
+                options={[]}
+                onClick={(value: any) => setDescriptor(value)}
+                placeholder={'Search for Descriptor Type'}
+              />
+            </FormGroup>
+          </div>
+          <div className={`${isProductmode ? 'childprd' : 'child'}`} >
+            <FormGroup>
+              <FormItemLabel isMandatory>Product Name</FormItemLabel>
+              <Dropdown
+                id={'ProductName'}
+                value={ProductName}
+                options={[]}
+                onClick={(value: any) => setProductName(value)}
+                placeholder={'Search for ProductName'}
+              />
+            </FormGroup>
+          </div>
+          <div className={`${isProductmode ? 'childprd' : 'child'}`}>
+            <FormGroup>
+              <FormItemLabel isMandatory>Brand</FormItemLabel>
+              <Dropdown
+                id={'Brand'}
+                options={[]}
+                value={Brand}
+                onClick={(value: any) => setBrand(value)}
+                placeholder={'Search for Brand'}
+              />
+            </FormGroup>
+          </div>
+          {(!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>Licensee Brand</FormItemLabel>
+                <Dropdown
+                  id={'LicenseeBrand'}
+                  value={LicenseeBrand}
+                  options={[]}
+                  onClick={(value: any) => setLicenseeBrand(value)}
+                  placeholder={'Search for Licensee Brand'}
                 />
-              </div>
-            </FormGroup>
-          </div>
-        )}
-
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel isMandatory>Brand</FormItemLabel>
-            <Dropdown
-              id={'Brand'}
-              options={[]}
-              value={Brand}
-              onClick={(value: any) => setBrand(value)}
-              placeholder={'Search for Brand'}
-            />
-          </FormGroup>
-        </div>
-        {!isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory>Product Tags</FormItemLabel>
-              <Dropdown
-                id={'ProductTags'}
-                value={ProductTags}
-                options={[]}
-                onClick={(value: any) => setProductTags(value)}
-                placeholder={'Search for Product Tags'}
-              />
-            </FormGroup>
-          </div>
-        )}
-        {!isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory>Status</FormItemLabel>
-              <Dropdown
-                id={'Status'}
-                value={Status}
-                options={[]}
-                onClick={(value: any) => setStatus(value)}
-                placeholder={'Search for Status'}
-              />
-            </FormGroup>
-          </div>
-        )}
-        {!isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <div className="">
-                <FormItemLabel isMandatory>Rank</FormItemLabel>
+              </FormGroup>
+            </div>
+          )}
+          {(!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>Licensor Brand</FormItemLabel>
+                <Dropdown
+                  id={'LicensorBrand'}
+                  value={LicensorBrand}
+                  options={[]}
+                  onClick={(value: any) => setLicensorBrand(value)}
+                  placeholder={'Search for Licensor Brand'}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>Product Tags</FormItemLabel>
+                <Dropdown
+                  id={'ProductTags'}
+                  value={ProductTags}
+                  options={[]}
+                  onClick={(value: any) => setProductTags(value)}
+                  placeholder={'Search for Product Tags'}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(!isProductmode) && (
+            <div className='child checkboxalignment'>
+              <FormGroup >
+                <div>
+                  <FormItemLabel>National</FormItemLabel>
+                  <CheckboxInput customClass='checkboxdesign'
+                    id={'checkbox'}
+                    checked={true}
+                    label={''}
+                    value={true}
+                    onChange={(value: any) => setIsNational(value)}
+                  />
+                </div>
+              </FormGroup>
+              <FormGroup>
+                <FormItemLabel>Rank</FormItemLabel>
                 <CheckboxInput
-                  customClass="checkboxdesign"
+                  customClass='checkboxdesign'
                   id={'Rank'}
-                  checked={Rank}
-                  label={''}
-                  value={Rank}
-                  onChange={() => setRank(!Rank)}
-                />
-              </div>
-            </FormGroup>
-          </div>
-        )}
-        {!isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory>Referred to</FormItemLabel>
-              <Dropdown
-                id={'Referredto'}
-                value={Referredto}
-                options={[]}
-                onClick={(value: any) => setReferredto(value)}
-                placeholder={'Search for Referred to'}
-              />
-            </FormGroup>
-          </div>
-        )}
-        {isEditmode && !isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory={true}>Recent Creatives</FormItemLabel>
-              <TextInput
-                id={'RecentCreatives'}
-                type={inputType.text}
-                name={'RecentCreatives'}
-                value={''}
-                maxLength={150}
-              />
-            </FormGroup>
-          </div>
-        )}
-        {isEditmode && !isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory={true}>Activity</FormItemLabel>
-              <TextInput
-                id={'Activity'}
-                type={inputType.text}
-                name={'Activity'}
-                value={''}
-                maxLength={150}
-              />
-            </FormGroup>
-          </div>
-        )}
-        <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-          <FormGroup>
-            <FormItemLabel>{`${
-              isProductmode ? 'New Product Listing : ' : 'Product Preview'
-            }`}</FormItemLabel>
-            {!isProductmode && (
-              <TextInput
-                id={'ProductPreview'}
-                type={inputType.text}
-                name={'ChangeDate'}
-                value={''}
-                maxLength={150}
-                disabled={true}
-              />
-            )}
-            {isProductmode && (
-              <div>
-                {'< Product Name > : < Product Type > : < Product Descriptor >'}{' '}
-              </div>
-            )}
-            {isProductmode && (
-              <div className="checkboxalignmentpr">
-                <CheckboxInput
-                  id={'checkbox'}
                   checked={true}
                   label={''}
                   value={true}
+                  onChange={(value: any) => setRank(value)}
                 />
-              </div>
-            )}
-          </FormGroup>
-        </div>
-        {!isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory>Markets</FormItemLabel>
-              <Dropdown
-                id={'Markets'}
-                value={Markets}
-                options={[]}
-                onClick={(value: any) => setMarkets(value)}
-                placeholder={'Search for Markets'}
-                disabled={isNationalChecked}
-              />
-            </FormGroup>
-          </div>
-        )}
-        {isEditmode && !isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory={true}>Create User</FormItemLabel>
-              <TextInput
-                id={'CreateUser'}
-                type={inputType.text}
-                name={'CreateUser'}
-                value={''}
-                maxLength={150}
-                disabled={true}
-              />
-            </FormGroup>
-          </div>
-        )}
+              </FormGroup>
+            </div>
+          )}
 
-        {isEditmode && !isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory={true}>Create Date</FormItemLabel>
-              <TextInput
-                id={'CreateDate'}
-                type={inputType.text}
-                name={'CreateDate'}
-                value={''}
-                maxLength={150}
-                disabled={true}
-              />
+          <div className={`${isProductmode ? 'childprd' : 'child'}`}>
+            <FormGroup >
+              <FormItemLabel>{`${isProductmode ? 'New Product Listing : ' : 'Product Preview'}`}</FormItemLabel>
+              {(!isProductmode) && (
+                <TextInput
+                  id={'ProductPreview'}
+                  type={inputType.text}
+                  name={'ProductPreview'}
+                  value={''}
+                  maxLength={150}
+                  disabled={true}
+                />
+              )}
+              {(isProductmode) && (
+                <div>{'< Product Name > : < Product Type > : < Product Descriptor >'} </div>
+              )}
+              {(isProductmode) && (
+                <div className='checkboxalignmentpr'>
+                  <CheckboxInput
+                    id={'checkbox'}
+                    checked={true}
+                    label={''}
+                    value={true}
+                  />
+                </div>
+              )}
             </FormGroup>
           </div>
-        )}
-        {isEditmode && !isProductmode && (
-          <div className="child">
+          <div className='child'>
             <FormGroup>
-              <FormItemLabel isMandatory={true}>Change User</FormItemLabel>
-              <TextInput
-                id={'ChangeUser'}
-                type={inputType.text}
-                name={'ChangeUser'}
-                value={''}
-                maxLength={150}
-                disabled={true}
-              />
-            </FormGroup>
-          </div>
-        )}
-        {isEditmode && !isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel isMandatory={true}>Change Date</FormItemLabel>
-              <TextInput
-                id={'ChangeDate'}
-                type={inputType.text}
-                name={'ChangeDate'}
-                value={''}
-                maxLength={150}
-                disabled={true}
-              />
-            </FormGroup>
-          </div>
-        )}
-        <div className="child">
-          <FormGroup>
-            <FormItemLabel>{`${
-              isEditmode ? 'New Comment' : 'Comment'
-            }`}</FormItemLabel>
-            <TextArea
-              id={'NewComment'}
-              name={'NewComment'}
-              rows={5}
-              columns={250}
-            />
-          </FormGroup>
-        </div>
-        {isEditmode && !isProductmode && (
-          <div className="child">
-            <FormGroup>
-              <FormItemLabel>Previous Comments</FormItemLabel>
+              <FormItemLabel>{`${isEditmode ? 'New Comment' : 'Comment'}`}</FormItemLabel>
               <TextArea
-                id={'PreviousComments'}
-                name={'PreviousComments'}
+                id={'NewComment'}
+                name={'NewComment'}
                 rows={5}
                 columns={250}
-                disabled={true}
               />
             </FormGroup>
           </div>
-        )}
+        </div>
+        <div className={`${isProductmode ? '' : 'right'}`}>
+
+          {(!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel isMandatory>Status</FormItemLabel>
+                <Dropdown
+                  id={'Status'}
+                  value={Status}
+                  options={[]}
+                  onClick={(value: any) => setStatus(value)}
+                  placeholder={'Search for Status'}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>Referred to</FormItemLabel>
+                <Dropdown
+                  id={'Referredto'}
+                  value={Referredto}
+                  options={[]}
+                  onClick={(value: any) => setReferredto(value)}
+                  placeholder={'Search for Referred to'}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(!isProductmode) && (
+            <div className='child'>
+              <FormGroup >
+                <FormItemLabel>Markets</FormItemLabel>
+                <Dropdown
+                  id={'Markets'}
+                  value={Markets}
+                  options={[]}
+                  onClick={(value: any) => setMarkets(value)}
+                  placeholder={'Search for Markets'}
+                  disabled={isNationalChecked}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>
+                  Recent Creatives
+                </FormItemLabel>
+                <TextInput
+                  id={'RecentCreatives'}
+                  type={inputType.text}
+                  name={'RecentCreatives'}
+                  value={''}
+                  maxLength={150}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>
+                  Activity
+                </FormItemLabel>
+                <TextInput
+                  id={'Activity'}
+                  type={inputType.text}
+                  name={'Activity'}
+                  value={''}
+                  maxLength={150}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel>
+                  Create User
+                </FormItemLabel>
+                <TextInput
+                  id={'CreateUser'}
+                  type={inputType.text}
+                  name={'CreateUser'}
+                  value={''}
+                  maxLength={150}
+                  disabled={true}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel> Create Date </FormItemLabel>
+                <TextInput
+                  id={'CreateDate'}
+                  type={inputType.text}
+                  name={'CreateDate'}
+                  value={''}
+                  maxLength={150}
+                  disabled={true}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel> Change User </FormItemLabel>
+                <TextInput
+                  id={'ChangeUser'}
+                  type={inputType.text}
+                  name={'ChangeUser'}
+                  value={''}
+                  maxLength={150}
+                  disabled={true}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup>
+                <FormItemLabel> Change Date </FormItemLabel>
+                <TextInput
+                  id={'ChangeDate'}
+                  type={inputType.text}
+                  name={'ChangeDate'}
+                  value={''}
+                  maxLength={150}
+                  disabled={true}
+                />
+              </FormGroup>
+            </div>
+          )}
+          {(isEditmode) && (!isProductmode) && (
+            <div className='child'>
+              <FormGroup >
+                <FormItemLabel>Previous Comments</FormItemLabel>
+                <TextArea
+                  id={'PreviousComments'}
+                  name={'PreviousComments'}
+                  rows={5}
+                  columns={250}
+                  disabled={true}
+                />
+              </FormGroup>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
