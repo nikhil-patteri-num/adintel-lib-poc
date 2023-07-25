@@ -17,7 +17,7 @@ export const Product = (props: IProductProps) => {
   const [ProductName, setProductName] = useState();
   const [LicenseeBrand, setLicenseeBrand] = useState();
   const [LicensorBrand, setLicensorBrand] = useState();
-  const [Rank, setRank] = useState();
+  const [Rank, setRank] = useState(true);
   const [ProductTags, setProductTags] = useState();
   const [Status, setStatus] = useState();
   const [Referredto, setReferredto] = useState();
@@ -155,10 +155,9 @@ export const Product = (props: IProductProps) => {
                   <FormItemLabel>National</FormItemLabel>
                   <CheckboxInput customClass='checkboxdesign'
                     id={'checkbox'}
-                    checked={true}
+                    checked={isNationalChecked}
                     label={''}
-                    value={true}
-                    onChange={(value: any) => setIsNational(value)}
+                    onChange={(event: any) => setIsNational(event.target.checked)}
                   />
                 </div>
               </FormGroup>
@@ -167,10 +166,10 @@ export const Product = (props: IProductProps) => {
                 <CheckboxInput
                   customClass='checkboxdesign'
                   id={'Rank'}
-                  checked={true}
+                  checked={Rank}
                   label={''}
-                  value={true}
-                  onChange={(value: any) => setRank(value)}
+                  //value={Rank}
+                  onChange={(event: any) => setRank(event.target.checked)}
                 />
               </FormGroup>
             </div>
