@@ -26,7 +26,7 @@ export const Product = (props: IProductProps) => {
   return (
     <>
       <div className={`${isProductmode ? 'container' : 'content'}`}>
-        <div className={`${isProductmode ? '' : 'left'}`}>
+        <div className={`${isProductmode ? 'pleft' : 'left'}`}>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel isMandatory>Class Name</FormItemLabel>
@@ -35,7 +35,7 @@ export const Product = (props: IProductProps) => {
                 value={ClassName}
                 options={[]}
                 onClick={(value: any) => setClassName(value)}
-                placeholder={'Search by Class Code or Name'}
+                placeholder={'Search for Class'}
               />
             </FormGroup>
             <div className={`${!isProductmode ? 'hide' : ''}`}>
@@ -115,7 +115,7 @@ export const Product = (props: IProductProps) => {
                   value={LicenseeBrand}
                   options={[]}
                   onClick={(value: any) => setLicenseeBrand(value)}
-                  placeholder={'Search for Licensee Brand'}
+                  placeholder={'Select a Licensee Brand'}
                 />
               </FormGroup>
             </div>
@@ -129,7 +129,7 @@ export const Product = (props: IProductProps) => {
                   value={LicensorBrand}
                   options={[]}
                   onClick={(value: any) => setLicensorBrand(value)}
-                  placeholder={'Search for Licensor Brand'}
+                  placeholder={'Select a Licensor Brand'}
                 />
               </FormGroup>
             </div>
@@ -203,17 +203,6 @@ export const Product = (props: IProductProps) => {
               )}
             </FormGroup>
           </div>
-          <div className='child'>
-            <FormGroup>
-              <FormItemLabel>{`${isEditmode ? 'New Comment' : 'Comment'}`}</FormItemLabel>
-              <TextArea
-                id={'NewComment'}
-                name={'NewComment'}
-                rows={5}
-                columns={250}
-              />
-            </FormGroup>
-          </div>
         </div>
         <div className={`${isProductmode ? '' : 'right'}`}>
 
@@ -226,7 +215,7 @@ export const Product = (props: IProductProps) => {
                   value={Status}
                   options={[]}
                   onClick={(value: any) => setStatus(value)}
-                  placeholder={'Search for Status'}
+                  placeholder={'Select a Status'}
                 />
               </FormGroup>
             </div>
@@ -240,7 +229,7 @@ export const Product = (props: IProductProps) => {
                   value={Referredto}
                   options={[]}
                   onClick={(value: any) => setReferredto(value)}
-                  placeholder={'Search for Referred to'}
+                  placeholder={'Select a Referred Product'}
                 />
               </FormGroup>
             </div>
@@ -293,65 +282,61 @@ export const Product = (props: IProductProps) => {
             </div>
           )}
           {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>
-                  Create User
-                </FormItemLabel>
-                <TextInput
-                  id={'CreateUser'}
-                  type={inputType.text}
-                  name={'CreateUser'}
-                  value={''}
-                  maxLength={150}
-                  disabled={true}
-                />
-              </FormGroup>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel> Create Date </FormItemLabel>
-                <TextInput
-                  id={'CreateDate'}
-                  type={inputType.text}
-                  name={'CreateDate'}
-                  value={''}
-                  maxLength={150}
-                  disabled={true}
-                />
-              </FormGroup>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel> Change User </FormItemLabel>
-                <TextInput
-                  id={'ChangeUser'}
-                  type={inputType.text}
-                  name={'ChangeUser'}
-                  value={''}
-                  maxLength={150}
-                  disabled={true}
-                />
-              </FormGroup>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel> Change Date </FormItemLabel>
-                <TextInput
-                  id={'ChangeDate'}
-                  type={inputType.text}
-                  name={'ChangeDate'}
-                  value={''}
-                  maxLength={150}
-                  disabled={true}
-                />
-              </FormGroup>
+            <div className='userAndDateFields'>
+              <div className='child'>
+                <FormGroup>
+                  <FormItemLabel>
+                    Create User
+                  </FormItemLabel>
+                  <TextInput
+                    id={'CreateUser'}
+                    type={inputType.text}
+                    name={'CreateUser'}
+                    value={''}
+                    maxLength={150}
+                    disabled={true}
+                  />
+                </FormGroup>
+              </div>
+              <div className='child'>
+                <FormGroup>
+                  <FormItemLabel> Create Date </FormItemLabel>
+                  <TextInput
+                    id={'CreateDate'}
+                    type={inputType.text}
+                    name={'CreateDate'}
+                    value={''}
+                    maxLength={150}
+                    disabled={true}
+                  />
+                </FormGroup>
+              </div>
+              <div className='child'>
+                <FormGroup>
+                  <FormItemLabel> Change User </FormItemLabel>
+                  <TextInput
+                    id={'ChangeUser'}
+                    type={inputType.text}
+                    name={'ChangeUser'}
+                    value={''}
+                    maxLength={150}
+                    disabled={true}
+                  />
+                </FormGroup>
+              </div>
+              <div className='child'>
+                <FormGroup>
+                  <FormItemLabel> Change Date </FormItemLabel>
+                  <TextInput
+                    id={'ChangeDate'}
+                    type={inputType.text}
+                    name={'ChangeDate'}
+                    value={''}
+                    maxLength={150}
+                    disabled={true}
+                  />
+                </FormGroup>
+              </div>
             </div>
           )}
           {(isEditmode) && (!isProductmode) && (
@@ -361,13 +346,27 @@ export const Product = (props: IProductProps) => {
                 <TextArea
                   id={'PreviousComments'}
                   name={'PreviousComments'}
-                  rows={5}
+                  rows={7}
                   columns={250}
                   disabled={true}
                 />
               </FormGroup>
             </div>
           )}
+          <div>
+          <div className='child'>
+            <FormGroup>
+              <FormItemLabel>{`${isEditmode ? 'New Comment' : 'Comment'}`}</FormItemLabel>
+              <TextArea
+                id={'NewComment'}
+                name={'NewComment'}
+                rows={4}
+                columns={250}
+              />
+            </FormGroup>
+          </div>
+          </div>
+        
         </div>
       </div>
     </>
