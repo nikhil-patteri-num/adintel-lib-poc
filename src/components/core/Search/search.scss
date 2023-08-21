@@ -1,0 +1,69 @@
+@import '../../assets/scss/constants/colors.scss';
+@import '../../assets/scss/base/mixins.scss';
+
+.search {
+  position: relative;
+
+  .search-icon-cross {
+    cursor: pointer;
+  }
+
+  &-input {
+    .search-icon-button,
+    .search-icon-button-cross {
+      @include crossIconButton(7px);
+      font-size: 10px;
+    }
+  }
+
+  &-body {
+    margin-top: 2px;
+    width: 100%;
+    font-size: 12px;
+    background-color: $white;
+    z-index: 2;
+    position: absolute;
+    box-shadow: 0px 3px 8px $shadowGrey;
+
+    .no-option {
+      padding: 8px;
+      height: 15px;
+      background-color: $lilyWhite;
+    }
+
+    .options {
+      max-height: 150px;
+
+      .option {
+        padding: 8px;
+        height: auto;
+        outline: none;
+        width: 100%;
+        display: block;
+        border-radius: 0;
+        background: $white;
+        text-align: left;
+
+        &:hover,
+        &:focus {
+          background: $lilyWhite;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .create-button {
+    text-align: right;
+    margin: 3px 15px;
+    .btn {
+      font-size: 12px;
+      font-family: sans-serif;
+      padding: 5px;
+      &-primary {
+        background-color: $white;
+        font-weight: 600;
+      }
+    }
+  }
+}

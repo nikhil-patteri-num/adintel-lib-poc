@@ -32,6 +32,7 @@ export const CustomSearchWrapper = ({
     }, [searchData])
 
     const handleOnChange = (arg1: string, arg2: string, arg3: string) => {
+        debugger;
         const result = { ...customSearchData, searchResults: [] };
         setCustomSearchData(result);
         onChange(arg1, arg2, arg3);
