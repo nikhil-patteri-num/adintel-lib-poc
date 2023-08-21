@@ -1,0 +1,12 @@
+@import '../../assets/scss/constants/colors.scss';
+
+.multiselect-search-option-info {
+  small {
+    color: $lightBlack;
+    font-weight: 500;
+  }
+
+  small:not(:last-child):after {
+    content: ' | ';
+  }
+}

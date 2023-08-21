@@ -17,3 +17,5 @@ export { Tooltip, tooltipPosition, ITooltipProps } from './Tooltip';
 // export { createCanvas } from 'canvas';
 // export { FloatingButton } from './FloatingButton';
 // export { Table } from './Table';
+export { MultiSelectSearchResultOption } from './MultiSelectSearchResultOption';
+export { Search, ISearchOptions } from './Search';

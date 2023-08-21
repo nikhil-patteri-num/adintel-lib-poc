@@ -1,5 +1,5 @@
 import { IBaseProperties } from "./types";
-
+import { createCanvas } from 'canvas';
 export enum keyCode {
   Down = 40,
   Up = 38,
@@ -243,7 +243,26 @@ export const CreativeStatus = {
   IN_PROGRESS: 1,
   COMPLETE: 2
 };
+export const isEmpty = (obj: any) => {
+  if (Array.isArray(obj)) return !(obj && obj.length > 0);
+  if (typeof obj === typeof {})
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) return false;
+    }
+  return true;
+};
 
+export const getWidthByText = (text: string, font: string) => {
+  const canvas = createCanvas(0, 0);
+  const context = canvas.getContext('2d');
+
+  if (context) {
+    context.font = font;
+    return context.measureText(text).width;
+  }
+
+  return 0;
+};
 // export const defaultMediaPlayerThumbnail = {
 //   path: require('../assets/images/player-thumbnail.png')
 // };
