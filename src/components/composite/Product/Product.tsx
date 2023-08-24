@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import './Prdouct.scss';
 import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput, inputType } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
@@ -8,6 +8,7 @@ export interface IProductProps {
   isEditmode: boolean;
   isProductmode: boolean;
   dropdownData:any;
+  onchange:any;
 }
 
 export const Product = (props: IProductProps) => {
@@ -38,15 +39,9 @@ export const Product = (props: IProductProps) => {
     changeDate: '',
     previousComments: ''
   });
-
-  // function onClassSearchEvent(arg0: any) {
-  //   debugger;
-  //   return arg0;
-  // }
-
-  const handleOnChange = (arg1: string) => {
-    debugger;
-    return arg1;
+ 
+  const handleOnChange = (value: string) => {
+    props.onchange(value);
   }
   return (
     <>
@@ -55,13 +50,6 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel isMandatory>Class Name</FormItemLabel>
-              {/* <Dropdown
-                id={'ClassName'}
-                value={ClassName}
-                options={[]}
-                onClick={(value: any) => setClassName(value)}
-                placeholder={'Search for Class'}
-              /> */}
               <DynamicSearch
                 id={'classId'}
                 name={'classCode'}
@@ -74,14 +62,14 @@ export const Product = (props: IProductProps) => {
                   })
                 }
                  getMultiselectSearchResults={handleOnChange}
-                commonData={
-                  dropdownData?.classNameDropdownList
+                 commonData={
+                  dropdownData.classNameDropdownList
                     ? {
                         entities: getDropdownCompatibleData(
-                          dropdownData?.classNameDropdownList,
+                          dropdownData.classNameDropdownList,
                           {
                             label: 'classCode',
-                            value: 'classCode'
+                            value: 'classId'
                           }
                         )
                       }
