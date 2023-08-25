@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { IBaseProperties } from "./types";
 import { createCanvas } from 'canvas';
 export enum keyCode {
@@ -36,6 +37,13 @@ export const noResultFound = 'No Results Found';
 export const MULTI_CHOICE_GENERATOR = {
   AddChoices: 'Add Choices',
   RadioNote: 'Select corresponding radio option to set the choice as default'
+};
+export const usePrevious = (value: any) => {
+  const ref = useRef();
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+  return ref.current;
 };
 
 export const ExportOptionMenu = [
