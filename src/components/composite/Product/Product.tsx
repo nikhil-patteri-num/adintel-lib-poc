@@ -1,22 +1,19 @@
-import React, { useState } from 'react';
+import React, {  useState } from 'react';
 import './Prdouct.scss';
 import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput, inputType } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
 import { getDropdownCompatibleData } from '../../utility/CommonMethods';
-
+import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
 export interface IProductProps {
   isEditmode: boolean;
   isProductmode: boolean;
   dropdownData:any;
+  onchange:any;
 }
 
 export const Product = (props: IProductProps) => {
   const { isEditmode, isProductmode,dropdownData} = props;
-  const [ProductType, setProductType] = useState();
-  const [DescriptorType, setDescriptorType] = useState();
   const [Brand, setBrand] = useState();
-  const [Descriptor, setDescriptor] = useState();
-  const [ProductName, setProductName] = useState();
   const [LicenseeBrand, setLicenseeBrand] = useState();
   const [LicensorBrand, setLicensorBrand] = useState();
   const [Rank, setRank] = useState(true);
@@ -26,28 +23,46 @@ export const Product = (props: IProductProps) => {
   const [Markets, setMarkets] = useState();
   const [isNationalChecked, setIsNational] = useState(true);
   const [formData, setFormData] = useState({
-    descriptorName: '',
-    descriptorsType: '',
-    descriptorTypeId: null,
-    status: 0,
-    referredTo: '',
+    classId:'',
+    productTypeId:'',
+    descriptorsTypeList: [],
+    descriptorsList: [],
+    productnameId:'',
+    brandId:'',
     newComment: '',
     createUser: '',
     createDate: '',
     changeUser: '',
     changeDate: '',
-    previousComments: ''
+    previousComments: '',
   });
-
-  // function onClassSearchEvent(arg0: any) {
-  //   debugger;
-  //   return arg0;
-  // }
-
-  const handleOnChange = (arg1: string) => {
-    debugger;
-    return arg1;
+  const handleOnChangeMultiSearchDes = (value: any) => {
+    value['name']='descriptor';
+    props.onchange(value);
   }
+   const handleOnChangeMultiSearchDestype = (value: any) => {
+     value['name']='descriptorsType';
+     props.onchange(value);
+
+   }
+ 
+   const handleOnChange = (value: string) => {
+     props.onchange(value);
+  
+   }
+   const ondescriptorsTypeClick = (values: any) => {
+    setFormData({
+      ...formData,
+      descriptorsTypeList: values
+    });
+  }
+    const ondescriptorsClick = (values: any) => {
+      setFormData({
+        ...formData,
+        descriptorsList: values
+      });
+  }
+  
   return (
     <>
       <div className={`${isProductmode ? 'container' : 'content'}`}>
@@ -55,33 +70,26 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel isMandatory>Class Name</FormItemLabel>
-              {/* <Dropdown
-                id={'ClassName'}
-                value={ClassName}
-                options={[]}
-                onClick={(value: any) => setClassName(value)}
-                placeholder={'Search for Class'}
-              /> */}
               <DynamicSearch
                 id={'classId'}
                 name={'classCode'}
                 fieldName={'classCode'}
-                value={formData.descriptorTypeId}
+                value={formData.classId}
                 setValue={selectedOption =>
                   setFormData({
                     ...formData,
-                    descriptorsType: selectedOption.value
+                    classId: selectedOption.value
                   })
                 }
                  getMultiselectSearchResults={handleOnChange}
-                commonData={
+                 commonData={
                   dropdownData?.classNameDropdownList
                     ? {
                         entities: getDropdownCompatibleData(
-                          dropdownData?.classNameDropdownList,
+                          dropdownData.classNameDropdownList,
                           {
                             label: 'classCode',
-                            value: 'classCode'
+                            value: 'classId'
                           }
                         )
                       }
@@ -101,60 +109,142 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel isMandatory>Product Type</FormItemLabel>
-              <Dropdown
-                id={'ProductType'}
-                value={ProductType}
-                options={[]}
-                onClick={(value: any) => setProductType(value)}
-                placeholder={'Search for Product Type'}
+              <DynamicSearch
+                id={'productTypeId'}
+                name={'producttypeName'}
+                fieldName={'producttypeName'}
+                value={formData.productTypeId}
+                setValue={selectedOption =>
+                  setFormData({
+                    ...formData,
+                    productTypeId: selectedOption.value
+                  })
+                }
+                 getMultiselectSearchResults={handleOnChange}
+                 commonData={
+                  dropdownData?.referredToProductTypeDropdownList
+                    ? {
+                        entities: getDropdownCompatibleData(
+                          dropdownData.referredToProductTypeDropdownList,
+                          {
+                            label: 'producttypeName',
+                            value: 'producttypeId'
+                          }
+                        )
+                      }
+                    : { entities: [] }
+                }
+                disabled={false}
               />
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel>Descriptor Type(s)</FormItemLabel>
-              <Dropdown
-                id={'DescriptorType'}
-                value={DescriptorType}
-                options={[]}
-                onClick={(value: any) => setDescriptorType(value)}
-                placeholder={'Search for Descriptor Type'}
+              <DynamicMultiSelectSearch
+                id={`descriptortypeList`}
+                value={formData.descriptorsTypeList}
+                setValue={options => ondescriptorsTypeClick(options?.mcssValues)}
+                commonData={
+                  dropdownData?.referredToDescriptorTypeDropdownList
+                    ? {
+                        entities: getDropdownCompatibleData(
+                          dropdownData?.referredToDescriptorTypeDropdownList,
+                          {
+                            label: 'descriptortypeName',
+                            value: 'descriptortypeId'
+                          }
+                        )
+                      }
+                    : { entities: [] }
+                }
+                getMultiselectSearchResults={(value: { search_text: any; }) =>
+                 handleOnChangeMultiSearchDestype({ searchValue: value.search_text })
+                }
               />
+             
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel>Descriptor(s)</FormItemLabel>
-              <Dropdown
-                id={'Descriptor'}
-                value={Descriptor}
-                options={[]}
-                onClick={(value: any) => setDescriptor(value)}
-                placeholder={'Search for Descriptor Type'}
+<DynamicMultiSelectSearch
+                id={`descriptorList`}
+                value={formData.descriptorsList}
+                setValue={options => ondescriptorsClick(options?.mcssValues)}
+                commonData={
+                  dropdownData?.referredToDescriptorDropdownList
+                    ? {
+                        entities: getDropdownCompatibleData(
+                          dropdownData?.referredToDescriptorDropdownList,
+                          {
+                            label: 'descriptorName',
+                            value: 'descriptorId'
+                          }
+                        )
+                      }
+                    : { entities: [] }
+                }
+                getMultiselectSearchResults={(value: { search_text: any; }) =>
+                 handleOnChangeMultiSearchDes({ searchValue: value.search_text })
+                }
               />
+
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel isMandatory>Product Name</FormItemLabel>
-              <Dropdown
-                id={'ProductName'}
-                value={ProductName}
-                options={[]}
-                onClick={(value: any) => setProductName(value)}
-                placeholder={'Search for ProductName'}
+              <DynamicSearch
+                id={'productnameId'}
+                name={'productName'}
+                fieldName={'productName'}
+                value={formData.productnameId}
+                setValue={selectedOption =>
+                  setFormData({
+                    ...formData,
+                    productnameId: selectedOption.value
+                  })
+                }
+                 getMultiselectSearchResults={handleOnChange}
+                 commonData={
+                  dropdownData?.referredToProductNameDropdownList
+                    ? {
+                        entities: getDropdownCompatibleData(
+                          dropdownData.referredToProductNameDropdownList,
+                          {
+                            label: 'productName',
+                            value: 'productnameId'
+                          }
+                        )
+                      }
+                    : { entities: [] }
+                }
+                disabled={false}
               />
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`}>
             <FormGroup>
-              <FormItemLabel isMandatory>Brand</FormItemLabel>
+              <FormItemLabel isMandatory>Brand</FormItemLabel>  
               <Dropdown
-                id={'Brand'}
-                options={[]}
-                value={Brand}
-                onClick={(value: any) => setBrand(value)}
-                placeholder={'Search for Brand'}
+                id={'brand'}
+                options={
+                  props.dropdownData?.statusList
+                    ? getDropdownCompatibleData(props.dropdownData?.statusList, {
+                        label: 'CompanyName',
+                        value: 'CompanyId'
+                      })
+                    : []
+                }
+                onClick={(value: any) =>
+                  setFormData({
+                    ...formData,
+                    brandId: value
+                  })
+                }
+                value={formData.brandId}
+                placeholder={'Select a Brand'}
               />
             </FormGroup>
           </div>
@@ -162,6 +252,7 @@ export const Product = (props: IProductProps) => {
             <div className='child'>
               <FormGroup>
                 <FormItemLabel>Licensee Brand</FormItemLabel>
+
                 <Dropdown
                   id={'LicenseeBrand'}
                   value={LicenseeBrand}
