@@ -1,25 +1,25 @@
 import React, {  useState } from 'react';
 import './Prdouct.scss';
-import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput, inputType, buttonVariant, Button } from '../../core';
+import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput, inputType } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
 import { getDropdownCompatibleData } from '../../utility/CommonMethods';
 import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
-import { MessageService } from '../../utility/MessageService';
-import { ERROR_MESSAGES } from '../../utility/Constants';
 export interface IProductProps {
   isEditmode: boolean;
   isProductmode: boolean;
   dropdownData:any;
   onchange:any;
-  onCreateProductSave: (payload: any) => void;
-  onEditProductSave: (payload: any) => void;
-  onClose: () => void;
-  selectedRowData?: any;
 }
 
 export const Product = (props: IProductProps) => {
-  const { isEditmode, isProductmode,dropdownData, selectedRowData} = props;
+  const { isEditmode, isProductmode,dropdownData} = props;
+  const [Brand, setBrand] = useState();
+  const [LicenseeBrand, setLicenseeBrand] = useState();
+  const [LicensorBrand, setLicensorBrand] = useState();
   const [Rank, setRank] = useState(true);
+  const [ProductTags, setProductTags] = useState();
+  const [Status, setStatus] = useState();
+  const [Referredto, setReferredto] = useState();
   const [Markets, setMarkets] = useState();
   const [isNationalChecked, setIsNational] = useState(true);
   const [formData, setFormData] = useState({
@@ -35,51 +35,9 @@ export const Product = (props: IProductProps) => {
     changeUser: '',
     changeDate: '',
     previousComments: '',
-    status:'',
-    licensorBrand:'',
-    LicenseeBrand:'',
-    ProductTags:'',
   });
-  const onSaveClick = () => {
-    if (isValidInputs()) {
-      if (isEditmode) {
-      } else {
-        onConfirmSaveClick();
-      }
-    } else {
-      MessageService.showToastMessage(ERROR_MESSAGES.MandatoryFields);
-    }
-  };
-  const onCancelButtonClick = () => {
-  };
-  const onConfirmSaveClick = () => {
-    if (isEditmode) {
-      props.onEditProductSave({ id: selectedRowData.id, ...formData });
-    } else {
-      props.onCreateProductSave(formData);
-    }
-  };
-  const isValidInputs = (): boolean => {
-    // Regular expression which accepts all characters except foreign accent marks
-    const regex = /^[^\u00C0-\u02AF\u1D2C-\u1D61\u1E00-\u1EFF]+$/;
-    if (!formData.classId) {
-      MessageService.showToastMessage(ERROR_MESSAGES.SelcetClassid);
-      return false;
-    } else if (!regex.test(formData.classId)) {
-      MessageService.showToastMessage(
-        ERROR_MESSAGES.SelcetClassid
-      );
-      return false;
-    }
-    return true;
-  };
-  
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
-    props.onchange(value);
-  }
-  const handleOnChangeMultiSearchBrand = (value: any) => {
-    value['name']='brand';
     props.onchange(value);
   }
    const handleOnChangeMultiSearchDestype = (value: any) => {
@@ -269,32 +227,24 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`}>
             <FormGroup>
               <FormItemLabel isMandatory>Brand</FormItemLabel>  
-              <DynamicSearch
+              <Dropdown
                 id={'brand'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
+                options={
+                  props.dropdownData?.statusList
+                    ? getDropdownCompatibleData(props.dropdownData?.statusList, {
+                        label: 'CompanyName',
+                        value: 'CompanyId'
+                      })
+                    : []
+                }
+                onClick={(value: any) =>
                   setFormData({
                     ...formData,
-                    brandId: selectedOption.value
+                    brandId: value
                   })
                 }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.referredToBrandDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.referredToBrandDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
+                value={formData.brandId}
+                placeholder={'Select a Brand'}
               />
             </FormGroup>
           </div>
@@ -302,35 +252,14 @@ export const Product = (props: IProductProps) => {
             <div className='child'>
               <FormGroup>
                 <FormItemLabel>Licensee Brand</FormItemLabel>
-               <DynamicSearch
-                id={'LicenseeBrand'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.licenseeBrandDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.licenseeBrandDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
 
-
+                <Dropdown
+                  id={'LicenseeBrand'}
+                  value={LicenseeBrand}
+                  options={[]}
+                  onClick={(value: any) => setLicenseeBrand(value)}
+                  placeholder={'Select a Licensee Brand'}
+                />
               </FormGroup>
             </div>
           )}
@@ -338,34 +267,13 @@ export const Product = (props: IProductProps) => {
             <div className='child'>
               <FormGroup>
                 <FormItemLabel>Licensor Brand</FormItemLabel>
-                
-                <DynamicSearch
-                id={'LicensorBrand'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.licensorBrandDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.licensorBrandDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
+                <Dropdown
+                  id={'LicensorBrand'}
+                  value={LicensorBrand}
+                  options={[]}
+                  onClick={(value: any) => setLicensorBrand(value)}
+                  placeholder={'Select a Licensor Brand'}
+                />
               </FormGroup>
             </div>
           )}
@@ -373,33 +281,13 @@ export const Product = (props: IProductProps) => {
             <div className='child'>
               <FormGroup>
                 <FormItemLabel>Product Tags</FormItemLabel>
-                <DynamicSearch
-                id={'ProductTags'}
-                name={'tag_n'}
-                fieldName={'tag_n'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.referredToProductTagDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.referredToProductTagDropdownList,
-                          {
-                            label: 'tag_n',
-                            value: 'tag_id'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
+                <Dropdown
+                  id={'ProductTags'}
+                  value={ProductTags}
+                  options={[]}
+                  onClick={(value: any) => setProductTags(value)}
+                  placeholder={'Search for Product Tags'}
+                />
               </FormGroup>
             </div>
           )}
@@ -466,25 +354,12 @@ export const Product = (props: IProductProps) => {
               <FormGroup>
                 <FormItemLabel isMandatory>Status</FormItemLabel>
                 <Dropdown
-                id={'status'}
-                searchOption={true}
-                options={
-                  props.dropdownData?.statusList
-                    ? getDropdownCompatibleData(props.dropdownData?.statusList, {
-                        label: 'entitystateName',
-                        value: 'entitystateId'
-                      })
-                    : []
-                }
-                onClick={(value: any) =>
-                  setFormData({
-                    ...formData,
-                    status: value
-                  })
-                }
-                value={formData.status}
-                placeholder={'Select a Status'}
-              />
+                  id={'Status'}
+                  value={Status}
+                  options={[]}
+                  onClick={(value: any) => setStatus(value)}
+                  placeholder={'Select a Status'}
+                />
               </FormGroup>
             </div>
           )}
@@ -492,33 +367,13 @@ export const Product = (props: IProductProps) => {
             <div className='child'>
               <FormGroup>
                 <FormItemLabel>Referred to</FormItemLabel>
-                <DynamicSearch
-                id={'referredto'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.referredToProductDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.referredToProductDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
+                <Dropdown
+                  id={'Referredto'}
+                  value={Referredto}
+                  options={[]}
+                  onClick={(value: any) => setReferredto(value)}
+                  placeholder={'Select a Referred Product'}
+                />
               </FormGroup>
             </div>
           )}
@@ -653,18 +508,6 @@ export const Product = (props: IProductProps) => {
               />
             </FormGroup>
           </div>
-          <div className='profile-footer'>
-        <Button id='cancel-btn' variant={buttonVariant.primary} onClick={onCancelButtonClick}>
-          Cancel
-        </Button>
-        <Button
-          id='save-btn'
-          variant={buttonVariant.secondary}
-          onClick={onSaveClick}
-        >
-          {isEditmode ? 'Update Product' : 'Create Product'}
-        </Button>
-      </div>
           </div>
         
         </div>
