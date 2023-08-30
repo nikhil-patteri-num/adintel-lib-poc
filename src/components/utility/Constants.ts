@@ -99,6 +99,7 @@ export const ERROR_MESSAGES = {
   IndustryIsEmpty: 'Please provide a valid industry name.',
   DuplicateRecord: 'Duplicate Check: The record is already exists.',
   MandatoryFields: 'Please enter correct information for the mandatory fields.',
+  SelcetClassid: 'Please Select Class',
   ZipcodeContainsAlphabets: 'Please provide a valid zipcode',
   ComponentNotReadyForCoding: 'Please complete component coding.',
   fileFormatNotSupportedErrorText: 'File Format is Not supported',
