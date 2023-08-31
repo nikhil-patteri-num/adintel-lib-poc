@@ -1,5 +1,5 @@
 {
-  "version": "0.3.30",
+  "version": "0.3.31",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -55,6 +55,7 @@
     "@fortawesome/react-fontawesome": "^0.1.9",
     "@types/react-flatpickr": "3.8.1",
     "bootstrap": "^5.3.1",
+    "browserslist": "^4.21.10",
     "canvas": "^2.11.2",
     "react-bootstrap": "^2.8.0",
     "react-flatpickr": "3.10.4",
@@ -85,6 +86,7 @@
     "crypto-js": "^4.0.0",
     "css-loader": "^5.2.6",
     "cssnano": "^5.1.13",
+    "html-webpack-plugin": "^5.5.3",
     "husky": "^8.0.1",
     "moment": "^2.24.0",
     "node-sass": "^7.0.3",

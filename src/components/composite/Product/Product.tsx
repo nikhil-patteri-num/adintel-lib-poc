@@ -4,8 +4,6 @@ import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput,
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
 import { getDropdownCompatibleData } from '../../utility/CommonMethods';
 import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
-import { MessageService } from '../../utility/MessageService';
-import { ERROR_MESSAGES } from '../../utility/Constants';
 export interface IProductProps {
   isEditmode: boolean;
   isProductmode: boolean;
@@ -47,7 +45,7 @@ export const Product = (props: IProductProps) => {
         onConfirmSaveClick();
       }
     } else {
-      MessageService.showToastMessage(ERROR_MESSAGES.MandatoryFields);
+      //MessageService.showToastMessage(ERROR_MESSAGES.MandatoryFields);
     }
   };
   const onCancelButtonClick = () => {
@@ -63,16 +61,16 @@ export const Product = (props: IProductProps) => {
     // Regular expression which accepts all characters except foreign accent marks
     const regex = /^[^\u00C0-\u02AF\u1D2C-\u1D61\u1E00-\u1EFF]+$/;
     if (!formData.classId) {
-      MessageService.showToastMessage(ERROR_MESSAGES.SelcetClassid);
+      alert('This is an alert message!');
       return false;
     } else if (!regex.test(formData.classId)) {
-      MessageService.showToastMessage(
-        ERROR_MESSAGES.SelcetClassid
-      );
+     
       return false;
     }
     return true;
   };
+
+ 
   
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
