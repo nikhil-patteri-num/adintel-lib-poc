@@ -18,6 +18,7 @@ export interface IProductProps {
 export const Product = (props: IProductProps) => {
   const { isEditmode, isProductmode,dropdownData, selectedRowData} = props;
   const [Rank, setRank] = useState(true);
+  const [producatname_n, setproducatname_n] = useState('');
   const [Markets, setMarkets] = useState();
   const [isNationalChecked, setIsNational] = useState(true);
   const [formData, setFormData] = useState({
@@ -26,6 +27,8 @@ export const Product = (props: IProductProps) => {
     descriptorsTypeList: [],
     descriptorsList: [],
     productnameId:'',
+    productname:'',
+    productType:'',
     brandId:'',
     newComment: '',
     createUser: '',
@@ -36,7 +39,7 @@ export const Product = (props: IProductProps) => {
     status:'',
     licensorBrand:'',
     LicenseeBrand:'',
-    ProductTags:'',
+    ProductTags:''
   });
   const onSaveClick = () => {
     if (isValidInputs()) {
@@ -49,6 +52,7 @@ export const Product = (props: IProductProps) => {
     }
   };
   const onCancelButtonClick = () => {
+    props.onClose();
   };
   const onConfirmSaveClick = () => {
     if (isEditmode) {
@@ -69,8 +73,37 @@ export const Product = (props: IProductProps) => {
     }
     return true;
   };
-
+  const productnameformation = (payload:any) => {
+   let descriptorsTypeList='';
+   if(payload.descriptorsTypeList!== undefined )
+   {
+   for(let obj of payload.descriptorsTypeList){
+     descriptorsTypeList=descriptorsTypeList+obj['label'];
+   }
+   }
+   let descriptorslist='';
+   if(payload.descriptorsList!== undefined )
+   {
+   for(let obj of payload.descriptorsList){
+    descriptorslist=descriptorslist+obj['label'];
+   }
+   }
+   let productname='';
+   if(payload.productname!== undefined )
+   {
+    productname=payload.productname;
+   }
+   let productType='';
+   if(payload.productType!== undefined )
+   {
+    productType=payload.productType;
+   }
  
+  setproducatname_n(productname+' : '+productType +' : '+ descriptorsTypeList +' : '+ descriptorslist);
+
+  };
+
+  
   
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
@@ -95,14 +128,66 @@ export const Product = (props: IProductProps) => {
       ...formData,
       descriptorsTypeList: values
     });
+    formData.descriptorsList=[];
+    formData.productnameId='';
+    formData.brandId='';
+    const payload = {
+      descriptorsTypeList:values,
+      descriptorsList: formData.descriptorsList,
+      productname:formData.productname,
+      productType:formData.productType,
+    };
+    productnameformation(payload);
   }
     const ondescriptorsClick = (values: any) => {
       setFormData({
         ...formData,
         descriptorsList: values
       });
+      formData.productnameId='';
+      formData.brandId='';
+      const payload = {
+        descriptorsTypeList: formData.descriptorsTypeList ,
+        descriptorsList: values,
+        productname:formData.productname,
+        productType:formData.productType
+      };
+      productnameformation(payload);
   }
+  const onproducttype = (values: any) => {
+    setFormData({
+      ...formData,
+      productTypeId: values.value,
+      productType: values.label
+    })
+    formData.descriptorsList=[];
+    formData.descriptorsTypeList=[];
+    formData.brandId='';
+    const payload = {
+      descriptorsTypeList:formData.descriptorsTypeList  ,
+      descriptorsList:formData.descriptorsList ,
+      productname:formData.productname,
+      productType:values.label,
+    };
+    productnameformation(payload);
+}
+const onproductname = (values: any) => {
+ setFormData({
+   ...formData,
+   productnameId: values.value,
+   productname: values.label
+ })
+ formData.brandId='';
+ const payload = {
+  descriptorsTypeList:formData.descriptorsTypeList ,
+  descriptorsList: formData.descriptorsList,
+  productname:values.label,
+  productType:formData.productType,
+};
+ productnameformation(payload);
+}
   
+   
   return (
     <>
       <div className={`${isProductmode ? 'container' : 'content'}`}>
@@ -154,12 +239,7 @@ export const Product = (props: IProductProps) => {
                 name={'producttypeName'}
                 fieldName={'producttypeName'}
                 value={formData.productTypeId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    productTypeId: selectedOption.value
-                  })
-                }
+                setValue={selectedOption => onproducttype(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
                  commonData={
                   dropdownData?.referredToProductTypeDropdownList
@@ -240,12 +320,7 @@ export const Product = (props: IProductProps) => {
                 name={'productName'}
                 fieldName={'productName'}
                 value={formData.productnameId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    productnameId: selectedOption.value
-                  })
-                }
+                setValue={selectedOption => onproductname(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
                  commonData={
                   dropdownData?.referredToProductNameDropdownList
@@ -442,7 +517,7 @@ export const Product = (props: IProductProps) => {
                 />
               )}
               {(isProductmode) && (
-                <div>{'< Product Name > : < Product Type > : < Product Descriptor >'} </div>
+                <div className='productdisplaycolor'> {producatname_n} </div>
               )}
               {(isProductmode) && (
                 <div className='checkboxalignmentpr'>
@@ -651,8 +726,8 @@ export const Product = (props: IProductProps) => {
               />
             </FormGroup>
           </div>
-          <div className='profile-footer'>
-        <Button id='cancel-btn' variant={buttonVariant.primary} onClick={onCancelButtonClick}>
+          <div className='product-footernew'>
+        <Button id='cancel-btn' customClass='submitbuttondesign' variant={buttonVariant.primary} onClick={onCancelButtonClick}>
           Cancel
         </Button>
         <Button
@@ -660,7 +735,7 @@ export const Product = (props: IProductProps) => {
           variant={buttonVariant.secondary}
           onClick={onSaveClick}
         >
-          {isEditmode ? 'Update Product' : 'Create Product'}
+          {isEditmode ? 'Submit' : 'Submit'}
         </Button>
       </div>
           </div>
