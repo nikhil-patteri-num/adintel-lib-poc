@@ -22,7 +22,9 @@ export const DefaultSearch = () => (
             onClearSearch={false}
             changedSearchText={''}
             isLoading={false}
-            showEmptyOption={false} />
+            showEmptyOption={false}
+            onClearButton={()=>{console.log('Clear Query')}}
+            />
     </div>
 );
 

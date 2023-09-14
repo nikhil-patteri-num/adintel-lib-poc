@@ -34,6 +34,7 @@ interface ICustomSearchProps {
   onClearSearch: boolean;
   onSearchTextChange: string;
   showEmptyOption: boolean;
+  onClearButton?:any;
 }
 
 export const CustomSearch = (props: ICustomSearchProps) => {
@@ -47,7 +48,8 @@ export const CustomSearch = (props: ICustomSearchProps) => {
     isLoading,
     onClearSearch,
     onSearchTextChange,
-    showEmptyOption
+    showEmptyOption,
+    onClearButton
   } = props;
   const { columns, searchResults } = customSearchData;
   const [showResults, setShowResults] = useState(false);
@@ -591,6 +593,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
 
   const onCrossButtonClick = () => {
     setQueryArray([]);
+    onClearButton();
   };
 
   const onEnterClick = (event: any) => {

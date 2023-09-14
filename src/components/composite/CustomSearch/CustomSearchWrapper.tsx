@@ -13,6 +13,7 @@ export interface CustomSearchWrapperProps {
     changedSearchText: string;
     isLoading: boolean;
     showEmptyOption: boolean;
+    onClearButton?: any;
 }
 
 export const CustomSearchWrapper = ({
@@ -23,7 +24,8 @@ export const CustomSearchWrapper = ({
     onClearSearch,
     changedSearchText,
     isLoading,
-    showEmptyOption
+    showEmptyOption,
+    onClearButton
 }: CustomSearchWrapperProps) => {
     const [customSearchData, setCustomSearchData] = useState<ISearchDataType>({ columns: [], searchResults: [] });
 
@@ -32,7 +34,6 @@ export const CustomSearchWrapper = ({
     }, [searchData])
 
     const handleOnChange = (arg1: string, arg2: string, arg3: string) => {
-        debugger;
         const result = { ...customSearchData, searchResults: [] };
         setCustomSearchData(result);
         onChange(arg1, arg2, arg3);
@@ -51,6 +52,7 @@ export const CustomSearchWrapper = ({
                 onClearSearch={onClearSearch}
                 onSearchTextChange={changedSearchText}
                 showEmptyOption={showEmptyOption}
+                onClearButton={onClearButton}
             />
             {/* <div className={`query-label ${isQueryValid ? 'valid-text' : 'invalid-text'}`}>{searchQuery}</div> */}
         </div>
