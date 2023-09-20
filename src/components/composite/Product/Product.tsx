@@ -1,26 +1,34 @@
-import React, {  useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import './Prdouct.scss';
-import { FormGroup, FormItemLabel, Dropdown, TextArea, CheckboxInput, TextInput, inputType, buttonVariant, Button } from '../../core';
+import { FormGroup, FormItemLabel,  TextArea, buttonVariant, Button, Icon } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
-import { getDropdownCompatibleData } from '../../utility/CommonMethods';
+import { getDropdownClassesCompatibleData, getDropdownCompatibleData } from '../../utility/CommonMethods';
 import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 export interface IProductProps {
-  isEditmode: boolean;
-  isProductmode: boolean;
   dropdownData:any;
   onchange:any;
   onCreateProductSave: (payload: any) => void;
   onEditProductSave: (payload: any) => void;
   onClose: () => void;
+  isLoading: boolean;
+  showEmptyOption:boolean;
   selectedRowData?: any;
+  productTypeId:any;
+  classurl:any;
+  showEmptySelected:string
 }
 
 export const Product = (props: IProductProps) => {
-  const { isEditmode, isProductmode,dropdownData, selectedRowData} = props;
-  const [Rank, setRank] = useState(true);
+  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,classurl,showEmptySelected} = props;
+  const isEditmode=false;
+  const isProductmode=true;
   const [producatname_n, setproducatname_n] = useState('');
-  const [Markets, setMarkets] = useState();
-  const [isNationalChecked, setIsNational] = useState(true);
+  const [validProduct,setValidProduct]= useState(false);
+  const [validClass,setvalidClass]= useState(true);
+  const [validProductType,setvalidProductType]= useState(true);
+  const [validProductName,setvalidProductName]= useState(true);
+  const [validBrandID,setvalidBrandID]= useState(true);
   const [formData, setFormData] = useState({
     classId:'',
     productTypeId:'',
@@ -31,15 +39,8 @@ export const Product = (props: IProductProps) => {
     productType:'',
     brandId:'',
     newComment: '',
-    createUser: '',
-    createDate: '',
-    changeUser: '',
-    changeDate: '',
-    previousComments: '',
-    status:'',
-    licensorBrand:'',
-    LicenseeBrand:'',
-    ProductTags:''
+    status:-1,
+    display_n:''
   });
   const onSaveClick = () => {
     if (isValidInputs()) {
@@ -58,132 +59,214 @@ export const Product = (props: IProductProps) => {
     if (isEditmode) {
       props.onEditProductSave({ id: selectedRowData.id, ...formData });
     } else {
+      formData.display_n=producatname_n;
+      if(isProductmode)
+      {
+       formData.status=-1;
+      }
+      else
+      {
+        formData.status=1;
+      }
+      setValidProduct(false);
       props.onCreateProductSave(formData);
     }
   };
+  useEffect(() => {
+    if(formData.productTypeId!='')
+    {
+    setFormData({
+      ...formData,
+      productTypeId:productTypeId
+    })
+  }
+  }, []);
+
   const isValidInputs = (): boolean => {
-    // Regular expression which accepts all characters except foreign accent marks
-    const regex = /^[^\u00C0-\u02AF\u1D2C-\u1D61\u1E00-\u1EFF]+$/;
     if (!formData.classId) {
-      alert('This is an alert message!');
-      return false;
-    } else if (!regex.test(formData.classId)) {
-     
+       setvalidClass(false);
+    } 
+    if (!formData.productTypeId) {
+      setvalidProductType(false);
+   } 
+   if (!formData.productnameId) {
+    setvalidProductName(false);
+    } 
+    if (!formData.brandId) {
+      setvalidBrandID(false);
+    }
+    if(!formData.classId && !formData.productTypeId && !formData.productnameId && !formData.brandId ) 
+    {
       return false;
     }
+    else
+    {
     return true;
+    }
+  };
+   
+  const onFieldChange = (event: React.ChangeEvent<HTMLInputElement>, fieldKey: any) => {
+    setFormData({
+      ...formData,
+      [fieldKey]: event.target.value
+    });
   };
   const productnameformation = (payload:any) => {
-   let descriptorsTypeList='';
-   if(payload.descriptorsTypeList!== undefined )
-   {
-   for(let obj of payload.descriptorsTypeList){
-     descriptorsTypeList=descriptorsTypeList+obj['label'];
-   }
-   }
    let descriptorslist='';
-   if(payload.descriptorsList!== undefined )
+   if(payload.descriptorsList!== undefined  && payload.descriptorsList!==null)
    {
    for(let obj of payload.descriptorsList){
-    descriptorslist=descriptorslist+obj['label'];
+    descriptorslist=descriptorslist+obj['label']+' - ';
    }
+   descriptorslist=descriptorslist.substring(0,descriptorslist.length-3);
    }
+
    let productname='';
-   if(payload.productname!== undefined )
+   if(payload.productname!== undefined &&  payload.productname!== null)
    {
     productname=payload.productname;
    }
    let productType='';
-   if(payload.productType!== undefined )
+   if(payload.productType!== undefined &&  payload.productType!== null)
    {
     productType=payload.productType;
    }
- 
-  setproducatname_n(productname+' : '+productType +' : '+ descriptorsTypeList +' : '+ descriptorslist);
-
+   if(productType!=='' && productname!=='')
+   {
+     setValidProduct(true);
+   }
+   else
+   {
+    setValidProduct(false);
+   }
+   if(descriptorslist!='')
+   {
+    setproducatname_n(productname+' : '+productType +' : '+ descriptorslist);
+   }
+   else
+   {
+   setproducatname_n(productname+' : '+productType);
+   }
   };
 
   
   
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
+    value['classId']=formData.classId;
+    value['descriptorsTypeList']=formData.descriptorsTypeList;
     props.onchange(value);
   }
   const handleOnChangeMultiSearchBrand = (value: any) => {
     value['name']='brand';
     props.onchange(value);
+    if(value!=null && value!=''&& value!='0' )
+     {
+       setvalidBrandID(true);
+     }
+     else
+     {
+      setvalidBrandID(false);
+     }
   }
    const handleOnChangeMultiSearchDestype = (value: any) => {
      value['name']='descriptorsType';
+     value['classId']=formData.classId;
      props.onchange(value);
 
    }
  
    const handleOnChange = (value: string) => {
      props.onchange(value);
-  
+     if(value!=null && value!=''&& value!='0' )
+     {
+       setvalidClass(true);
+     }
+     else
+     {
+      setvalidClass(false);
+     }
    }
    const ondescriptorsTypeClick = (values: any) => {
     setFormData({
       ...formData,
       descriptorsTypeList: values
     });
-    formData.descriptorsList=[];
-    formData.productnameId='';
-    formData.brandId='';
-    const payload = {
-      descriptorsTypeList:values,
-      descriptorsList: formData.descriptorsList,
-      productname:formData.productname,
-      productType:formData.productType,
-    };
-    productnameformation(payload);
+   
   }
     const ondescriptorsClick = (values: any) => {
       setFormData({
         ...formData,
         descriptorsList: values
       });
-      formData.productnameId='';
-      formData.brandId='';
       const payload = {
         descriptorsTypeList: formData.descriptorsTypeList ,
         descriptorsList: values,
         productname:formData.productname,
         productType:formData.productType
       };
+      
       productnameformation(payload);
   }
+  const onClassSelect = (values: any) => {
+    setFormData({
+      ...formData,
+      classId:values.value
+    })
+    if(values.label!="" && values.label!=null)
+    {
+     props.onchange(values);
+    }
+    else
+    {
+    }
+   
+    
+   }
   const onproducttype = (values: any) => {
     setFormData({
       ...formData,
       productTypeId: values.value,
-      productType: values.label
+      productType: values.label,
+      descriptorsList:[],
+      descriptorsTypeList:[]
     })
-    formData.descriptorsList=[];
-    formData.descriptorsTypeList=[];
-    formData.brandId='';
     const payload = {
       descriptorsTypeList:formData.descriptorsTypeList  ,
       descriptorsList:formData.descriptorsList ,
       productname:formData.productname,
       productType:values.label,
     };
-    productnameformation(payload);
+    if(values.value!=null && values.value!=''&& values.value!='0' )
+{
+  setvalidProductType(true);
 }
+else
+{
+  setvalidProductType(false);
+}
+    productnameformation(payload);
+  }
 const onproductname = (values: any) => {
  setFormData({
    ...formData,
    productnameId: values.value,
    productname: values.label
  })
- formData.brandId='';
  const payload = {
   descriptorsTypeList:formData.descriptorsTypeList ,
   descriptorsList: formData.descriptorsList,
   productname:values.label,
   productType:formData.productType,
 };
+if(values.value!=null && values.value!=''&& values.value!='0' )
+{
+  setvalidProductName(true);
+}
+else
+{
+  setvalidProductName(false);
+}
  productnameformation(payload);
 }
   
@@ -200,21 +283,17 @@ const onproductname = (values: any) => {
                 name={'classCode'}
                 fieldName={'classCode'}
                 value={formData.classId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    classId: selectedOption.value
-                  })
-                }
+                setValue={selectedOption => onClassSelect(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
                  commonData={
                   dropdownData?.classNameDropdownList
                     ? {
-                        entities: getDropdownCompatibleData(
+                        entities:getDropdownClassesCompatibleData(
                           dropdownData.classNameDropdownList,
                           {
-                            label: 'classCode',
-                            value: 'classId'
+                            label: 'className',
+                            value: 'classId',
+                            code: 'classCode'
                           }
                         )
                       }
@@ -222,12 +301,15 @@ const onproductname = (values: any) => {
                 }
                 disabled={false}
               />
+               {showEmptySelected=='Class' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
+               {showEmptySelected=='Class' && isLoading && (<div className='empty-option'>Loading...</div>)}
+              <span className={validClass?'span':'errorspan'} >Please Enter Valid Class</span>
             </FormGroup>
             <div className={`${!isProductmode ? 'hide' : ''}`}>
               <div className='role-container-right'>
                 <p>
-                  <a href="#b" className='removeunderline'>General guidlines</a>
-                  <a href="#b" className='heyperlink removeunderline'>Category Instructions</a></p>
+                  <a href="#b" target="_blank" className='removeunderline'>General guidlines</a>
+                  <a href={classurl} target="_blank"  className={classurl?'heyperlink removeunderline': 'heyperlink removeunderline  heyperlinknew'}>Category Instructions</a></p>
               </div>
             </div>
           </div>
@@ -256,6 +338,9 @@ const onproductname = (values: any) => {
                 }
                 disabled={false}
               />
+               {showEmptySelected=='ProductType' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
+               {showEmptySelected=='ProductType' && isLoading && (<div className='empty-option'>Loading...</div>)}
+                 <span className={validProductType?'span':'errorspan'} >Please Enter Valid Product Type</span>
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
@@ -271,8 +356,8 @@ const onproductname = (values: any) => {
                         entities: getDropdownCompatibleData(
                           dropdownData?.referredToDescriptorTypeDropdownList,
                           {
-                            label: 'descriptortypeName',
-                            value: 'descriptortypeId'
+                            label: 'label',
+                            value: 'value'
                           }
                         )
                       }
@@ -282,7 +367,8 @@ const onproductname = (values: any) => {
                  handleOnChangeMultiSearchDestype({ searchValue: value.search_text })
                 }
               />
-             
+              {showEmptySelected=='DescriptorType' &&showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
+               {showEmptySelected=='DescriptorType' && isLoading && (<div className='empty-option'>Loading...</div>)}
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
@@ -298,8 +384,8 @@ const onproductname = (values: any) => {
                         entities: getDropdownCompatibleData(
                           dropdownData?.referredToDescriptorDropdownList,
                           {
-                            label: 'descriptorName',
-                            value: 'descriptorId'
+                            label: 'label',
+                            value: 'value'
                           }
                         )
                       }
@@ -309,7 +395,8 @@ const onproductname = (values: any) => {
                  handleOnChangeMultiSearchDes({ searchValue: value.search_text })
                 }
               />
-
+              {showEmptySelected=='Descriptor' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
+               {showEmptySelected=='Descriptor' && isLoading && (<div className='empty-option'>Loading...</div>)}
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
@@ -337,6 +424,9 @@ const onproductname = (values: any) => {
                 }
                 disabled={false}
               />
+               {showEmptySelected=='ProductName' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
+               {showEmptySelected=='ProductName' && isLoading && (<div className='empty-option'>Loading...</div>)}
+                 <span className={validProductName?'span':'errorspan'} >Please Enter Valid Product Name</span>
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`}>
@@ -369,351 +459,31 @@ const onproductname = (values: any) => {
                 }
                 disabled={false}
               />
+               {showEmptySelected=='BrandId' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
+               {showEmptySelected=='BrandId' && isLoading && (<div className='empty-option'>Loading...</div>)}
+              <span className={validBrandID?'span':'errorspan'} >Please Enter Valid Brand</span>
             </FormGroup>
           </div>
-          {(!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>Licensee Brand</FormItemLabel>
-               <DynamicSearch
-                id={'LicenseeBrand'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.licenseeBrandDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.licenseeBrandDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
-
-
-              </FormGroup>
+          <div className='child productpreview'>
+          
+          <FormGroup>
+          <FormItemLabel isMandatory >Product Preview</FormItemLabel>
+            <div>
+            <div className='productdisplaycolor' > { producatname_n} </div>
             </div>
-          )}
-          {(!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>Licensor Brand</FormItemLabel>
-                
-                <DynamicSearch
-                id={'LicensorBrand'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.licensorBrandDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.licensorBrandDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
-              </FormGroup>
+          </FormGroup>
+          <FormGroup>
+          <div className='tickdesign'>
+            <div className='productpreviewnew'  > {validProduct ? (
+      <Icon className='custom-search-query-statusupadte-valid' icon={faCheckCircle} />
+    ) : (
+      <Icon className='custom-search-query-statusupadte-invalid' icon={faTimesCircle} />
+    )}</div>
             </div>
-          )}
-          {(!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>Product Tags</FormItemLabel>
-                <DynamicSearch
-                id={'ProductTags'}
-                name={'tag_n'}
-                fieldName={'tag_n'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.referredToProductTagDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.referredToProductTagDropdownList,
-                          {
-                            label: 'tag_n',
-                            value: 'tag_id'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
-              </FormGroup>
-            </div>
-          )}
-          {(!isProductmode) && (
-            <div className='child checkboxalignment'>
-              <FormGroup >
-                <div>
-                  <FormItemLabel>National</FormItemLabel>
-                  <CheckboxInput customClass='checkboxdesign'
-                    id={'checkbox'}
-                    checked={isNationalChecked}
-                    label={''}
-                    onChange={(event: any) => setIsNational(event.target.checked)}
-                  />
-                </div>
-              </FormGroup>
-              <FormGroup>
-                <FormItemLabel>Rank</FormItemLabel>
-                <CheckboxInput
-                  customClass='checkboxdesign'
-                  id={'Rank'}
-                  checked={Rank}
-                  label={''}
-                  //value={Rank}
-                  onChange={(event: any) => setRank(event.target.checked)}
-                />
-              </FormGroup>
-            </div>
-          )}
-
-          <div className={`${isProductmode ? 'childprd' : 'child'}`}>
-            <FormGroup >
-              <FormItemLabel>{`${isProductmode ? 'New Product Listing : ' : 'Product Preview'}`}</FormItemLabel>
-              {(!isProductmode) && (
-                <TextInput
-                  id={'ProductPreview'}
-                  type={inputType.text}
-                  name={'ProductPreview'}
-                  value={''}
-                  maxLength={150}
-                  disabled={true}
-                />
-              )}
-              {(isProductmode) && (
-                <div className='productdisplaycolor'> {producatname_n} </div>
-              )}
-              {(isProductmode) && (
-                <div className='checkboxalignmentpr'>
-                  <CheckboxInput
-                    id={'checkbox'}
-                    checked={true}
-                    label={''}
-                    value={true}
-                  />
-                </div>
-              )}
-            </FormGroup>
-          </div>
+          </FormGroup>
+        </div>
         </div>
         <div className={`${isProductmode ? '' : 'right'}`}>
-
-          {(!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel isMandatory>Status</FormItemLabel>
-                <Dropdown
-                id={'status'}
-                searchOption={true}
-                options={
-                  props.dropdownData?.statusList
-                    ? getDropdownCompatibleData(props.dropdownData?.statusList, {
-                        label: 'entitystateName',
-                        value: 'entitystateId'
-                      })
-                    : []
-                }
-                onClick={(value: any) =>
-                  setFormData({
-                    ...formData,
-                    status: value
-                  })
-                }
-                value={formData.status}
-                placeholder={'Select a Status'}
-              />
-              </FormGroup>
-            </div>
-          )}
-          {(!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>Referred to</FormItemLabel>
-                <DynamicSearch
-                id={'referredto'}
-                name={'companyName'}
-                fieldName={'companyName'}
-                value={formData.brandId}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
-                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                 commonData={
-                  dropdownData?.referredToProductDropdownList
-                    ? {
-                        entities: getDropdownCompatibleData(
-                          dropdownData.referredToProductDropdownList,
-                          {
-                            label: 'companyName',
-                            value: 'companyId'
-                          }
-                        )
-                      }
-                    : { entities: [] }
-                }
-                disabled={false}
-              />
-              </FormGroup>
-            </div>
-          )}
-          {(!isProductmode) && (
-            <div className='child'>
-              <FormGroup >
-                <FormItemLabel>Markets</FormItemLabel>
-                <Dropdown
-                  id={'Markets'}
-                  value={Markets}
-                  options={[]}
-                  onClick={(value: any) => setMarkets(value)}
-                  placeholder={'Search for Markets'}
-                  disabled={isNationalChecked}
-                />
-              </FormGroup>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>
-                  Recent Creatives
-                </FormItemLabel>
-                <TextInput
-                  id={'RecentCreatives'}
-                  type={inputType.text}
-                  name={'RecentCreatives'}
-                  value={''}
-                  maxLength={150}
-                />
-              </FormGroup>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup>
-                <FormItemLabel>
-                  Activity
-                </FormItemLabel>
-                <TextInput
-                  id={'Activity'}
-                  type={inputType.text}
-                  name={'Activity'}
-                  value={''}
-                  maxLength={150}
-                />
-              </FormGroup>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='userAndDateFields'>
-              <div className='child'>
-                <FormGroup>
-                  <FormItemLabel>
-                    Create User
-                  </FormItemLabel>
-                  <TextInput
-                    id={'CreateUser'}
-                    type={inputType.text}
-                    name={'CreateUser'}
-                    value={''}
-                    maxLength={150}
-                    disabled={true}
-                  />
-                </FormGroup>
-              </div>
-              <div className='child'>
-                <FormGroup>
-                  <FormItemLabel> Create Date </FormItemLabel>
-                  <TextInput
-                    id={'CreateDate'}
-                    type={inputType.text}
-                    name={'CreateDate'}
-                    value={''}
-                    maxLength={150}
-                    disabled={true}
-                  />
-                </FormGroup>
-              </div>
-              <div className='child'>
-                <FormGroup>
-                  <FormItemLabel> Change User </FormItemLabel>
-                  <TextInput
-                    id={'ChangeUser'}
-                    type={inputType.text}
-                    name={'ChangeUser'}
-                    value={''}
-                    maxLength={150}
-                    disabled={true}
-                  />
-                </FormGroup>
-              </div>
-              <div className='child'>
-                <FormGroup>
-                  <FormItemLabel> Change Date </FormItemLabel>
-                  <TextInput
-                    id={'ChangeDate'}
-                    type={inputType.text}
-                    name={'ChangeDate'}
-                    value={''}
-                    maxLength={150}
-                    disabled={true}
-                  />
-                </FormGroup>
-              </div>
-            </div>
-          )}
-          {(isEditmode) && (!isProductmode) && (
-            <div className='child'>
-              <FormGroup >
-                <FormItemLabel>Previous Comments</FormItemLabel>
-                <TextArea
-                  id={'PreviousComments'}
-                  name={'PreviousComments'}
-                  rows={7}
-                  columns={250}
-                  disabled={true}
-                />
-              </FormGroup>
-            </div>
-          )}
           <div>
           <div className='child'>
             <FormGroup>
@@ -723,6 +493,8 @@ const onproductname = (values: any) => {
                 name={'NewComment'}
                 rows={4}
                 columns={250}
+                value={formData.newComment}
+                onChange={event => onFieldChange(event, 'newComment')}
               />
             </FormGroup>
           </div>
