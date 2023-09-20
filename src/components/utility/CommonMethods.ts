@@ -12,3 +12,17 @@ export const getDropdownCompatibleData = (
     return [];
   }
 };
+export const getDropdownClassesCompatibleData = (  
+  data: Array<any>,
+  { label, value, code }: { label: string, value: string, code: string}
+) => {
+  try {
+    return data.map(item => ({
+      label: item[code] + ' : ' + item[label],
+      value: item[value],
+      code: item[code]
+    }));
+  } catch {
+    return [];
+  }
+};

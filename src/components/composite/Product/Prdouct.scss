@@ -186,3 +186,50 @@ div.childprd {
 {
   margin-right: 19px;
 }
+.custom-search-query-statusupadte-valid {
+  left: 4px;
+ // position: absolute;
+  top: 10px;
+  color: green!important;
+  font-size: 26px;
+}
+.custom-search-query-statusupadte-invalid {
+  left: 4px;
+ // position: absolute;
+  top: 10px;
+  color: red!important;
+  font-size: 26px;
+}
+.tickdesign
+{
+  float: right;
+  margin-left: 88%;
+  margin-top: -4%;
+}
+
+.span
+{
+    display: none;
+}
+.errorspan
+{
+    display: inline-block;
+    font-size: 12px;
+    text-align: left;
+    width: 100%;
+    font-style: italic;
+    color: red;
+    font-weight:bold;
+}
+.heyperlinknew
+{
+  pointer-events: none;
+  cursor: default;
+  opacity: 0.7;
+  color: grey!important;
+}
+.heyperlink {
+  float: right;
+  font-style: italic;
+  color: blue;
+}
