@@ -157,7 +157,6 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   }, [src])
 
   React.useEffect(() => {
-    debugger;
     if(title?.includes("Global Creative ID"))
     {
       setcollectionCreativeID(title?.split("--")[0]);
