@@ -130,6 +130,8 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   const [showPlaybackContainer, setShowPlaybackContainer] = React.useState(false);
   const [showVideoQualityContainer, setShowVideoQualityContainer] = React.useState(false);
   const [mediaProgressInSeconds, setMediaProgressInSeconds]: any = React.useState(0);
+  const [globalCreativeID,setglobalCreativeID]= React.useState('');
+  const [collectionCreativeID,setcollectionCreativeID]= React.useState('');
   // const [showReportMediaIssueModal, setShowReportMediaIssueModal] = React.useState(false);
   const playbackRef: any = React.useRef(null);
   // const [showVideoEditor, setShowVideoEditor] = React.useState(false);
@@ -153,6 +155,15 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   React.useEffect(() => {
     props.setPlaybackRate && props.setPlaybackRate(1);
   }, [src])
+
+  React.useEffect(() => {
+    debugger;
+    if(title?.includes("Global Creative ID"))
+    {
+      setcollectionCreativeID(title?.split("--")[0]);
+      setglobalCreativeID(title?.split("--")[1]);
+    }
+  }, [title])
 
   // const trimCreativeSuccess = () => {
   //   setShowVideoEditor(false);
@@ -317,6 +328,7 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
     return false;
   }
 
+ 
   // const onCreativeEditClick = () => {
   //   if (
   //     mediaList[props.currentMediaIndex].status === CreativeStatus.IN_PROGRESS ||
@@ -340,7 +352,10 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
   return (
     <>
       <div className='creative-player-title'>
-        <div className='title-label'>{title ? title : 'New Ad'}</div>
+      <div className='title-label'>
+        <div>{title ? collectionCreativeID && collectionCreativeID!=''? collectionCreativeID: title : 'New Ad'}</div>
+        <div className={globalCreativeID && globalCreativeID!=''? 'globalcreativeiddisplayvalid' : 'globalcreativeiddisplayunvalid'} >{globalCreativeID && globalCreativeID!=''? globalCreativeID : ''}</div>
+        </div>
         <div className='multiple-creative-control'>
           {props.currentMediaCount && props.totalMediaCount && <div className='middle-div'>
             <Button
@@ -362,7 +377,9 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
             </Button>
           </div>}
         </div>
+       
         <>
+        
           <div className='playback-rate-wrapper' ref={playbackRef}>
             {isVideoType() && showEditIcon && title !== 'Similar Ad' ? (
               <Tooltip text='Edit Video'>
@@ -487,7 +504,10 @@ export const CreativePlayer = (props: ICreativePlayerProps) => {
             ) : null}
           </div>
         </>
+        
       </div>
+
+      
       <div className='creative-details-container'>
         <div className='creative-icons-container'>
           {mediaList?.length > 1 ? (
