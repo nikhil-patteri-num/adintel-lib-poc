@@ -16,14 +16,17 @@ export interface IProductProps {
   selectedRowData?: any;
   productTypeId:any;
   classurl:any;
-  showEmptySelected:string
+  showEmptySelected:string,
+  Brand:any
 }
 
 export const Product = (props: IProductProps) => {
-  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,classurl,showEmptySelected} = props;
+  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,classurl,showEmptySelected,Brand} = props;
   const isEditmode=false;
   const isProductmode=true;
   const [producatname_n, setproducatname_n] = useState('');
+  const [productTypeList,setproductTypeList]:any=useState({ label: '', value: 0 });
+  const [BrandList,setBrandList]:any=useState({ label: '', value: 0 });
   const [validProduct,setValidProduct]= useState(false);
   const [validClass,setvalidClass]= useState(true);
   const [validProductType,setvalidProductType]= useState(true);
@@ -73,14 +76,31 @@ export const Product = (props: IProductProps) => {
     }
   };
   useEffect(() => {
-    if(formData.productTypeId!='')
-    {
+   
     setFormData({
       ...formData,
-      productTypeId:productTypeId
+      productTypeId:productTypeId?.productTypeId,
+      productType:productTypeId?.productType
     })
-  }
-  }, []);
+    setproductTypeList({label: productTypeId?.productType, value: productTypeId?.productTypeId});
+    const payload = {
+      descriptorsTypeList:formData.descriptorsTypeList  ,
+      descriptorsList:formData.descriptorsList ,
+      productname:formData.productname,
+      productType:productTypeId?.productType,
+    };
+    productnameformation(payload);
+  
+  }, [productTypeId]);
+  useEffect(() => {
+   
+    setFormData({
+      ...formData,
+      brandId:Brand?.BrandId
+    })
+    setBrandList({label: Brand?.Brand, value: Brand?.BrandId});
+  
+  }, [Brand]);
 
   const isValidInputs = (): boolean => {
     if (!formData.classId) {
@@ -141,11 +161,30 @@ export const Product = (props: IProductProps) => {
    }
    if(descriptorslist!='')
    {
+    if(productType=='')
+    {
+      setproducatname_n(productname+' : '+ descriptorslist);
+    }
+    else
+    {
     setproducatname_n(productname+' : '+productType +' : '+ descriptorslist);
+    }
    }
    else
    {
-   setproducatname_n(productname+' : '+productType);
+    if(productname!='' && productType=='')
+    {
+      setproducatname_n(productname);
+    } 
+    else if (productType!='' && productname=='')
+    {
+      setproducatname_n(productType);
+    }
+    else if (productType!='' && productname!='')
+    {
+      setproducatname_n(productname+' : '+productType);
+    }
+   
    }
   };
 
@@ -219,6 +258,11 @@ export const Product = (props: IProductProps) => {
     }
     else
     {
+      setFormData({
+        ...formData,
+        descriptorsList: [],
+        descriptorsTypeList: [],
+      });
     }
    
     
@@ -230,7 +274,8 @@ export const Product = (props: IProductProps) => {
       productType: values.label,
       descriptorsList:[],
       descriptorsTypeList:[]
-    })
+    });
+    setproductTypeList(values);
     const payload = {
       descriptorsTypeList:formData.descriptorsTypeList  ,
       descriptorsList:formData.descriptorsList ,
@@ -268,6 +313,10 @@ else
   setvalidProductName(false);
 }
  productnameformation(payload);
+ if(values.label!="" && values.label!=null)
+    {
+     props.onchange(values);
+    }
 }
   
    
@@ -308,19 +357,19 @@ else
             <div className={`${!isProductmode ? 'hide' : ''}`}>
               <div className='role-container-right'>
                 <p>
-                  <a href="#b" target="_blank" className='removeunderline'>General guidlines</a>
-                  <a href={classurl} target="_blank"  className={classurl?'heyperlink removeunderline': 'heyperlink removeunderline  heyperlinknew'}>Category Instructions</a></p>
+                  <a href="#b" target="_blank" className='heyperlinkgeneral removeunderline'>General guidlines</a>
+                  <a href={classurl} target="_blank"  className={classurl?'heyperlink removeunderline': 'heyperlink removeunderline  heyperlinknew'}>Class Instructions</a></p>
               </div>
             </div>
           </div>
-          <div className={`${isProductmode ? 'childprd' : 'child'}`} >
+          <div className={`${isProductmode ? 'childprd productypeDesignchanges' : 'child'}`} >
             <FormGroup>
               <FormItemLabel isMandatory>Product Type</FormItemLabel>
               <DynamicSearch
                 id={'productTypeId'}
                 name={'producttypeName'}
                 fieldName={'producttypeName'}
-                value={formData.productTypeId}
+                value={productTypeList}
                 setValue={selectedOption => onproducttype(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
                  commonData={
@@ -363,6 +412,7 @@ else
                       }
                     : { entities: [] }
                 }
+                disabled={formData.classId?false:true}
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                  handleOnChangeMultiSearchDestype({ searchValue: value.search_text })
                 }
@@ -391,6 +441,7 @@ else
                       }
                     : { entities: [] }
                 }
+                disabled={formData?.descriptorsTypeList?.length>0?false:true}
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                  handleOnChangeMultiSearchDes({ searchValue: value.search_text })
                 }
@@ -436,7 +487,7 @@ else
                 id={'brand'}
                 name={'companyName'}
                 fieldName={'companyName'}
-                value={formData.brandId}
+                value={BrandList}
                 setValue={selectedOption =>
                   setFormData({
                     ...formData,
