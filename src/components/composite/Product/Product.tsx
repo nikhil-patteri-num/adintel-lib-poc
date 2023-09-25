@@ -32,6 +32,7 @@ export const Product = (props: IProductProps) => {
   const [validProductType,setvalidProductType]= useState(true);
   const [validProductName,setvalidProductName]= useState(true);
   const [validBrandID,setvalidBrandID]= useState(true);
+  const [validdescriptors,setvaliddescriptors]= useState(true);
   const [formData, setFormData] = useState({
     classId:'',
     productTypeId:'',
@@ -71,7 +72,6 @@ export const Product = (props: IProductProps) => {
       {
         formData.status=1;
       }
-      setValidProduct(false);
       props.onCreateProductSave(formData);
     }
   };
@@ -114,6 +114,15 @@ export const Product = (props: IProductProps) => {
     } 
     if (!formData.brandId) {
       setvalidBrandID(false);
+    }
+    if(!formData.descriptorsTypeList!=null && formData.descriptorsTypeList.length>0)
+    {
+      if(!formData.descriptorsList==null || formData.descriptorsList.length==0)
+      {
+        setvaliddescriptors(false);
+        return false;
+      }
+
     }
     if(!formData.classId && !formData.productTypeId && !formData.productnameId && !formData.brandId ) 
     {
@@ -246,6 +255,18 @@ export const Product = (props: IProductProps) => {
       };
       
       productnameformation(payload);
+      if(formData.descriptorsTypeList.length>0)
+      {
+      if(values!=null && values!=''&& values!=undefined)
+      {
+        setvaliddescriptors(true);
+      }
+      else
+      {
+        setvaliddescriptors(false);
+      }
+    }
+
   }
   const onClassSelect = (values: any) => {
     setFormData({
@@ -389,7 +410,7 @@ else
               />
                {showEmptySelected=='ProductType' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
                {showEmptySelected=='ProductType' && isLoading && (<div className='empty-option'>Loading...</div>)}
-                 <span className={validProductType?'span':'errorspan'} >Please Enter Valid Product Type</span>
+                <span className={validProductType?'span':'errorspan'} >Please Enter Valid Product Type</span>
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
@@ -448,6 +469,7 @@ else
               />
               {showEmptySelected=='Descriptor' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
                {showEmptySelected=='Descriptor' && isLoading && (<div className='empty-option'>Loading...</div>)}
+               <span className={validdescriptors?'span':'errorspan'} >Please Enter Valid Descriptor</span>
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
