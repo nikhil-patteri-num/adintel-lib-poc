@@ -353,6 +353,7 @@ else
                 name={'classCode'}
                 fieldName={'classCode'}
                 value={formData.classId}
+                searchCharLimit={2}
                 setValue={selectedOption => onClassSelect(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
                  commonData={
