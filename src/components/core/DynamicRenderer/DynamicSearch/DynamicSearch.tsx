@@ -13,6 +13,7 @@ export interface IDynamicSearch {
   disabled?: boolean;
   name?: string;
   fieldName?: string;
+  searchCharLimit?: number;
 }
 export const DynamicSearch = (props: IDynamicSearch) => {
   const {
@@ -24,7 +25,8 @@ export const DynamicSearch = (props: IDynamicSearch) => {
     modelId,
     disabled,
     name,
-    fieldName
+    fieldName,
+    searchCharLimit
   } = props;
   return (
     <div>
@@ -32,7 +34,7 @@ export const DynamicSearch = (props: IDynamicSearch) => {
         <Search
           id={`search-value${id}`}
           value={value ? value.label : ''}
-          searchCharLimit={3}
+          searchCharLimit={searchCharLimit ? searchCharLimit : 3}
           results={commonData && commonData.entities ? commonData.entities : []}
           onSearch={(searchVal: string) => {
             getMultiselectSearchResults({
