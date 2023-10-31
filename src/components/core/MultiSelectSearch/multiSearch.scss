@@ -71,7 +71,7 @@
       .chip-cross-btn {
         margin-left: 5px;
         padding: 0px;
-        color: $white;
+        color: white!important;
         background-color: transparent;
       }
     }
@@ -82,6 +82,7 @@
 
     .chip {
       background-color: $deepteal;
+      align-items: center;
     }
 
     .icon-container {
@@ -180,6 +181,7 @@
     }
   }
 }
+
 
 .disabled {
   .multiselect-search-input-container {

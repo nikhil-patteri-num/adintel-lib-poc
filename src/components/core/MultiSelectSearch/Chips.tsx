@@ -55,7 +55,7 @@ export const Chip = (props: IChipProps) => {
           onClick={() => !disabled && onCrossButtonClick(value)}
           customClass={'chip-cross-btn'}
         >
-          <Icon className='cross-icon' icon={faTimes} />
+          <Icon className='cross-icon' icon={faTimes}  style={{color:'white'}}/>
         </Button>
       ) : (
         <></>
