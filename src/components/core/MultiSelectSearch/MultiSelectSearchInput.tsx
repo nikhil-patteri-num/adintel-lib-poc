@@ -147,7 +147,7 @@ export function MultiSelectSearchInput({
             customClass='search-icon-button'
             tabIndex={isDisabled ? -1 : 0}
           >
-            <Icon icon={faTimes} />
+            <Icon icon={faTimes}  />
           </Button>
         ) : (
           <Button customClass='search-icon-button' tabIndex={-1}>

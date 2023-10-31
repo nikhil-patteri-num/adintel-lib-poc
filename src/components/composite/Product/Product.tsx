@@ -21,7 +21,7 @@ export interface IProductProps {
 }
 
 export const Product = (props: IProductProps) => {
-  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,classurl,showEmptySelected,Brand} = props;
+  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,showEmptySelected,Brand} = props;
   const isEditmode=false;
   const isProductmode=true;
   const [producatname_n, setproducatname_n] = useState('');
@@ -32,6 +32,7 @@ export const Product = (props: IProductProps) => {
   const [validProductType,setvalidProductType]= useState(true);
   const [validProductName,setvalidProductName]= useState(true);
   const [validBrandID,setvalidBrandID]= useState(true);
+  const [classurlupdate,setclassurlupdate]=useState('');
   const [validdescriptors,setvaliddescriptors]= useState(true);
   const [formData, setFormData] = useState({
     classId:'',
@@ -83,12 +84,17 @@ export const Product = (props: IProductProps) => {
       productType:productTypeId?.productType
     })
     setproductTypeList({label: productTypeId?.productType, value: productTypeId?.productTypeId});
+    setclassurlupdate(productTypeId?.class_instruction_url);
     const payload = {
       descriptorsTypeList:formData.descriptorsTypeList  ,
       descriptorsList:formData.descriptorsList ,
       productname:formData.productname,
       productType:productTypeId?.productType,
     };
+    if(productTypeId?.productType!=null && productTypeId?.productType!='')
+    {
+       setvalidProductType(true);
+    }
     productnameformation(payload);
   
   }, [productTypeId]);
@@ -151,12 +157,12 @@ export const Product = (props: IProductProps) => {
    }
 
    let productname='';
-   if(payload.productname!== undefined &&  payload.productname!== null)
+   if(payload.productname!== undefined &&  payload.productname!== null &&  payload.productname!== '')
    {
     productname=payload.productname;
    }
    let productType='';
-   if(payload.productType!== undefined &&  payload.productType!== null)
+   if(payload.productType!== undefined &&  payload.productType!== null &&  payload.productType!== '')
    {
     productType=payload.productType;
    }
@@ -193,7 +199,10 @@ export const Product = (props: IProductProps) => {
     {
       setproducatname_n(productname+' : '+productType);
     }
-   
+    else 
+    {
+    setproducatname_n('');
+    }
    }
   };
 
@@ -226,6 +235,7 @@ export const Product = (props: IProductProps) => {
  
    const handleOnChange = (value: string) => {
      props.onchange(value);
+     debugger;
      if(value!=null && value!=''&& value!='0' )
      {
        setvalidClass(true);
@@ -233,6 +243,12 @@ export const Product = (props: IProductProps) => {
      else
      {
       setvalidClass(false);
+      setFormData({
+        ...formData,
+        descriptorsList: [],
+        descriptorsTypeList: [],
+        productTypeId:''
+      });
      }
    }
    const ondescriptorsTypeClick = (values: any) => {
@@ -283,7 +299,17 @@ export const Product = (props: IProductProps) => {
         ...formData,
         descriptorsList: [],
         descriptorsTypeList: [],
+        productTypeId:''
       });
+      setproductTypeList({ label: '', value: 0 });
+      setclassurlupdate('');
+      const payload = {
+        descriptorsTypeList:formData.descriptorsTypeList  ,
+        descriptorsList:formData.descriptorsList ,
+        productname:formData.productname,
+        productType:'',
+      };
+      productnameformation(payload);
     }
    
     
@@ -379,8 +405,8 @@ else
             <div className={`${!isProductmode ? 'hide' : ''}`}>
               <div className='role-container-right'>
                 <p>
-                  <a href="#b" target="_blank" className='heyperlinkgeneral removeunderline'>General guidlines</a>
-                  <a href={classurl} target="_blank"  className={classurl?'heyperlink removeunderline': 'heyperlink removeunderline  heyperlinknew'}>Class Instructions</a></p>
+                  <a href="https://ktglbuc.sharepoint.com/:w:/s/VivvixUnifiedTaxonomy/EcIdGtpaDrxJuPnFK1lNq7gBcCCIOBZtZMsbBrQ78Smw1Q?e=1e2yhE" target="_blank" className='heyperlinkgeneral removeunderline'>General guidlines</a>
+                  <a href={classurlupdate} target="_blank"  className={classurlupdate?'heyperlink removeunderline': 'heyperlink removeunderline  heyperlinknew'}>Class Instructions</a></p>
               </div>
             </div>
           </div>
@@ -524,7 +550,7 @@ else
                         entities: getDropdownCompatibleData(
                           dropdownData.referredToBrandDropdownList,
                           {
-                            label: 'companyName',
+                            label: 'companydisplayName',
                             value: 'companyId'
                           }
                         )
@@ -535,7 +561,7 @@ else
               />
                {showEmptySelected=='BrandId' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
                {showEmptySelected=='BrandId' && isLoading && (<div className='empty-option'>Loading...</div>)}
-              <span className={validBrandID?'span':'errorspan'} >Please Enter Valid Brand</span>
+              <span className={validBrandID || formData.brandId!=''?'span':'errorspan'} >Please Enter Valid Brand</span>
             </FormGroup>
           </div>
           <div className='child productpreview'>
