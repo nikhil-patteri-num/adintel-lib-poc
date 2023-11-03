@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect, useRef } from 'react';
 import { keyCode, noResultFound } from '../../utility/Constants';
 import { Option } from './Option';
-import { isEmpty } from '../../utility/Constants';
+import { isEmpty } from '../../utility';
 
 export interface IMultiSelectSearchOptionsProps {
   searchResults: any[];
