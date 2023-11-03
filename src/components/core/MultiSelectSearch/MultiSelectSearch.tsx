@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { MultiSelectSearchInput } from './MultiSelectSearchInput';
 import { MultiSelectSearchResult } from './MultiSelectSearchResult';
-import { isEmpty, usePrevious } from '../../utility/Constants';
+import { isEmpty, usePrevious } from '../../utility';
 import { debounce } from 'ts-debounce';
 import './multiSearch.scss';
 import { SEARCH_DEBOUNCE_TIME } from '../../utility/Constants';
@@ -29,7 +29,7 @@ export interface IMultiSelectSearchProps<Option extends IOption> {
   onClearAll?: () => void;
   onOptionClick?: (item: any) => void;
   onChipRightClick?: (event: any, label: any, value: any, isPrimary: boolean) => void;
-  onCreateButtonClick?: () => void;
+  onCreateButtonClick?: (value: any) => void;
   autoFocus?: boolean;
   customClass?: string;
   setSearchResultList?: () => void;
@@ -37,7 +37,7 @@ export interface IMultiSelectSearchProps<Option extends IOption> {
 }
 
 export function MultiSelectSearch<Option extends IOption>({
-  defaultItems,
+  defaultItems = [],
   minCharCount,
   onSearch,
   searchResults,
@@ -66,11 +66,11 @@ export function MultiSelectSearch<Option extends IOption>({
   });
 
   const generateCheckedOptions = (items: Option[]) => {
-    return items.map(item => getCheckedOption(item));
+    return items?.map(item => getCheckedOption(item));
   };
 
   const [selectedItems, setSelectedItems] = useState<Option[]>(
-    generateCheckedOptions(defaultItems)
+    generateCheckedOptions(Array.isArray(defaultItems) ? defaultItems : [])
   );
   const prevSelectedItems: any = usePrevious(selectedItems);
 
@@ -141,7 +141,7 @@ export function MultiSelectSearch<Option extends IOption>({
   useEffect(() => {
     if (JSON.stringify(prevSelectedItems) !== JSON.stringify(defaultItems)) {
       if (!isEmpty(defaultItems)) {
-        setSelectedItems(generateCheckedOptions(defaultItems));
+        setSelectedItems(generateCheckedOptions(Array.isArray(defaultItems) ?defaultItems : []));
       }
     }
   }, [defaultItems]);
@@ -226,6 +226,11 @@ export function MultiSelectSearch<Option extends IOption>({
     return [...items];
   };
 
+  const handleCreateButtonClick = () => {
+    onCreateButtonClick && onCreateButtonClick(searchVal);
+    setSearchVal('');
+  };
+
   return (
     <>
       <div
@@ -263,7 +268,7 @@ export function MultiSelectSearch<Option extends IOption>({
             isSearchComplete={isSearchComplete}
             setShowMultiSelectSearchResult={setShowMultiSelectSearchResult}
             createButtonText={createButtonText}
-            onCreateButtonClick={onCreateButtonClick}
+            onCreateButtonClick={handleCreateButtonClick}
             isDisabled={disabled}
             onOptionRightClick={onChipRightClick}
             primaryChip={primaryChip}

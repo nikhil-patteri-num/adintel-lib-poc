@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { IMultiSelectOption } from './MultiSelectOptions';
 import { Chip } from './Chip';
-import { isEmpty, getWidthByText } from '../../utility/Constants';
+import { isEmpty, getWidthByText } from '../../utility';
 import { Button } from '../../core';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { faTimes, faAngleUp } from '@fortawesome/free-solid-svg-icons';

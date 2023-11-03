@@ -68,7 +68,7 @@ export const MultiSelectSearchResult = (props: IMultiSelectSearchResultProps) =>
         onOptionRightClick={onOptionRightClick}
         primaryChip={primaryChip}
       />
-      {isSearchComplete && (
+      {isSearchComplete && !searchResults.length && createButtonText && (
         <div className='create-button-container'>
           {createButtonText && (
             <>

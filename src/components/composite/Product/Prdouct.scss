@@ -248,3 +248,14 @@ div.childprd {
   background: #e2e0e0;
   height: 45px;
 }
+.empty-optionproduct {
+  height: auto;
+  outline: none;
+  width: 410px;
+  display: block;
+  border-radius: 0;
+  background: #ffffff;
+  text-align: center;
+  position: absolute;
+  z-index: 2;
+}

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextInput, inputType } from '../../core';
-import { getWidthByText, isEmpty } from '../../utility/Constants';
+import { getWidthByText, isEmpty } from '../../utility';
 import { MultiSelectChipStyles } from '../MultiSelect/MultiSelectChips';
 import { Chip } from './Chips';
 import { Button } from '../../core';
@@ -123,7 +123,7 @@ export function MultiSelectSearchInput({
       </div>
 
       {!isDisabled ? (
-        <div style={!placeholder ? { width: '70px' } : { width: '100%' }}>
+        <div style={!placeholder ? { width: '70px' } : { width: '100%' }} className='placeholderwidth'>
           <TextInput
             id={id}
             type={inputType.text}
@@ -147,7 +147,7 @@ export function MultiSelectSearchInput({
             customClass='search-icon-button'
             tabIndex={isDisabled ? -1 : 0}
           >
-            <Icon icon={faTimes}  />
+            <Icon icon={faTimes} />
           </Button>
         ) : (
           <Button customClass='search-icon-button' tabIndex={-1}>

@@ -17,11 +17,12 @@ export interface IProductProps {
   productTypeId:any;
   classurl:any;
   showEmptySelected:string,
-  Brand:any
+  Brand:any,
+  productValiationflg:boolean;
 }
 
 export const Product = (props: IProductProps) => {
-  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,showEmptySelected,Brand} = props;
+  const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,showEmptySelected,Brand,productValiationflg} = props;
   const isEditmode=false;
   const isProductmode=true;
   const [producatname_n, setproducatname_n] = useState('');
@@ -34,6 +35,10 @@ export const Product = (props: IProductProps) => {
   const [validBrandID,setvalidBrandID]= useState(true);
   const [classurlupdate,setclassurlupdate]=useState('');
   const [validdescriptors,setvaliddescriptors]= useState(true);
+  const [descriptorsenable,setdescriptorsenable]= useState(true);
+  const [descriptortypeenable,setdescriptortypeenable]= useState(true);
+  const [descriptorsTypeList,setdescriptorsTypeList]:any=useState({ label: '', value: 0 });
+  const [descriptorsList,setdescriptorsList]:any=useState({ label: '', value: 0 });
   const [formData, setFormData] = useState({
     classId:'',
     productTypeId:'',
@@ -73,11 +78,14 @@ export const Product = (props: IProductProps) => {
       {
         formData.status=1;
       }
+      formData.descriptorsList=descriptorsList;
+      formData.descriptorsTypeList=descriptorsTypeList;
       props.onCreateProductSave(formData);
     }
   };
   useEffect(() => {
-   
+    if(formData.classId!=null && formData.classId!=undefined && formData.classId!='' )
+    {
     setFormData({
       ...formData,
       productTypeId:productTypeId?.productTypeId,
@@ -86,8 +94,8 @@ export const Product = (props: IProductProps) => {
     setproductTypeList({label: productTypeId?.productType, value: productTypeId?.productTypeId});
     setclassurlupdate(productTypeId?.class_instruction_url);
     const payload = {
-      descriptorsTypeList:formData.descriptorsTypeList  ,
-      descriptorsList:formData.descriptorsList ,
+      descriptorsTypeList:descriptorsTypeList  ,
+      descriptorsList:descriptorsList ,
       productname:formData.productname,
       productType:productTypeId?.productType,
     };
@@ -96,8 +104,11 @@ export const Product = (props: IProductProps) => {
        setvalidProductType(true);
     }
     productnameformation(payload);
-  
+  }
   }, [productTypeId]);
+  useEffect(() => {
+    setValidProduct(productValiationflg);
+  }, [productValiationflg]);
   useEffect(() => {
    
     setFormData({
@@ -105,8 +116,12 @@ export const Product = (props: IProductProps) => {
       brandId:Brand?.BrandId
     })
     setBrandList({label: Brand?.Brand, value: Brand?.BrandId});
-  
+    if(Brand?.BrandId!=null && Brand?.BrandId!='')
+    {
+       setvalidBrandID(true);
+    }
   }, [Brand]);
+ 
 
   const isValidInputs = (): boolean => {
     if (!formData.classId) {
@@ -121,16 +136,16 @@ export const Product = (props: IProductProps) => {
     if (!formData.brandId) {
       setvalidBrandID(false);
     }
-    if(!formData.descriptorsTypeList!=null && formData.descriptorsTypeList.length>0)
+    if(!descriptorsTypeList!=null && descriptorsTypeList.length>0)
     {
-      if(!formData.descriptorsList==null || formData.descriptorsList.length==0)
+      if(!descriptorsList==null || descriptorsList.length==0)
       {
         setvaliddescriptors(false);
         return false;
       }
 
     }
-    if(!formData.classId && !formData.productTypeId && !formData.productnameId && !formData.brandId ) 
+    if(!formData.classId && !formData.productTypeId && !formData.productnameId && !formData.brandId  && validProduct==false) 
     {
       return false;
     }
@@ -166,43 +181,64 @@ export const Product = (props: IProductProps) => {
    {
     productType=payload.productType;
    }
-   if(productType!=='' && productname!=='')
-   {
-     setValidProduct(true);
-   }
-   else
-   {
-    setValidProduct(false);
-   }
    if(descriptorslist!='')
    {
-    if(productType=='')
+    if(productname!=='' && productType=='' && descriptorslist!=='')
     {
       setproducatname_n(productname+' : '+ descriptorslist);
+    }
+    else if (productType!=='' && productname=='' && descriptorslist!=='')
+    {
+      setproducatname_n(productType+' : '+ descriptorslist);
+    }
+    else if (productType=='' && productname=='' && descriptorslist!=='')
+    {
+      setproducatname_n(descriptorslist);
     }
     else
     {
     setproducatname_n(productname+' : '+productType +' : '+ descriptorslist);
     }
+    if(productType!=='' && productname!=='' && descriptorslist!=='')
+    {
+    const payload = {
+      classId:formData.classId==''?'0':formData.classId,
+     productName:productname+' : '+productType +' : '+ descriptorslist,
+     parameter:'ProductExistsValidation'
+    };
+   props.onchange(payload);
+   }
+    else
+    {
+     setValidProduct(false);
+    }
    }
    else
    {
     if(productname!='' && productType=='')
-    {
-      setproducatname_n(productname);
-    } 
-    else if (productType!='' && productname=='')
-    {
-      setproducatname_n(productType);
-    }
-    else if (productType!='' && productname!='')
-    {
-      setproducatname_n(productname+' : '+productType);
-    }
-    else 
-    {
-    setproducatname_n('');
-    }
+      {
+        setproducatname_n(productname);
+        setValidProduct(false);
+      }
+      else if(productType!='' && productname=='')
+      {
+        setproducatname_n(productType);
+        setValidProduct(false);
+      }
+      else
+      {
+        if(productType!='' && productname!='')
+        {
+          setproducatname_n(productname+' : '+productType);
+         const payload = {
+             classId:formData.classId==''?'0':formData.classId,
+             productName:productname+' : '+productType,
+             parameter:'ProductExistsValidation'
+           };
+          props.onchange(payload);
+        
+        }
+      }
    }
   };
 
@@ -211,7 +247,7 @@ export const Product = (props: IProductProps) => {
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
     value['classId']=formData.classId;
-    value['descriptorsTypeList']=formData.descriptorsTypeList;
+    value['descriptorsTypeList']=descriptorsTypeList;
     props.onchange(value);
   }
   const handleOnChangeMultiSearchBrand = (value: any) => {
@@ -235,43 +271,39 @@ export const Product = (props: IProductProps) => {
  
    const handleOnChange = (value: string) => {
      props.onchange(value);
-     debugger;
      if(value!=null && value!=''&& value!='0' )
      {
        setvalidClass(true);
      }
      else
      {
-      setvalidClass(false);
-      setFormData({
-        ...formData,
-        descriptorsList: [],
-        descriptorsTypeList: [],
-        productTypeId:''
-      });
+      setvalidClass(false); 
      }
    }
    const ondescriptorsTypeClick = (values: any) => {
-    setFormData({
-      ...formData,
-      descriptorsTypeList: values
-    });
+  setdescriptorsTypeList(values);
+  if(values!=null && values!=''&& values!=undefined)
+  {
+    setdescriptorsenable(false);
+  }
+  else
+  {
+    setdescriptorsList({ label: '', value: 0 })
+    setdescriptorsenable(true);
+  }
    
   }
     const ondescriptorsClick = (values: any) => {
-      setFormData({
-        ...formData,
-        descriptorsList: values
-      });
+      setdescriptorsList(values);
       const payload = {
-        descriptorsTypeList: formData.descriptorsTypeList ,
+        descriptorsTypeList: descriptorsTypeList ,
         descriptorsList: values,
         productname:formData.productname,
         productType:formData.productType
       };
       
       productnameformation(payload);
-      if(formData.descriptorsTypeList.length>0)
+      if(descriptorsTypeList.length>0)
       {
       if(values!=null && values!=''&& values!=undefined)
       {
@@ -292,20 +324,22 @@ export const Product = (props: IProductProps) => {
     if(values.label!="" && values.label!=null)
     {
      props.onchange(values);
+     setdescriptortypeenable(false);
     }
     else
     {
+      setdescriptortypeenable(true);
       setFormData({
         ...formData,
-        descriptorsList: [],
-        descriptorsTypeList: [],
         productTypeId:''
       });
+      setdescriptorsTypeList({ label: '', value: 0 });
       setproductTypeList({ label: '', value: 0 });
+      setdescriptorsList({ label: '', value: 0 });
       setclassurlupdate('');
       const payload = {
-        descriptorsTypeList:formData.descriptorsTypeList  ,
-        descriptorsList:formData.descriptorsList ,
+        descriptorsTypeList:''  ,
+        descriptorsList:'' ,
         productname:formData.productname,
         productType:'',
       };
@@ -318,14 +352,14 @@ export const Product = (props: IProductProps) => {
     setFormData({
       ...formData,
       productTypeId: values.value,
-      productType: values.label,
-      descriptorsList:[],
-      descriptorsTypeList:[]
+      productType: values.label
     });
+    setdescriptorsTypeList({ label: '', value: 0 });
+    setdescriptorsList({ label: '', value: 0 });
     setproductTypeList(values);
     const payload = {
-      descriptorsTypeList:formData.descriptorsTypeList  ,
-      descriptorsList:formData.descriptorsList ,
+      descriptorsTypeList:descriptorsTypeList  ,
+      descriptorsList:descriptorsList ,
       productname:formData.productname,
       productType:values.label,
     };
@@ -346,8 +380,8 @@ const onproductname = (values: any) => {
    productname: values.label
  })
  const payload = {
-  descriptorsTypeList:formData.descriptorsTypeList ,
-  descriptorsList: formData.descriptorsList,
+  descriptorsTypeList:descriptorsTypeList ,
+  descriptorsList: descriptorsList,
   productname:values.label,
   productType:formData.productType,
 };
@@ -365,6 +399,21 @@ else
      props.onchange(values);
     }
 }
+const onbrandname = (values: any) => {
+  setFormData({
+    ...formData,
+    brandId: values.value
+  })
+  setBrandList(values);
+  if(values.label!="" && values.label!=null)
+    {
+      setvalidBrandID(true);
+    }
+     else
+     {
+      setvalidBrandID(false);
+     }
+ }
   
    
   return (
@@ -398,8 +447,8 @@ else
                 }
                 disabled={false}
               />
-               {showEmptySelected=='Class' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
-               {showEmptySelected=='Class' && isLoading && (<div className='empty-option'>Loading...</div>)}
+               {showEmptySelected=='Class' && showEmptyOption &&!isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
+               {showEmptySelected=='Class' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
               <span className={validClass?'span':'errorspan'} >Please Enter Valid Class</span>
             </FormGroup>
             <div className={`${!isProductmode ? 'hide' : ''}`}>
@@ -435,8 +484,8 @@ else
                 }
                 disabled={false}
               />
-               {showEmptySelected=='ProductType' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
-               {showEmptySelected=='ProductType' && isLoading && (<div className='empty-option'>Loading...</div>)}
+               {showEmptySelected=='ProductType' && showEmptyOption &&!isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
+               {showEmptySelected=='ProductType' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
                 <span className={validProductType?'span':'errorspan'} >Please Enter Valid Product Type</span>
             </FormGroup>
           </div>
@@ -445,7 +494,7 @@ else
               <FormItemLabel>Descriptor Type(s)</FormItemLabel>
               <DynamicMultiSelectSearch
                 id={`descriptortypeList`}
-                value={formData.descriptorsTypeList}
+                value={descriptorsTypeList}
                 setValue={options => ondescriptorsTypeClick(options?.mcssValues)}
                 commonData={
                   dropdownData?.referredToDescriptorTypeDropdownList
@@ -460,13 +509,13 @@ else
                       }
                     : { entities: [] }
                 }
-                disabled={formData.classId?false:true}
+                disabled={descriptortypeenable}
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                  handleOnChangeMultiSearchDestype({ searchValue: value.search_text })
                 }
               />
-              {showEmptySelected=='DescriptorType' &&showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
-               {showEmptySelected=='DescriptorType' && isLoading && (<div className='empty-option'>Loading...</div>)}
+              {showEmptySelected=='DescriptorType' &&showEmptyOption &&!isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
+               {showEmptySelected=='DescriptorType' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
@@ -474,13 +523,13 @@ else
               <FormItemLabel>Descriptor(s)</FormItemLabel>
 <DynamicMultiSelectSearch
                 id={`descriptorList`}
-                value={formData.descriptorsList}
+                value={descriptorsList}
                 setValue={options => ondescriptorsClick(options?.mcssValues)}
                 commonData={
-                  dropdownData?.referredToDescriptorDropdownList
+                  props.dropdownData?.referredToDescriptorDropdownList
                     ? {
                         entities: getDropdownCompatibleData(
-                          dropdownData?.referredToDescriptorDropdownList,
+                          props.dropdownData?.referredToDescriptorDropdownList,
                           {
                             label: 'label',
                             value: 'value'
@@ -489,13 +538,13 @@ else
                       }
                     : { entities: [] }
                 }
-                disabled={formData?.descriptorsTypeList?.length>0?false:true}
+                disabled={descriptorsenable?true:false}
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                  handleOnChangeMultiSearchDes({ searchValue: value.search_text })
                 }
               />
-              {showEmptySelected=='Descriptor' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
-               {showEmptySelected=='Descriptor' && isLoading && (<div className='empty-option'>Loading...</div>)}
+              {showEmptySelected=='Descriptor' && showEmptyOption &&!isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
+               {showEmptySelected=='Descriptor' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
                <span className={validdescriptors?'span':'errorspan'} >Please Enter Valid Descriptor</span>
             </FormGroup>
           </div>
@@ -524,8 +573,8 @@ else
                 }
                 disabled={false}
               />
-               {showEmptySelected=='ProductName' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
-               {showEmptySelected=='ProductName' && isLoading && (<div className='empty-option'>Loading...</div>)}
+               {showEmptySelected=='ProductName' && showEmptyOption &&!isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
+               {showEmptySelected=='ProductName' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
                  <span className={validProductName?'span':'errorspan'} >Please Enter Valid Product Name</span>
             </FormGroup>
           </div>
@@ -537,12 +586,7 @@ else
                 name={'companyName'}
                 fieldName={'companyName'}
                 value={BrandList}
-                setValue={selectedOption =>
-                  setFormData({
-                    ...formData,
-                    brandId: selectedOption.value
-                  })
-                }
+                setValue={selectedOption =>onbrandname(selectedOption)}
                  getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
                  commonData={
                   dropdownData?.referredToBrandDropdownList
@@ -559,9 +603,9 @@ else
                 }
                 disabled={false}
               />
-               {showEmptySelected=='BrandId' && showEmptyOption &&!isLoading && (<div className='empty-option'>No results found!</div>)}
-               {showEmptySelected=='BrandId' && isLoading && (<div className='empty-option'>Loading...</div>)}
-              <span className={validBrandID || formData.brandId!=''?'span':'errorspan'} >Please Enter Valid Brand</span>
+               {showEmptySelected=='BrandId' && showEmptyOption &&!isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
+               {showEmptySelected=='BrandId' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
+              <span className={validBrandID?'span':'errorspan'} >Please Enter Valid Brand</span>
             </FormGroup>
           </div>
           <div className='child productpreview'>
