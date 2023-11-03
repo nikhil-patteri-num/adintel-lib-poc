@@ -20,7 +20,7 @@ export interface IProductProps {
   Brand:any,
   productValiationflg:boolean;
 }
-
+ 
 export const Product = (props: IProductProps) => {
   const {dropdownData, selectedRowData,isLoading,showEmptyOption,productTypeId,showEmptySelected,Brand,productValiationflg} = props;
   const isEditmode=false;
@@ -40,7 +40,7 @@ export const Product = (props: IProductProps) => {
   const [descriptorsTypeList,setdescriptorsTypeList]:any=useState({ label: '', value: 0 });
   const [descriptorsList,setdescriptorsList]:any=useState({ label: '', value: 0 });
   const [formData, setFormData] = useState({
-    classId:'',
+    classId: { label: '', value: 0 },
     productTypeId:'',
     descriptorsTypeList: [],
     descriptorsList: [],
@@ -84,7 +84,7 @@ export const Product = (props: IProductProps) => {
     }
   };
   useEffect(() => {
-    if(formData.classId!=null && formData.classId!=undefined && formData.classId!='' )
+    if(!formData.classId?.value && formData.classId.label != '' )
     {
     setFormData({
       ...formData,
@@ -122,17 +122,17 @@ export const Product = (props: IProductProps) => {
     }
   }, [Brand]);
  
-
+ 
   const isValidInputs = (): boolean => {
-    if (!formData.classId) {
+    if (!formData.classId?.value) {
        setvalidClass(false);
-    } 
+    }
     if (!formData.productTypeId) {
       setvalidProductType(false);
-   } 
+   }
    if (!formData.productnameId) {
     setvalidProductName(false);
-    } 
+    }
     if (!formData.brandId) {
       setvalidBrandID(false);
     }
@@ -143,9 +143,9 @@ export const Product = (props: IProductProps) => {
         setvaliddescriptors(false);
         return false;
       }
-
+ 
     }
-    if(!formData.classId && !formData.productTypeId && !formData.productnameId && !formData.brandId  && validProduct==false) 
+    if(!formData.classId?.value && !formData.productTypeId && !formData.productnameId && !formData.brandId  && validProduct==false)
     {
       return false;
     }
@@ -170,7 +170,7 @@ export const Product = (props: IProductProps) => {
    }
    descriptorslist=descriptorslist.substring(0,descriptorslist.length-3);
    }
-
+ 
    let productname='';
    if(payload.productname!== undefined &&  payload.productname!== null &&  payload.productname!== '')
    {
@@ -202,9 +202,9 @@ export const Product = (props: IProductProps) => {
     if(productType!=='' && productname!=='' && descriptorslist!=='')
     {
     const payload = {
-      classId:formData.classId==''?'0':formData.classId,
-     productName:productname+' : '+productType +' : '+ descriptorslist,
-     parameter:'ProductExistsValidation'
+      classId: formData.classId?.value,
+      productName:productname+' : '+productType +' : '+ descriptorslist,
+      parameter:'ProductExistsValidation'
     };
    props.onchange(payload);
    }
@@ -231,22 +231,22 @@ export const Product = (props: IProductProps) => {
         {
           setproducatname_n(productname+' : '+productType);
          const payload = {
-             classId:formData.classId==''?'0':formData.classId,
-             productName:productname+' : '+productType,
-             parameter:'ProductExistsValidation'
-           };
+            classId: formData.classId?.value,
+            productName:productname+' : '+productType,
+            parameter:'ProductExistsValidation'
+          };
           props.onchange(payload);
         
         }
       }
    }
   };
-
+ 
   
   
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
-    value['classId']=formData.classId;
+    value['classId']=formData.classId?.value;
     value['descriptorsTypeList']=descriptorsTypeList;
     props.onchange(value);
   }
@@ -264,9 +264,9 @@ export const Product = (props: IProductProps) => {
   }
    const handleOnChangeMultiSearchDestype = (value: any) => {
      value['name']='descriptorsType';
-     value['classId']=formData.classId;
+     value['classId']=formData.classId?.value;
      props.onchange(value);
-
+ 
    }
  
    const handleOnChange = (value: string) => {
@@ -277,7 +277,7 @@ export const Product = (props: IProductProps) => {
      }
      else
      {
-      setvalidClass(false); 
+      setvalidClass(false);
      }
    }
    const ondescriptorsTypeClick = (values: any) => {
@@ -314,13 +314,13 @@ export const Product = (props: IProductProps) => {
         setvaliddescriptors(false);
       }
     }
-
+ 
   }
   const onClassSelect = (values: any) => {
     setFormData({
       ...formData,
-      classId:values.value
-    })
+      classId: { label: values.label, value: values.value },
+    });
     if(values.label!="" && values.label!=null)
     {
      props.onchange(values);
@@ -374,12 +374,12 @@ else
     productnameformation(payload);
   }
 const onproductname = (values: any) => {
- setFormData({
+setFormData({
    ...formData,
    productnameId: values.value,
    productname: values.label
- })
- const payload = {
+})
+const payload = {
   descriptorsTypeList:descriptorsTypeList ,
   descriptorsList: descriptorsList,
   productname:values.label,
@@ -393,8 +393,8 @@ else
 {
   setvalidProductName(false);
 }
- productnameformation(payload);
- if(values.label!="" && values.label!=null)
+productnameformation(payload);
+if(values.label!="" && values.label!=null)
     {
      props.onchange(values);
     }
@@ -413,7 +413,7 @@ const onbrandname = (values: any) => {
      {
       setvalidBrandID(false);
      }
- }
+}
   
    
   return (
