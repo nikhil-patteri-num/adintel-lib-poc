@@ -154,8 +154,18 @@ export function MultiSelectSearch<Option extends IOption>({
 
   const onSearchOptionClick = (option: any) => {
     const newSelectedItems: any[] = selectedItems;
+    let newSelectedItemsdesc: any[] = selectedItems;
     const isOptionPresent = selectedItems.length ? selectedItems.find((selected: any) => selected.value === option.value) : true;
     if (selectedItems.length < maxOptionLength || (selectedItems.length === maxOptionLength && isOptionPresent)) {
+      if (id=='search-entity-value-descriptorListproduct')
+      {
+          setSearchResults(toggleOptionByValuedesc(allSearchResults, option.value.split('-')[0]));
+          newSelectedItemsdesc =newSelectedItemsdesc.filter((obj: any) => obj.value.split('-')[1] != option.value.split('-')[1]);
+          newSelectedItemsdesc.push(option);
+          setSelectedItems(newSelectedItemsdesc);
+      }
+      else
+      {
       setSearchResults(toggleOptionByValue(allSearchResults, option.value));
       const index = newSelectedItems.findIndex(selectedItem => selectedItem.value === option.value);
       if (index > -1) {
@@ -164,6 +174,7 @@ export function MultiSelectSearch<Option extends IOption>({
       } else {
         newSelectedItems.push(option);
         setSelectedItems(newSelectedItems);
+      }
       }
       if (onOptionClick) onOptionClick(selectedItems);
       setSearchVal('');
@@ -193,7 +204,11 @@ export function MultiSelectSearch<Option extends IOption>({
       item.value === value ? { ...item, checked: !item.checked } : item
     );
   };
-
+  const toggleOptionByValuedesc = (items: any, value: number) => {
+    return items.map((item: any) =>
+      item.value.split('-')[0] === value ? { ...item, checked: true } :{ ...item, checked: false }
+    );
+  };
   const filterItemsByValue = (items: any, value: any) => {
     return items.filter((item: any) => item.value !== value);
   };
