@@ -38,9 +38,11 @@ export const Product = (props: IProductProps) => {
   const [descriptorsenable,setdescriptorsenable]= useState(true);
   const [descriptortypeenable,setdescriptortypeenable]= useState(true);
   const [descriptorsTypeList,setdescriptorsTypeList]:any=useState({ label: '', value: 0 });
+  const [productNameList,setproductNameList]:any=useState({ label: '', value: 0 });
   const [descriptorsList,setdescriptorsList]:any=useState({ label: '', value: 0 });
   const [formData, setFormData] = useState({
-    classId: { label: '', value: 0 },
+    classIddisplay: { label: '', value: 0 },
+    classId:'',
     productTypeId:'',
     descriptorsTypeList: [],
     descriptorsList: [],
@@ -80,11 +82,12 @@ export const Product = (props: IProductProps) => {
       }
       formData.descriptorsList=descriptorsList;
       formData.descriptorsTypeList=descriptorsTypeList;
+      formData.classId=formData.classIddisplay?.value.toString();
       props.onCreateProductSave(formData);
     }
   };
   useEffect(() => {
-    if(!formData.classId?.value && formData.classId.label != '' )
+    if(!formData.classIddisplay?.value && formData.classIddisplay.label != '' )
     {
     setFormData({
       ...formData,
@@ -122,9 +125,18 @@ export const Product = (props: IProductProps) => {
     }
   }, [Brand]);
  
+   useEffect(() => {
+     const payload = {
+       descriptorsTypeList: descriptorsTypeList ,
+       descriptorsList: descriptorsList,
+      productname:formData.productname,
+       productType:formData.productType
+     };
+     productnameformation(payload);
+   }, [producatname_n]);
  
   const isValidInputs = (): boolean => {
-    if (!formData.classId?.value) {
+    if (!formData.classIddisplay?.value) {
        setvalidClass(false);
     }
     if (!formData.productTypeId) {
@@ -145,7 +157,7 @@ export const Product = (props: IProductProps) => {
       }
  
     }
-    if(!formData.classId?.value && !formData.productTypeId && !formData.productnameId && !formData.brandId  && validProduct==false)
+    if(!formData.classIddisplay?.value && !formData.productTypeId && !formData.productnameId && !formData.brandId  && validProduct==false)
     {
       return false;
     }
@@ -163,7 +175,7 @@ export const Product = (props: IProductProps) => {
   };
   const productnameformation = (payload:any) => {
    let descriptorslist='';
-   if(payload.descriptorsList!== undefined  && payload.descriptorsList!==null)
+   if(payload.descriptorsList!== undefined  && payload.descriptorsList!==null && payload.descriptorsList.length>0)
    {
    for(let obj of payload.descriptorsList){
     descriptorslist=descriptorslist+obj['label']+' - ';
@@ -202,7 +214,7 @@ export const Product = (props: IProductProps) => {
     if(productType!=='' && productname!=='' && descriptorslist!=='')
     {
     const payload = {
-      classId: formData.classId?.value,
+      classId: formData.classIddisplay?.value,
       productName:productname+' : '+productType +' : '+ descriptorslist,
       parameter:'ProductExistsValidation'
     };
@@ -231,12 +243,16 @@ export const Product = (props: IProductProps) => {
         {
           setproducatname_n(productname+' : '+productType);
          const payload = {
-            classId: formData.classId?.value,
+            classId: formData.classIddisplay?.value,
             productName:productname+' : '+productType,
             parameter:'ProductExistsValidation'
           };
           props.onchange(payload);
         
+        }
+        else
+        {
+          setproducatname_n('');
         }
       }
    }
@@ -246,8 +262,9 @@ export const Product = (props: IProductProps) => {
   
   const handleOnChangeMultiSearchDes = (value: any) => {
     value['name']='descriptor';
-    value['classId']=formData.classId?.value;
+    value['classId']=formData.classIddisplay?.value;
     value['descriptorsTypeList']=descriptorsTypeList;
+    value['descriptorsList']=descriptorsList;
     props.onchange(value);
   }
   const handleOnChangeMultiSearchBrand = (value: any) => {
@@ -264,7 +281,7 @@ export const Product = (props: IProductProps) => {
   }
    const handleOnChangeMultiSearchDestype = (value: any) => {
      value['name']='descriptorsType';
-     value['classId']=formData.classId?.value;
+     value['classId']=formData.classIddisplay?.value;
      props.onchange(value);
  
    }
@@ -319,7 +336,7 @@ export const Product = (props: IProductProps) => {
   const onClassSelect = (values: any) => {
     setFormData({
       ...formData,
-      classId: { label: values.label, value: values.value },
+      classIddisplay: { label: values.label, value: values.value },
     });
     if(values.label!="" && values.label!=null)
     {
@@ -340,7 +357,7 @@ export const Product = (props: IProductProps) => {
       const payload = {
         descriptorsTypeList:''  ,
         descriptorsList:'' ,
-        productname:formData.productname,
+        productname:'',
         productType:'',
       };
       productnameformation(payload);
@@ -379,6 +396,7 @@ setFormData({
    productnameId: values.value,
    productname: values.label
 })
+setproductNameList(values);
 const payload = {
   descriptorsTypeList:descriptorsTypeList ,
   descriptorsList: descriptorsList,
@@ -427,7 +445,7 @@ const onbrandname = (values: any) => {
                 id={'classId'}
                 name={'classCode'}
                 fieldName={'classCode'}
-                value={formData.classId}
+                value={formData.classIddisplay}
                 searchCharLimit={2}
                 setValue={selectedOption => onClassSelect(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
@@ -522,7 +540,7 @@ const onbrandname = (values: any) => {
             <FormGroup>
               <FormItemLabel>Descriptor(s)</FormItemLabel>
 <DynamicMultiSelectSearch
-                id={`descriptorList`}
+                id={`descriptorListproduct`}
                 value={descriptorsList}
                 setValue={options => ondescriptorsClick(options?.mcssValues)}
                 commonData={
@@ -555,7 +573,7 @@ const onbrandname = (values: any) => {
                 id={'productnameId'}
                 name={'productName'}
                 fieldName={'productName'}
-                value={formData.productnameId}
+                value={productNameList}
                 setValue={selectedOption => onproductname(selectedOption)}
                  getMultiselectSearchResults={handleOnChange}
                  commonData={
