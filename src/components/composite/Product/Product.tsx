@@ -189,7 +189,7 @@ export const Product = (props: IProductProps) => {
     productname=payload.productname;
    }
    let productType='';
-   if(payload.productType!== undefined &&  payload.productType!== null &&  payload.productType!== '')
+   if(payload.productType!== undefined &&  payload.productType!== null &&  payload.productType!== '' )
    {
     productType=payload.productType;
    }
@@ -348,16 +348,18 @@ export const Product = (props: IProductProps) => {
       setdescriptortypeenable(true);
       setFormData({
         ...formData,
-        productTypeId:''
+        productTypeId:'',
+        productType:''
       });
       setdescriptorsTypeList({ label: '', value: 0 });
       setproductTypeList({ label: '', value: 0 });
       setdescriptorsList({ label: '', value: 0 });
       setclassurlupdate('');
+      setproducatname_n('');
       const payload = {
         descriptorsTypeList:''  ,
         descriptorsList:'' ,
-        productname:'',
+        productname:formData.productname,
         productType:'',
       };
       productnameformation(payload);
