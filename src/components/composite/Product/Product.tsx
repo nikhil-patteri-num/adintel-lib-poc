@@ -373,8 +373,6 @@ export const Product = (props: IProductProps) => {
       productTypeId: values.value,
       productType: values.label
     });
-    setdescriptorsTypeList({ label: '', value: 0 });
-    setdescriptorsList({ label: '', value: 0 });
     setproductTypeList(values);
     const payload = {
       descriptorsTypeList:descriptorsTypeList  ,
