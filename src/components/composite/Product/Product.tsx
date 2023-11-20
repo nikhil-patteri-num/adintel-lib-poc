@@ -565,20 +565,25 @@ export const Product = (props: IProductProps) => {
                         }
                       )
                     }
-                    : { 
-                        entities: [],
-                        isSearchComplete: true,
-                        createButtonText:"Add New Text",
-                        onCreateButtonClick: () => {
-                          setFormData({
-                            ...formData,
-                            productname: textFormData.productName,
-                            brandId: '-1'
-                          });
-                          // when new product name added populate the same text for brandname with brandid as -1
-                          setBrandList({ label: textFormData.productName, value: -1 });
-                        },              
+                    : ( isProductmode ? { 
+                      entities: [],
+                      isSearchComplete: true,
+                      createButtonText:"Add New Text",
+                      onCreateButtonClick: () => {
+                        setFormData({
+                          ...formData,
+                          productnameId:'-1',
+                          productname: textFormData.productName,
+                          brandId: '-1'
+                        });
+                        // when new product name added populate the same text for brandname with brandid as -1
+                        setBrandList({ label: textFormData.productName, value: -1 });
+                        setproductNameList({ label: textFormData.productName, value: -1 });
+                      },              
+                    }: {
+                       entities: []
                     }
+                  )
                 }
                 disabled={false}
               />
