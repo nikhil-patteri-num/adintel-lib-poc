@@ -14,6 +14,7 @@ export interface IDynamicSearch {
   name?: string;
   fieldName?: string;
   searchCharLimit?: number;
+  keyName?: string;
 }
 export const DynamicSearch = (props: IDynamicSearch) => {
   const {
@@ -46,17 +47,26 @@ export const DynamicSearch = (props: IDynamicSearch) => {
           }}
           searchOptionCard={MultiSelectSearchResultOption}
           onOptionClick={(item: any) => {
+            let selectedVal;
+            if (name === 'Language') {
+              selectedVal = item?.category || null;
+            } else {
+              selectedVal = item?.value ? item.value : null;
+            }
             const textpayload = {
               ...item,
-              type: 'mcss',
-              text: item && item.value,
+              text: selectedVal,
               label: item && item.label,
-              value: item && item.value,
-              fieldName: name
+              value: selectedVal,
+              fieldName: name,
+              fieldValue: item && item.value,
+              keyName: props.keyName
             };
             setValue(textpayload);
           }}
           isSearchComplete={commonData.isSearchComplete}
+          createButtonText={commonData?.createButtonText}
+          onCreateButtonClick={commonData?.onCreateButtonClick}
           disabled={disabled}
         />
       </FormGroup>
