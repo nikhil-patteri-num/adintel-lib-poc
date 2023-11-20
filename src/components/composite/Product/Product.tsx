@@ -55,6 +55,12 @@ export const Product = (props: IProductProps) => {
     status: -1,
     display_n: ''
   });
+
+  // hold form fields text values
+  const [textFormData, setTextFormData] = useState({
+    productName: '',
+  });
+
   const onSaveClick = () => {
     if (isValidInputs()) {
       if (isEditmode) {
@@ -266,7 +272,7 @@ export const Product = (props: IProductProps) => {
 
   }
 
-  const handleOnChange = (value: string) => {
+  const handleOnChange = (value: any) => {
     props.onchange(value);
     if (value != null && value != '' && value != '0') {
       setvalidClass(true);
@@ -274,6 +280,8 @@ export const Product = (props: IProductProps) => {
     else {
       setvalidClass(false);
     }
+
+    onFieldsTextChange(value.name, value.search_text);
   }
   const ondescriptorsTypeClick = (values: any) => {
     setdescriptorsTypeList(values);
@@ -397,6 +405,12 @@ export const Product = (props: IProductProps) => {
     }
   }
 
+  const onFieldsTextChange = (fieldKey:any, value:any) => {
+    setTextFormData({
+      ...textFormData,
+      [fieldKey]: value
+    });
+  };
 
   return (
     <>
@@ -539,11 +553,11 @@ export const Product = (props: IProductProps) => {
                 fieldName={'productName'}
                 value={productNameList}
                 setValue={selectedOption => onproductname(selectedOption)}
-                getMultiselectSearchResults={handleOnChange}
+                getMultiselectSearchResults={handleOnChange}              
                 commonData={
                   dropdownData?.referredToProductNameDropdownList
                     ? {
-                      entities: getDropdownCompatibleData(
+                        entities: getDropdownCompatibleData(  
                         dropdownData.referredToProductNameDropdownList,
                         {
                           label: 'productName',
@@ -551,7 +565,20 @@ export const Product = (props: IProductProps) => {
                         }
                       )
                     }
-                    : { entities: [] }
+                    : { 
+                        entities: [],
+                        isSearchComplete: true,
+                        createButtonText:"Add New Text",
+                        onCreateButtonClick: () => {
+                          setFormData({
+                            ...formData,
+                            productname: textFormData.productName,
+                            brandId: '-1'
+                          });
+                          // when new product name added populate the same text for brandname with brandid as -1
+                          setBrandList({ label: textFormData.productName, value: -1 });
+                        },              
+                    }
                 }
                 disabled={false}
               />

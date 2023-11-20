@@ -9,7 +9,7 @@ import { Button } from 'react-bootstrap';
 export interface ISearchOptions {
   label: any;
   value: any;
-  
+
 }
 
 export interface ISearchResultProps {
@@ -54,6 +54,13 @@ export const SearchResult = (props: ISearchResultProps) => {
   const onCreateButtonKeyDown = (event: any) => {
     if (event.keyCode === keyCode.Enter && onCreateButtonClick) onCreateButtonClick();
     toggleShowOptions(false);
+  };
+
+  const onCreateButtonClickHandler = () => {
+    if (onCreateButtonClick) {
+      onCreateButtonClick();
+      toggleShowOptions(false);
+    }
   };
 
   return (
@@ -102,8 +109,8 @@ export const SearchResult = (props: ISearchResultProps) => {
             {noResultFound}
           </div>
           {createButtonText ? (
-            <div className='create-button'>
-              <Button onClick={onCreateButtonClick} onKeyDown={onCreateButtonKeyDown}>
+            <div className={'create-button'}>
+              <Button onClick={onCreateButtonClickHandler} onKeyDown={onCreateButtonKeyDown}>
                 {createButtonText}
               </Button>
             </div>
