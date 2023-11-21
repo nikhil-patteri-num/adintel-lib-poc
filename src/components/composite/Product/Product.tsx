@@ -146,7 +146,6 @@ export const Product = (props: IProductProps) => {
     if (!formData.productTypeId) {
       setvalidProductType(false);
     }
-    debugger;
     if (!formData.productnameId && !formData.productname) {
       setvalidProductName(false);
     }
@@ -180,7 +179,6 @@ export const Product = (props: IProductProps) => {
     });
   };
   const productnameformation = (payload: any) => {
-    debugger;
     let descriptorslist = '';
     if (payload.descriptorsList !== undefined && payload.descriptorsList !== null && payload.descriptorsList.length > 0) {
       for (let obj of payload.descriptorsList) {
@@ -211,7 +209,6 @@ export const Product = (props: IProductProps) => {
         setproducatname_n(productname + ' : ' + productType + ' : ' + descriptorslist);
       }
       if (productType !== '' && productname !== '' && descriptorslist !== '') {
-        debugger;
         const payload = {
           classId: formData.classIddisplay?.value,
           productName: productname + ' : ' + productType + ' : ' + descriptorslist,
@@ -372,7 +369,6 @@ export const Product = (props: IProductProps) => {
     productnameformation(payload);
   }
   const onproductname = (values: any) => {
-    debugger;
     setFormData({
       ...formData,
       productnameId: values.value,
