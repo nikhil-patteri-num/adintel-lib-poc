@@ -51,6 +51,7 @@ export const Product = (props: IProductProps) => {
     productname: '',
     productType: '',
     brandId: '',
+    brandname:'',
     newComment: '',
     status: -1,
     display_n: ''
@@ -145,10 +146,10 @@ export const Product = (props: IProductProps) => {
     if (!formData.productTypeId) {
       setvalidProductType(false);
     }
-    if (!formData.productnameId) {
+    if (!formData.productnameId && !formData.productname) {
       setvalidProductName(false);
     }
-    if (!formData.brandId) {
+    if (!formData.brandId && !formData.brandname) {
       setvalidBrandID(false);
     }
     if (!descriptorsTypeList != null && descriptorsTypeList.length > 0) {
@@ -371,8 +372,20 @@ export const Product = (props: IProductProps) => {
     setFormData({
       ...formData,
       productnameId: values.value,
-      productname: values.label
+      productname: values.label 
     })
+
+    setFormData({
+      ...formData,
+      productnameId:'-1',
+      productname: textFormData.productName,
+      brandname:textFormData.productName,
+      brandId: '-1'
+    });
+    
+    
+
+
     setproductNameList(values);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
@@ -390,6 +403,33 @@ export const Product = (props: IProductProps) => {
     if (values.label != "" && values.label != null) {
       props.onchange(values);
     }
+  }
+
+  const onproductaddname = () => {
+    setFormData({
+      ...formData,
+      productnameId:'-1',
+      productname: textFormData.productName,
+      brandname:textFormData.productName,
+      brandId: '-1'
+    });
+    // when new product name added populate the same text for brandname with brandid as -1
+    setBrandList({ label: textFormData.productName, value: -1 });
+    setproductNameList({ label: textFormData.productName, value: -1 });
+    const payload = {
+      descriptorsTypeList: descriptorsTypeList,
+      descriptorsList: descriptorsList,
+      productname: textFormData.productName,
+      productType: formData.productType,
+    };
+    if (textFormData.productName != null && textFormData.productName != '' && textFormData.productName != '0') {
+      setvalidProductName(true);
+    }
+    else {
+      setvalidProductName(false);
+    }
+    productnameformation(payload);
+   
   }
   const onbrandname = (values: any) => {
     setFormData({
@@ -555,7 +595,7 @@ export const Product = (props: IProductProps) => {
                 setValue={selectedOption => onproductname(selectedOption)}
                 getMultiselectSearchResults={handleOnChange}              
                 commonData={
-                  dropdownData?.referredToProductNameDropdownList
+                  dropdownData?.referredToProductNameDropdownList?.length > 0
                     ? {
                         entities: getDropdownCompatibleData(  
                         dropdownData.referredToProductNameDropdownList,
@@ -565,25 +605,13 @@ export const Product = (props: IProductProps) => {
                         }
                       )
                     }
-                    : ( isProductmode ? { 
+                    : { 
                       entities: [],
                       isSearchComplete: true,
                       createButtonText:"Add New Text",
-                      onCreateButtonClick: () => {
-                        setFormData({
-                          ...formData,
-                          productnameId:'-1',
-                          productname: textFormData.productName,
-                          brandId: '-1'
-                        });
-                        // when new product name added populate the same text for brandname with brandid as -1
-                        setBrandList({ label: textFormData.productName, value: -1 });
-                        setproductNameList({ label: textFormData.productName, value: -1 });
-                      },              
-                    }: {
-                       entities: []
+                      onCreateButtonClick: () => {onproductaddname()},              
                     }
-                  )
+                  
                 }
                 disabled={false}
               />
