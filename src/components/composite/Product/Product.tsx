@@ -51,6 +51,7 @@ export const Product = (props: IProductProps) => {
     productname: '',
     productType: '',
     brandId: '',
+    brandname:'',
     newComment: '',
     status: -1,
     display_n: ''
@@ -145,10 +146,11 @@ export const Product = (props: IProductProps) => {
     if (!formData.productTypeId) {
       setvalidProductType(false);
     }
-    if (!formData.productnameId) {
+    debugger;
+    if (!formData.productnameId && !formData.productname) {
       setvalidProductName(false);
     }
-    if (!formData.brandId) {
+    if (!formData.brandId && !formData.brandname) {
       setvalidBrandID(false);
     }
     if (!descriptorsTypeList != null && descriptorsTypeList.length > 0) {
@@ -178,6 +180,7 @@ export const Product = (props: IProductProps) => {
     });
   };
   const productnameformation = (payload: any) => {
+    debugger;
     let descriptorslist = '';
     if (payload.descriptorsList !== undefined && payload.descriptorsList !== null && payload.descriptorsList.length > 0) {
       for (let obj of payload.descriptorsList) {
@@ -208,6 +211,7 @@ export const Product = (props: IProductProps) => {
         setproducatname_n(productname + ' : ' + productType + ' : ' + descriptorslist);
       }
       if (productType !== '' && productname !== '' && descriptorslist !== '') {
+        debugger;
         const payload = {
           classId: formData.classIddisplay?.value,
           productName: productname + ' : ' + productType + ' : ' + descriptorslist,
@@ -368,11 +372,21 @@ export const Product = (props: IProductProps) => {
     productnameformation(payload);
   }
   const onproductname = (values: any) => {
+    debugger;
     setFormData({
       ...formData,
       productnameId: values.value,
-      productname: values.label
+      productname: values.label 
     })
+
+    setFormData({
+      ...formData,
+      productnameId:'-1',
+      productname: textFormData.productName,
+      brandname:textFormData.productName,
+      brandId: '-1'
+    });
+    
     setproductNameList(values);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
@@ -555,7 +569,7 @@ export const Product = (props: IProductProps) => {
                 setValue={selectedOption => onproductname(selectedOption)}
                 getMultiselectSearchResults={handleOnChange}              
                 commonData={
-                  dropdownData?.referredToProductNameDropdownList
+                  dropdownData?.referredToProductNameDropdownList?.length > 0
                     ? {
                         entities: getDropdownCompatibleData(  
                         dropdownData.referredToProductNameDropdownList,
@@ -565,7 +579,7 @@ export const Product = (props: IProductProps) => {
                         }
                       )
                     }
-                    : ( isProductmode ? { 
+                    : { 
                       entities: [],
                       isSearchComplete: true,
                       createButtonText:"Add New Text",
@@ -574,16 +588,15 @@ export const Product = (props: IProductProps) => {
                           ...formData,
                           productnameId:'-1',
                           productname: textFormData.productName,
+                          brandname:textFormData.productName,
                           brandId: '-1'
                         });
                         // when new product name added populate the same text for brandname with brandid as -1
                         setBrandList({ label: textFormData.productName, value: -1 });
                         setproductNameList({ label: textFormData.productName, value: -1 });
                       },              
-                    }: {
-                       entities: []
                     }
-                  )
+                  
                 }
                 disabled={false}
               />

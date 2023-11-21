@@ -55,7 +55,7 @@
 
   .create-button {
     text-align: right;
-    margin: 3px 15px;
+    margin: 15px 3px 3px 3px;
     .btn {
       font-size: 12px;
       font-family: sans-serif;
@@ -63,6 +63,7 @@
       &-primary {
         background-color: $white;
         font-weight: 600;
+        color:black;
       }
     }
   }
