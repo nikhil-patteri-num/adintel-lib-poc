@@ -374,18 +374,17 @@ export const Product = (props: IProductProps) => {
       productnameId: values.value,
       productname: values.label 
     })
-
-    setFormData({
-      ...formData,
-      productnameId:'-1',
-      productname: textFormData.productName,
-      brandname:textFormData.productName,
-      brandId: '-1'
-    });
     
+    if(values.value == null || values.value == 0 || values.value == ''){
+      setFormData({
+        ...formData,
+        productnameId:'-1',
+        productname: textFormData.productName,
+        brandname:textFormData.productName,
+        brandId: '-1'
+      });  
+    }
     
-
-
     setproductNameList(values);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
