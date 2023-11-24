@@ -422,7 +422,7 @@ export const CustomSearch = (props: ICustomSearchProps) => {
             currentValueKey: currentColumn.value
           });
       } else {
-        if (/[a-zA-z]/.test(modifiedWord.substr(-1)))
+        if (/[a-zA-z-&~%:;?_@#^]/.test(modifiedWord.substr(-1)))
           onSearch({
             // searchText: btoa(modifiedWord.split("'").join('')),
             searchText: modifiedWord.split("'").join(''),
