@@ -273,6 +273,20 @@ export const Product = (props: IProductProps) => {
 
   }
 
+  const handleOnChangeMultiSearchProducttype = (value: any) => {
+    value['name'] = 'producttypeName';
+    value['classId'] = formData.classIddisplay?.value;
+    props.onchange(value);
+    if (value != null && value != '' && value != '0') {
+      setvalidClass(true);
+    }
+    else {
+      setvalidClass(false);
+    }
+   
+    onFieldsTextChange(value.name, value.search_text);
+  }
+
   const handleOnChange = (value: any) => {
     props.onchange(value);
     if (value != null && value != '' && value != '0') {
@@ -503,12 +517,14 @@ export const Product = (props: IProductProps) => {
                 fieldName={'producttypeName'}
                 value={productTypeList}
                 setValue={selectedOption => onproducttype(selectedOption)}
-                getMultiselectSearchResults={handleOnChange}
+                getMultiselectSearchResults={(value: { search_text: any; }) =>
+                    handleOnChangeMultiSearchProducttype({ searchValue: value.search_text})
+                }
                 commonData={
-                  dropdownData?.referredToProductTypeDropdownList
+                  dropdownData?.referredToProductTypesForProductDropdownList
                     ? {
                       entities: getDropdownCompatibleData(
-                        dropdownData.referredToProductTypeDropdownList,
+                        dropdownData.referredToProductTypesForProductDropdownList,
                         {
                           label: 'producttypeName',
                           value: 'producttypeId'
