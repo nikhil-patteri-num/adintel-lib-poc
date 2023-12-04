@@ -389,15 +389,6 @@ export const Product = (props: IProductProps) => {
       productname: values.label 
     })
     
-    if(values.value == null || values.value == 0 || values.value == ''){
-      setFormData({
-        ...formData,
-        productnameId:'-1',
-        productname: textFormData.productName,
-        brandname:textFormData.productName,
-        brandId: '-1'
-      });  
-    }
     
     setproductNameList(values);
     const payload = {
@@ -411,6 +402,7 @@ export const Product = (props: IProductProps) => {
     }
     else {
       setvalidProductName(false);
+      setBrandList({ label: '', value: 0 });
     }
     productnameformation(payload);
     if (values.label != "" && values.label != null) {
