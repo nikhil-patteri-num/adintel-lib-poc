@@ -387,7 +387,7 @@ export const Product = (props: IProductProps) => {
       ...formData,
       productnameId: values.value,
       productname: values.label 
-    })
+    });
     
     
     setproductNameList(values);
