@@ -93,7 +93,7 @@ export const Product = (props: IProductProps) => {
     }
   };
   useEffect(() => {
-    if (!formData.classIddisplay?.value && formData.classIddisplay.label != '') {
+    if (formData.classIddisplay?.value!=0 && formData.classIddisplay.label != '') {
       setFormData({
         ...formData,
         productTypeId: productTypeId?.productTypeId,
