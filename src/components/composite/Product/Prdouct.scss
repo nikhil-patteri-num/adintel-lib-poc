@@ -259,5 +259,10 @@ div.childprd {
   position: absolute;
   z-index: 2;
   margin-top: -15px;
+}
 
+.no-option {
+  padding: 8px;
+  height: 30px !important;
+  background-color: $lilyWhite;
 }
