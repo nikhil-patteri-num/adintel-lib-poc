@@ -359,7 +359,7 @@ export const Product = (props: IProductProps) => {
       const payload = {
         descriptorsTypeList: '',
         descriptorsList: '',
-        productname: formData.productname,
+        productname: '',
         productType: '',
       };
       productnameformation(payload);
