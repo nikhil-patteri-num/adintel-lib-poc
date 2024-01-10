@@ -97,14 +97,17 @@ export const Product = (props: IProductProps) => {
       setFormData({
         ...formData,
         productTypeId: productTypeId?.productTypeId,
-        productType: productTypeId?.productType
+        productType: productTypeId?.productType,
+        productname: productTypeId?.product_n,
+        productnameId:productTypeId?.productname_id
       })
+      setproductNameList({label: productTypeId?.product_n, value: productTypeId?.productname_id})
       setproductTypeList({ label: productTypeId?.productType, value: productTypeId?.productTypeId });
       setclassurlupdate(productTypeId?.class_instruction_url);
       const payload = {
         descriptorsTypeList: descriptorsTypeList,
         descriptorsList: descriptorsList,
-        productname: formData.productname,
+        productname: productTypeId?.product_n,
         productType: productTypeId?.productType,
       };
       if (productTypeId?.productType != null && productTypeId?.productType != '') {
@@ -288,7 +291,7 @@ export const Product = (props: IProductProps) => {
   }
 
   const handleOnChange = (value: any) => {
-    props.onchange(value);
+    props.onchange(value,formData.classId);
     if (value != null && value != '' && value != '0') {
       setvalidClass(true);
     }
@@ -343,17 +346,20 @@ export const Product = (props: IProductProps) => {
       setFormData({
         ...formData,
         productTypeId: '',
-        productType: ''
+        productType: '',
+        productname:'',
+        productnameId:''
       });
       setdescriptorsTypeList({ label: '', value: 0 });
       setproductTypeList({ label: '', value: 0 });
+      setproductNameList({ label: '', value: 0 });
       setdescriptorsList({ label: '', value: 0 });
       setclassurlupdate('');
       setproducatname_n('');
       const payload = {
         descriptorsTypeList: '',
         descriptorsList: '',
-        productname: formData.productname,
+        productname: '',
         productType: '',
       };
       productnameformation(payload);
