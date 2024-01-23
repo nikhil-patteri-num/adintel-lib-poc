@@ -6,6 +6,7 @@ import { DropDownChips } from './DropDownChips';
 import './dropdown-search.scss';
 import { IBaseControls } from '../../IBaseControls';
 import { IDropdownSearchProps } from './IPropsConfig'
+import { isEqual } from '../../../utility';
 
 const DropdownSearch = ({
   options,
@@ -14,7 +15,8 @@ const DropdownSearch = ({
   id,
   placeholder,
   defaultValues,
-  customClass = ''
+  customClass = '',
+  isSorted = true
 }: IDropdownSearchProps) => {
 
   const defaultValueItems = () => {
@@ -42,10 +44,11 @@ const DropdownSearch = ({
 
   const [showDropdown, toggleShowDropdown] = useState<boolean | null>(null);
   const [searchValue, setSearchValue] = useState('');
-  const [searchResult, setSearchResult] = useState(selectedItem);
+  const [searchResult, setSearchResult] = useState<any[]>(selectedItem);
   const [selectedIDs, setSelectedIDs] = useState(allSelectedID);
+  const [defaultVal, setDefaultVal] = useState<any>();
 
-  const dropdownRef :any = React.useRef(null);
+  const dropdownRef = React.useRef<any>(null);
 
   useEffect(() => {
     document.addEventListener('mousedown', outSideClick);
@@ -63,14 +66,18 @@ const DropdownSearch = ({
     sortResults();
   }, [showDropdown]);
 
+  useEffect(() => {
+    setSearchResult(options);
+  }, [options]);
+
 
   const sortResults = () => {
     const checkedItems = setInSearchResults(
-      searchResult.filter(({ checked }) => checked).sort(compare),
+      isSorted ? searchResult.filter(({ checked }) => checked).sort(compare) : searchResult.filter(({ checked }) => checked),
       ''
     );
     const unCheckedItems = setInSearchResults(
-      searchResult.filter(({ checked }) => !checked).sort(compare),
+      isSorted ? searchResult.filter(({ checked }) => !checked).sort(compare) : searchResult.filter(({ checked }) => !checked),
       ''
     );
     const result = [...checkedItems, ...unCheckedItems];
@@ -92,7 +99,7 @@ const DropdownSearch = ({
       item.value === value ? { ...item, checked: !item.checked } : item
     );
     const searchResultsBasedOnInput = setInSearchResults(searchResultNew, searchValue);
-    setSearchResult(searchResultsBasedOnInput);
+    setSearchResult( isSorted ? searchResultsBasedOnInput : options);
 
     const index = selectedIDs.indexOf(value);
     if (index > -1) {
@@ -136,16 +143,18 @@ const DropdownSearch = ({
   };
 
   useEffect(() => {
-    const selectedResultsNew = searchResult;
-    const res = selectedResultsNew.map(x => {
-      const item = defaultValueItems().find((i: any) => i.value === x.value);
-      return item
-        ? { ...item, checked: true }
-        : { ...x, checked: false };
-    })
-    setSearchResult(res);
-    setSelectedIDs(allSelectedID);
-
+    if (!isEqual(defaultValues, defaultVal)) {
+      setDefaultVal(defaultValues);
+      const selectedResultsNew = searchResult;
+      const res = selectedResultsNew.map(x => {
+        const item = defaultValueItems().find((i: any) => i.value === x.value);
+        return item
+          ? { ...item, checked: true }
+          : { ...x, checked: false };
+      })
+      setSearchResult(res);
+      setSelectedIDs(allSelectedID);
+    }
   }, [defaultValues]);
 
   const onKeyPressHandler = (event: any) => {
@@ -202,14 +211,17 @@ export interface IDropdownProps extends IBaseControls {
   clearSelection?: () => void;
   defaultItem?: any;
   searchOption?: boolean;
+  isSorted?: boolean;
 }
 
 
 export const DropdownSearchField = ({
+  id,
   value,
   options,
   onClick,
   defaultItem,
+  isSorted
 }: IDropdownProps) => {
 
   const [defaultSelectedItem, setDefaultSelectedItem] = useState(defaultItem || {});
@@ -225,13 +237,14 @@ export const DropdownSearchField = ({
   return (
     <>
       <DropdownSearch
-        id="search-dropdown"
+        id={id}
         placeholder={"Select option"}
         options={options}
         defaultValues={[defaultSelectedItem]}
         onClick={(obj: any) => {
           onClick(obj && obj[0] && obj[0].value);
         }}
+        isSorted={isSorted}
       />
     </>
   )

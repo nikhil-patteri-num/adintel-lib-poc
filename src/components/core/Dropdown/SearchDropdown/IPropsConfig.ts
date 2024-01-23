@@ -32,6 +32,7 @@ export interface IDropdownSearchProps {
     placeholder?: any;
     defaultValues: any[];
     customClass?: string;
+    isSorted?:boolean;
 }
 
 export interface IDropdownInputProps {

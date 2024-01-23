@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Prdouct.scss';
-import { FormGroup, FormItemLabel, TextArea, buttonVariant, Button, Icon } from '../../core';
+import { FormGroup, FormItemLabel, TextArea, buttonVariant, Button, Icon, CheckboxInput } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
 import { getDropdownClassesCompatibleData, getDropdownCompatibleData } from '../../utility/CommonMethods';
 import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import { DropdownSearchField } from '../../core/Dropdown/SearchDropdown/DropdownSearch';
 export interface IProductProps {
   dropdownData: any;
   onchange: any;
@@ -37,9 +38,11 @@ export const Product = (props: IProductProps) => {
   const [validdescriptors, setvaliddescriptors] = useState(true);
   const [descriptorsenable, setdescriptorsenable] = useState(true);
   const [descriptortypeenable, setdescriptortypeenable] = useState(true);
+  const [producttypeidnew,setproducttypeidnew]:any=useState(0);
   const [descriptorsTypeList, setdescriptorsTypeList]: any = useState({ label: '', value: 0 });
   const [productNameList, setproductNameList]: any = useState({ label: '', value: 0 });
   const [descriptorsList, setdescriptorsList]: any = useState({ label: '', value: 0 });
+  const [showfreproducttype, setshowfreproducttype] = useState(true);
   const [productAlready, setproductAlready] = useState(true);
   const [formData, setFormData] = useState({
     classIddisplay: { label: '', value: 0 },
@@ -141,7 +144,23 @@ export const Product = (props: IProductProps) => {
     };
     productnameformation(payload);
   }, [producatname_n]);
-
+  useEffect(() => {
+    if(producttypeidnew.length>0)
+    {
+    setFormData({
+      ...formData,
+      productTypeId: producttypeidnew.split('-')[0],
+      productType: producttypeidnew.split('-')[1],
+    })
+    const payload = {
+      descriptorsTypeList:descriptorsTypeList  ,
+      descriptorsList:descriptorsList ,
+      productname:formData.productname,
+      productType: producttypeidnew.split('-')[1],
+    };
+    productnameformation(payload);
+  }
+  }, [producttypeidnew]);
   const isValidInputs = (): boolean => {
     if (!formData.classIddisplay?.value) {
       setvalidClass(false);
@@ -374,6 +393,7 @@ export const Product = (props: IProductProps) => {
       productType: values.label
     });
     setproductTypeList(values);
+    setproducttypeidnew(values.value+'-'+values.label);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
       descriptorsList: descriptorsList,
@@ -506,10 +526,21 @@ export const Product = (props: IProductProps) => {
               </div>
             </div>
           </div>
+          <div className={`${isProductmode ? 'childprd checkboxdesignproduct' : 'child'}`} >
+          <FormGroup>
+          <FormItemLabel >Show Frequently Used Product Type</FormItemLabel>
+          <CheckboxInput customClass='checkboxdesignproducttype'
+                  id={'checkbox'}
+                  checked={showfreproducttype}
+                  label={''}
+                  onChange={(event: any) => setshowfreproducttype(event.target.checked)} />
+           </FormGroup>      
+          </div>
           <div className={`${isProductmode ? 'childprd productypeDesignchanges' : 'child'}`} >
             <FormGroup>
-              <FormItemLabel isMandatory>Product Type</FormItemLabel>
-              <DynamicSearch
+<FormItemLabel isMandatory>Product Type</FormItemLabel>
+           <div className={`${showfreproducttype ? 'producttypehide' : 'producttypeshow'}`}>
+              <DynamicSearch 
                 id={'productTypeId'}
                 name={'producttypeName'}
                 fieldName={'producttypeName'}
@@ -532,7 +563,24 @@ export const Product = (props: IProductProps) => {
                     : { entities: [] }
                 }
                 disabled={false}
-              />
+                 />
+              </div>
+              <div className={`${showfreproducttype ? 'producttypeshow' : 'producttypehide'}`}>
+              <DropdownSearchField
+                id={'productTypeId'}
+                options={dropdownData?.ProductTypesForPreviousProductDropdown
+                  ? getDropdownCompatibleData(dropdownData?.ProductTypesForPreviousProductDropdown, {
+                    label: 'producttypeName',
+                    value: 'producttypeId'
+                  })
+                  : []}
+                  
+                onClick={(value: any) => setproducttypeidnew(value)}
+             // onClick={(value: any) => onproducttypedropdown(value)}
+            //  onClick={selectedOption => onproducttypedropdown(selectedOption)}
+                value={producttypeidnew}
+                placeholder={'Select a Status'} />
+             </div>
               {showEmptySelected == 'ProductType' && showEmptyOption && !isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
               {showEmptySelected == 'ProductType' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
               <span className={validProductType ? 'span' : 'errorspan'} >Please Enter Valid Product Type</span>
