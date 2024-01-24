@@ -538,7 +538,7 @@ export const Product = (props: IProductProps) => {
           </div>
           <div className={`${isProductmode ? 'childprd checkboxdesignproduct' : 'child'}`} >
           <FormGroup>
-          <FormItemLabel >Show Frequently Used Product Type</FormItemLabel>
+          <FormItemLabel >Previously Used</FormItemLabel>
           <CheckboxInput customClass='checkboxdesignproducttype'
                   id={'checkbox'}
                   checked={showfreproducttype}
