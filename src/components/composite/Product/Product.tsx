@@ -44,6 +44,15 @@ export const Product = (props: IProductProps) => {
   const [descriptorsList, setdescriptorsList]: any = useState({ label: '', value: 0 });
   const [showfreproducttype, setshowfreproducttype] = useState(true);
   const [productAlready, setproductAlready] = useState(true);
+  const [productTypesForPreviousData, setProductTypesForPreviousData]: any = useState([]);
+
+   useEffect(() => {
+    if (dropdownData?.ProductTypesForPreviousProductDropdown?.length)
+      setProductTypesForPreviousData(
+        dropdownData.ProductTypesForPreviousProductDropdown
+      );
+   }, [dropdownData?.ProductTypesForPreviousProductDropdown]);
+
   const [formData, setFormData] = useState({
     classIddisplay: { label: '', value: 0 },
     classId: '',
@@ -356,6 +365,7 @@ export const Product = (props: IProductProps) => {
       ...formData,
       classIddisplay: { label: values.label, value: values.value },
     });
+    setProductTypesForPreviousData([]);
     if (values.label != "" && values.label != null) {
       props.onchange(values);
       setdescriptortypeenable(false);
@@ -538,52 +548,78 @@ export const Product = (props: IProductProps) => {
           </div>
           <div className={`${isProductmode ? 'childprd productypeDesignchanges' : 'child'}`} >
             <FormGroup>
-<FormItemLabel isMandatory>Product Type</FormItemLabel>
-           <div className={`${showfreproducttype ? 'producttypehide' : 'producttypeshow'}`}>
-              <DynamicSearch 
-                id={'productTypeId'}
-                name={'producttypeName'}
-                fieldName={'producttypeName'}
-                value={productTypeList}
-                setValue={selectedOption => onproducttype(selectedOption)}
-                getMultiselectSearchResults={(value: { search_text: any; }) =>
-                    handleOnChangeMultiSearchProducttype({ searchValue: value.search_text})
-                }
-                commonData={
-                  dropdownData?.referredToProductTypesForProductDropdownList
-                    ? {
-                      entities: getDropdownCompatibleData(
-                        dropdownData.referredToProductTypesForProductDropdownList,
-                        {
-                          label: 'producttypeName',
-                          value: 'producttypeId'
+              <FormItemLabel isMandatory>Product Type</FormItemLabel>
+              <div
+                className={`${
+                  showfreproducttype ? 'producttypehide' : 'producttypeshow'
+                }`}
+              >
+                <DynamicSearch
+                  id={'productTypeId'}
+                  name={'producttypeName'}
+                  fieldName={'producttypeName'}
+                  value={productTypeList}
+                  setValue={(selectedOption) => onproducttype(selectedOption)}
+                  getMultiselectSearchResults={(value: { search_text: any }) =>
+                    handleOnChangeMultiSearchProducttype({
+                      searchValue: value.search_text,
+                    })
+                  }
+                  commonData={
+                    dropdownData?.referredToProductTypesForProductDropdownList
+                      ? {
+                          entities: getDropdownCompatibleData(
+                            dropdownData.referredToProductTypesForProductDropdownList,
+                            {
+                              label: 'producttypeName',
+                              value: 'producttypeId',
+                            }
+                          ),
                         }
-                      )
-                    }
-                    : { entities: [] }
-                }
-                disabled={false}
-                 />
+                      : { entities: [] }
+                  }
+                  disabled={false}
+                />
               </div>
-              <div className={`${showfreproducttype ? 'producttypeshow' : 'producttypehide'}`}>
-              <DropdownSearchField
-                id={'productTypeId'}
-                options={dropdownData?.ProductTypesForPreviousProductDropdown
-                  ? getDropdownCompatibleData(dropdownData?.ProductTypesForPreviousProductDropdown, {
-                    label: 'producttypeName',
-                    value: 'producttypeId'
-                  })
-                  : []}
-                  
-                onClick={(value: any) => setproducttypeidnew(value)}
-             // onClick={(value: any) => onproducttypedropdown(value)}
-            //  onClick={selectedOption => onproducttypedropdown(selectedOption)}
-                value={producttypeidnew}
-                placeholder={'Select a Status'} />
-             </div>
-              {showEmptySelected == 'ProductType' && showEmptyOption && !isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
-              {showEmptySelected == 'ProductType' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
-              <span className={validProductType ? 'span' : 'errorspan'} >Please Enter Valid Product Type</span>
+              <div
+                className={`${
+                  showfreproducttype ? 'producttypeshow' : 'producttypehide'
+                }`}
+              >
+                <DropdownSearchField
+                  id={'productTypeId'}
+                  options={
+                    productTypesForPreviousData?.length
+                      ? getDropdownCompatibleData(productTypesForPreviousData, {
+                          label: 'producttypeName',
+                          value: 'producttypeId',
+                        })
+                      : []
+                  }
+                  onClick={(value) => {
+                    const getSelectedItem = productTypesForPreviousData?.filter(
+                      (item: any) => item.producttypeId == value
+                    );
+                    onproducttype({
+                      label: getSelectedItem[0].producttypeName,
+                      value: getSelectedItem[0].producttypeId,
+                    });
+                  }}
+                  value={productTypeList.value}
+                  placeholder={'Select a Status'}
+                />
+              </div>
+              {showEmptySelected == 'ProductType' &&
+                showEmptyOption &&
+                !isLoading && (
+                  <div className="empty-optionproduct">No results found!</div>
+                )}
+              {showEmptySelected == 'ProductType' && isLoading && (
+                <div className="empty-optionproduct">Loading...</div>
+              )}
+              <span className={validProductType ? 'span' : 'errorspan'}>
+                Please Enter Valid Product Type
+              </span>
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
