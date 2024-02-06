@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Prdouct.scss';
 import { FormGroup, FormItemLabel, TextArea, buttonVariant, Button, Icon, CheckboxInput } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
@@ -20,10 +20,11 @@ export interface IProductProps {
   showEmptySelected: string,
   Brand: any,
   productValiationflg: boolean;
+  shortcutsaveflg:boolean;
 }
 
 export const Product = (props: IProductProps) => {
-  const { dropdownData, selectedRowData, isLoading, showEmptyOption, productTypeId, showEmptySelected, Brand, productValiationflg } = props;
+  const { dropdownData, selectedRowData, isLoading, showEmptyOption, productTypeId, showEmptySelected, Brand, productValiationflg,shortcutsaveflg } = props;
   const isEditmode = false;
   const isProductmode = true;
   const [producatname_n, setproducatname_n] = useState('');
@@ -45,7 +46,7 @@ export const Product = (props: IProductProps) => {
   const [showfreproducttype, setshowfreproducttype] = useState(true);
   const [productAlready, setproductAlready] = useState(true);
   const [productTypesForPreviousData, setProductTypesForPreviousData]: any = useState([]);
-
+  const buttonRef:any =useRef(null);
    useEffect(() => {
     if (dropdownData?.ProductTypesForPreviousProductDropdown?.length)
       setProductTypesForPreviousData(
@@ -153,6 +154,12 @@ export const Product = (props: IProductProps) => {
     };
     productnameformation(payload);
   }, [producatname_n]);
+  useEffect(() => {
+    if(shortcutsaveflg==true)
+    {
+      buttonRef.current.click();
+    }
+  }, [shortcutsaveflg]);
   useEffect(() => {
     if(producttypeidnew.length>0)
     {
@@ -531,7 +538,7 @@ export const Product = (props: IProductProps) => {
             <div className={`${!isProductmode ? 'hide' : ''}`}>
               <div className='role-container-right'>
                 <p>
-                  <a href="https://ktglbuc.sharepoint.com/:w:/s/VivvixUnifiedTaxonomy/EcIdGtpaDrxJuPnFK1lNq7gBcCCIOBZtZMsbBrQ78Smw1Q?e=1e2yhE" target="_blank" className='heyperlinkgeneral removeunderline'>General Guidlines</a>
+                  <a href="https://ktglbuc.sharepoint.com/:w:/s/VivvixUnifiedTaxonomy/EcIdGtpaDrxJuPnFK1lNq7gBcCCIOBZtZMsbBrQ78Smw1Q?e=1e2yhE" target="_blank" className='heyperlinkgeneral removeunderline'>General Guidelines</a>
                   <a href={classurlupdate} target="_blank" className={classurlupdate ? 'heyperlink removeunderline' : 'heyperlink removeunderline  heyperlinknew'}>Class Instructions</a></p>
               </div>
             </div>
@@ -793,6 +800,9 @@ export const Product = (props: IProductProps) => {
               >
                 {isEditmode ? 'Submit' : 'Submit'}
               </Button>
+              <div hidden>
+               <button ref={buttonRef} onClick={onSaveClick}> Self Click </button>
+              </div>
             </div>
           </div>
 
