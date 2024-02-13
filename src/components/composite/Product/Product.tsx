@@ -73,6 +73,7 @@ export const Product = (props: IProductProps) => {
   // hold form fields text values
   const [textFormData, setTextFormData] = useState({
     productName: '',
+    producttypeName: ''
   });
 
   const onSaveClick = () => {
@@ -453,6 +454,24 @@ export const Product = (props: IProductProps) => {
     }
   }
 
+  const onproducttypeaddname = () => {
+    //alert(textFormData.producttypeName);
+    setFormData({
+      ...formData,
+      productTypeId:'-1',
+      productType: textFormData.producttypeName,
+    });
+   
+    setproductTypeList({ label: textFormData.producttypeName, value: -1 });
+    const payload = {
+      descriptorsTypeList: descriptorsTypeList,
+      descriptorsList: descriptorsList,
+      productname: formData.productname,
+      productType: textFormData.producttypeName,
+    };
+    productnameformation(payload);  
+  }
+
   const onproductaddname = () => {
     setFormData({
       ...formData,
@@ -583,7 +602,11 @@ export const Product = (props: IProductProps) => {
                             }
                           ),
                         }
-                      : { entities: [] }
+                      : { entities: [],
+                        isSearchComplete: true,
+                        createButtonText:"Add New Text",
+                        onCreateButtonClick: () => {onproducttypeaddname()}
+                      }
                   }
                   disabled={false}
                 />
