@@ -111,9 +111,7 @@ export const Product = (props: IProductProps) => {
       setFormData({
         ...formData,
         productTypeId: productTypeId?.productTypeId,
-        productType: productTypeId?.productType,
-        productname: productTypeId?.product_n,
-        productnameId:productTypeId?.productname_id
+        productType: productTypeId?.productType
       })
       setproductNameList({label: productTypeId?.product_n, value: productTypeId?.productname_id})
       setproductTypeList({ label: productTypeId?.productType, value: productTypeId?.productTypeId });
@@ -121,7 +119,7 @@ export const Product = (props: IProductProps) => {
       const payload = {
         descriptorsTypeList: descriptorsTypeList,
         descriptorsList: descriptorsList,
-        productname: productTypeId?.product_n,
+        productname: formData.productname,
         productType: productTypeId?.productType,
       };
       if (productTypeId?.productType != null && productTypeId?.productType != '') {
@@ -383,20 +381,17 @@ export const Product = (props: IProductProps) => {
       setFormData({
         ...formData,
         productTypeId: '',
-        productType: '',
-        productname:'',
-        productnameId:''
+        productType: ''
       });
       setdescriptorsTypeList({ label: '', value: 0 });
       setproductTypeList({ label: '', value: 0 });
-      setproductNameList({ label: '', value: 0 });
       setdescriptorsList({ label: '', value: 0 });
       setclassurlupdate('');
       setproducatname_n('');
       const payload = {
         descriptorsTypeList: '',
         descriptorsList: '',
-        productname: '',
+        productname: formData.productname,
         productType: '',
       };
       productnameformation(payload);
