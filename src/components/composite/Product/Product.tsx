@@ -650,9 +650,11 @@ export const Product = (props: IProductProps) => {
               {showEmptySelected == 'ProductType' && isLoading && (
                 <div className="empty-optionproduct">Loading...</div>
               )}
-              <span className={validProductType ? 'span' : 'errorspan'}>
-                Please Enter Valid Product Type
-              </span>
+              {showfreproducttype && (
+                <span className={validProductType ? 'span' : 'errorspan'}>
+                  Please Enter Valid Product Type
+                </span>)
+              }   
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
