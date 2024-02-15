@@ -642,7 +642,7 @@ export const Product = (props: IProductProps) => {
                   placeholder={'Select a Status'}
                 />
               </div>
-              {!showfreproducttype && showEmptySelected == 'ProductType' &&
+              {showfreproducttype && showEmptySelected == 'ProductType' &&
                 showEmptyOption &&
                 !isLoading && (
                   <div className="empty-optionproduct">No results found!</div>
