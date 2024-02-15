@@ -73,7 +73,7 @@ export const Product = (props: IProductProps) => {
   // hold form fields text values
   const [textFormData, setTextFormData] = useState({
     productName: '',
-    producttypeName: ''
+    productTypeName: '',
   });
 
   const onSaveClick = () => {
@@ -449,23 +449,22 @@ export const Product = (props: IProductProps) => {
     }
   }
 
-  const onproducttypeaddname = () => {
-    //alert(textFormData.producttypeName);
+  const addNewProductType = (values: any) => {
     setFormData({
       ...formData,
-      productTypeId:'-1',
-      productType: textFormData.producttypeName,
+      productTypeId: values.value,
+      productType: values.label
     });
-   
-    setproductTypeList({ label: textFormData.producttypeName, value: -1 });
+
+    setproductTypeList({ label: values.label, value: -1 });
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
       descriptorsList: descriptorsList,
       productname: formData.productname,
-      productType: textFormData.producttypeName,
+      productType: values.label,
     };
-    productnameformation(payload);  
-  }
+    productnameformation(payload);
+  };
 
   const onproductaddname = () => {
     setFormData({
@@ -581,13 +580,17 @@ export const Product = (props: IProductProps) => {
                   fieldName={'producttypeName'}
                   value={productTypeList}
                   setValue={(selectedOption) => onproducttype(selectedOption)}
-                  getMultiselectSearchResults={(value: { search_text: any }) =>
+                  getMultiselectSearchResults={(value: { search_text: any }) => {
                     handleOnChangeMultiSearchProducttype({
                       searchValue: value.search_text,
-                    })
-                  }
+                    });
+                    setTextFormData({
+                      ...textFormData,
+                      productTypeName: value.search_text,
+                    });
+                  }}
                   commonData={
-                    dropdownData?.referredToProductTypesForProductDropdownList
+                    dropdownData?.referredToProductTypesForProductDropdownList?.length > 0
                       ? {
                           entities: getDropdownCompatibleData(
                             dropdownData.referredToProductTypesForProductDropdownList,
@@ -600,7 +603,12 @@ export const Product = (props: IProductProps) => {
                       : { entities: [],
                         isSearchComplete: true,
                         createButtonText:"Add New Text",
-                        onCreateButtonClick: () => {onproducttypeaddname()}
+                        onCreateButtonClick: () => {
+                          addNewProductType({
+                            label: textFormData.productTypeName,
+                            value: -1,
+                          });
+                        }
                       }
                   }
                   disabled={false}
@@ -634,7 +642,7 @@ export const Product = (props: IProductProps) => {
                   placeholder={'Select a Status'}
                 />
               </div>
-              {showEmptySelected == 'ProductType' &&
+              {!showfreproducttype && showEmptySelected == 'ProductType' &&
                 showEmptyOption &&
                 !isLoading && (
                   <div className="empty-optionproduct">No results found!</div>
