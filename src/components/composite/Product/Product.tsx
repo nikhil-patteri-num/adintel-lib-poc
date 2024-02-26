@@ -115,6 +115,26 @@ export const Product = (props: IProductProps) => {
       })
       setproductNameList({label: productTypeId?.product_n, value: productTypeId?.productname_id})
       setproductTypeList({ label: productTypeId?.productType, value: productTypeId?.productTypeId });
+      setdescriptortypeenable(false);
+      if(productTypeId?.descriptorsType!=null && productTypeId?.descriptorsType?.length>0)
+      {
+        setdescriptorsTypeList(getDropdownCompatibleData(productTypeId?.descriptorsType, { label: 'label', value: 'value' }));
+      }
+      else
+      {
+        setdescriptorsTypeList({ label: '', value: 0 });
+       
+      }
+      if(productTypeId?.descriptors!=null && productTypeId?.descriptors?.length>0)
+      {
+        setvaliddescriptors(true);
+        setdescriptorsList(getDropdownCompatibleData(productTypeId?.descriptors, { label: 'label', value: 'value' }));
+      }
+      else
+      {
+        setvaliddescriptors(true);
+        setdescriptorsList({ label: '', value: 0 });
+      }
       setclassurlupdate(productTypeId?.class_instruction_url);
       const payload = {
         descriptorsTypeList: descriptorsTypeList,
@@ -342,6 +362,7 @@ export const Product = (props: IProductProps) => {
     }
     else {
       setdescriptorsList({ label: '', value: 0 })
+      setvaliddescriptors(true);
       setdescriptorsenable(true);
     }
 
@@ -356,15 +377,6 @@ export const Product = (props: IProductProps) => {
     };
 
     productnameformation(payload);
-    if (descriptorsTypeList.length > 0) {
-      if (values != null && values != '' && values != undefined) {
-        setvaliddescriptors(true);
-      }
-      else {
-        setvaliddescriptors(false);
-      }
-    }
-
   }
   const onClassSelect = (values: any) => {
     setFormData({
@@ -373,26 +385,19 @@ export const Product = (props: IProductProps) => {
     });
     setProductTypesForPreviousData([]);
     if (values.label != "" && values.label != null) {
+      values['descriptorsTypeList'] = descriptorsTypeList;
+      values['descriptorsList'] = descriptorsList;
       props.onchange(values);
       setdescriptortypeenable(false);
     }
     else {
       setdescriptortypeenable(true);
-      setFormData({
-        ...formData,
-        productTypeId: '',
-        productType: ''
-      });
-      setdescriptorsTypeList({ label: '', value: 0 });
-      setproductTypeList({ label: '', value: 0 });
-      setdescriptorsList({ label: '', value: 0 });
       setclassurlupdate('');
-      setproducatname_n('');
       const payload = {
-        descriptorsTypeList: '',
-        descriptorsList: '',
+        descriptorsTypeList: formData.descriptorsTypeList,
+        descriptorsList: formData.descriptorsList,
         productname: formData.productname,
-        productType: '',
+        productType: formData.productType,
       };
       productnameformation(payload);
     }
