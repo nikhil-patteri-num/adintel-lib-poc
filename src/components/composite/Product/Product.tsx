@@ -162,18 +162,21 @@ export const Product = (props: IProductProps) => {
   useEffect(() => {
     if(producttypeidnew.length>0)
     {
+      if(producttypeidnew.split('--')[0]!='null' && formData.productType!=producttypeidnew.split('--')[1])
+      {
     setFormData({
       ...formData,
-      productTypeId: producttypeidnew.split('-')[0],
-      productType: producttypeidnew.split('-')[1],
+      productTypeId: producttypeidnew.split('--')[0],
+      productType: producttypeidnew.split('--')[1],
     })
     const payload = {
       descriptorsTypeList:descriptorsTypeList  ,
       descriptorsList:descriptorsList ,
       productname:formData.productname,
-      productType: producttypeidnew.split('-')[1],
+      productType: producttypeidnew.split('--')[1],
     };
     productnameformation(payload);
+  }
   }
   }, [producttypeidnew]);
   const isValidInputs = (): boolean => {
@@ -406,7 +409,7 @@ export const Product = (props: IProductProps) => {
       productType: values.label
     });
     setproductTypeList(values);
-    setproducttypeidnew(values.value+'-'+values.label);
+    setproducttypeidnew(values.value+'--'+values.label);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
       descriptorsList: descriptorsList,
