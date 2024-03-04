@@ -410,11 +410,11 @@ export const Product = (props: IProductProps) => {
   const onproducttype = (values: any) => {
     setFormData({
       ...formData,
-      productTypeId: values.value,
+      productTypeId: values.value.split('--')[0],
       productType: values.label
     });
     setproductTypeList(values);
-    setproducttypeidnew(values.value+'--'+values.label);
+    setproducttypeidnew(values.value.split('--')[0]+'--'+values.label);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
       descriptorsList: descriptorsList,
