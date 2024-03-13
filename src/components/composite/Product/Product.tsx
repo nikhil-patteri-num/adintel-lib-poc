@@ -74,6 +74,7 @@ export const Product = (props: IProductProps) => {
   const [textFormData, setTextFormData] = useState({
     productName: '',
     productTypeName: '',
+    brandname:''
   });
 
   const onSaveClick = () => {
@@ -103,6 +104,13 @@ export const Product = (props: IProductProps) => {
       formData.descriptorsList = descriptorsList;
       formData.descriptorsTypeList = descriptorsTypeList;
       formData.classId = formData.classIddisplay?.value.toString();
+      if(formData.productTypeId.toString().includes('--')==true)
+      {
+      if(formData.productTypeId.split('--').length>1)
+      {
+      formData.productTypeId=formData.productTypeId.split('--')[0];
+      }
+      }
       props.onCreateProductSave(formData);
     }
   };
@@ -325,6 +333,7 @@ export const Product = (props: IProductProps) => {
     else {
       setvalidBrandID(false);
     }
+    onFieldsTextChange('brandname', value.search_text);
   }
   const handleOnChangeMultiSearchDestype = (value: any) => {
     value['name'] = 'descriptorsType';
@@ -498,6 +507,23 @@ export const Product = (props: IProductProps) => {
       setvalidProductName(false);
     }
     productnameformation(payload);
+   
+  }
+
+  const onBrandaddname = () => {
+    setFormData({
+      ...formData,
+      brandname:textFormData.brandname,
+      brandId: '-1'
+    });
+    setBrandList({ label: textFormData.brandname, value: -1 });
+    if (textFormData.brandname != null && textFormData.brandname != '' && textFormData.brandname != '0') {
+      setvalidBrandID(true);
+    }
+    else {
+      setvalidBrandID(false);
+    }
+   
    
   }
   const onbrandname = (values: any) => {
@@ -771,7 +797,7 @@ export const Product = (props: IProductProps) => {
                 setValue={selectedOption => onbrandname(selectedOption)}
                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
                 commonData={
-                  dropdownData?.referredToBrandDropdownList
+                  dropdownData?.referredToBrandDropdownList?.length > 0
                     ? {
                       entities: getDropdownCompatibleData(
                         dropdownData.referredToBrandDropdownList,
@@ -781,7 +807,12 @@ export const Product = (props: IProductProps) => {
                         }
                       )
                     }
-                    : { entities: [] }
+                    : { 
+                      entities: [],
+                      isSearchComplete: true,
+                      createButtonText:"Add New Text",
+                      onCreateButtonClick: () => {onBrandaddname()},              
+                    }
                 }
                 disabled={false}
               />
