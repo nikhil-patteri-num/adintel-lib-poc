@@ -6,6 +6,7 @@ import { getDropdownClassesCompatibleData, getDropdownCompatibleData } from '../
 import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { DropdownSearchField } from '../../core/Dropdown/SearchDropdown/DropdownSearch';
+import { MultiSelect } from '../../core/MultiSelect';
 export interface IProductProps {
   dropdownData: any;
   onchange: any;
@@ -43,6 +44,7 @@ export const Product = (props: IProductProps) => {
   const [descriptorsTypeList, setdescriptorsTypeList]: any = useState({ label: '', value: 0 });
   const [productNameList, setproductNameList]: any = useState({ label: '', value: 0 });
   const [descriptorsList, setdescriptorsList]: any = useState({ label: '', value: 0 });
+  const [descriptorsListNew, setdescriptorsListNew]:any = useState([]);
   const [showfreproducttype, setshowfreproducttype] = useState(true);
   const [productAlready, setproductAlready] = useState(true);
   const [productTypesForPreviousData, setProductTypesForPreviousData]: any = useState([]);
@@ -137,11 +139,13 @@ export const Product = (props: IProductProps) => {
       {
         setvaliddescriptors(true);
         setdescriptorsList(getDropdownCompatibleData(productTypeId?.descriptors, { label: 'label', value: 'value' }));
+        setdescriptorsListNew(getDropdownCompatibleData(productTypeId?.descriptors, { label: 'label', value: 'value' }));
       }
       else
       {
         setvaliddescriptors(true);
         setdescriptorsList({ label: '', value: 0 });
+        setdescriptorsListNew([]);
       }
       setclassurlupdate(productTypeId?.class_instruction_url);
       const payload = {
@@ -317,13 +321,13 @@ export const Product = (props: IProductProps) => {
 
 
 
-  const handleOnChangeMultiSearchDes = (value: any) => {
-    value['name'] = 'descriptor';
-    value['classId'] = formData.classIddisplay?.value;
-    value['descriptorsTypeList'] = descriptorsTypeList;
-    value['descriptorsList'] = descriptorsList;
-    props.onchange(value);
-  }
+// const handleOnChangeMultiSearchDes = (value: any) => {
+//     value['name'] = 'descriptor';
+//     value['classId'] = formData.classIddisplay?.value;
+//     value['descriptorsTypeList'] = descriptorsTypeList;
+//     value['descriptorsList'] = descriptorsList;
+//     props.onchange(value);
+//   }
   const handleOnChangeMultiSearchBrand = (value: any) => {
     value['name'] = 'brand';
     props.onchange(value);
@@ -371,16 +375,41 @@ export const Product = (props: IProductProps) => {
     setdescriptorsTypeList(values);
     if (values != null && values != '' && values != undefined) {
       setdescriptorsenable(false);
+      const value:any={};
+      value['name'] = 'descriptor';
+      value['classId'] = formData.classIddisplay?.value;
+      value['descriptorsTypeList'] = values;
+      value['descriptorsList'] = null;
+      props.onchange(value);
     }
     else {
-      setdescriptorsList({ label: '', value: 0 })
+      setdescriptorsList({ label: '', value: 0 });
+       setdescriptorsListNew([]);
       setvaliddescriptors(true);
       setdescriptorsenable(true);
     }
 
   }
   const ondescriptorsClick = (values: any) => {
-    setdescriptorsList(values);
+    if(values!=null && values.length>1){
+      descriptorsTypeList.forEach((element:any) => {
+         let indexcount= values.filter((item:any) =>item.value.split('-')[1].includes(element.value)).length;
+         let count =0;
+         values.forEach((item:any) => {
+           if(item.value.split('-')[1]=element.value){
+             count++;
+             if(count!==indexcount){
+               item.checked=false;
+             }else{
+               item.checked = true; 
+             }
+           }
+         });
+        });
+        values = values.filter((item:any)=>item.checked==true);
+     }
+  setdescriptorsList(values);
+  setdescriptorsListNew(values);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
       descriptorsList: values,
@@ -398,7 +427,7 @@ export const Product = (props: IProductProps) => {
     setProductTypesForPreviousData([]);
     if (values.label != "" && values.label != null) {
       values['descriptorsTypeList'] = descriptorsTypeList;
-      values['descriptorsList'] = descriptorsList;
+      values['descriptorsList'] = (descriptorsList.value!=0 && descriptorsList.label!="")?descriptorsList:[];
       props.onchange(values);
       setdescriptortypeenable(false);
     }
@@ -407,7 +436,7 @@ export const Product = (props: IProductProps) => {
       setclassurlupdate('');
       const payload = {
         descriptorsTypeList: formData.descriptorsTypeList,
-        descriptorsList: formData.descriptorsList,
+        descriptorsList: (formData.descriptorsList.length>0)?formData.descriptorsList:[],
         productname: formData.productname,
         productType: formData.productType,
       };
@@ -723,7 +752,16 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel>Descriptor(s)</FormItemLabel>
-              <DynamicMultiSelectSearch
+              <MultiSelect
+                    id='descriptorListproduct'
+                    key={dropdownData?.referredToDescriptorDropdownList||null}
+                    defaultValues={descriptorsListNew||[]}
+                    onClick={options => ondescriptorsClick(options)}
+                    options={dropdownData?.referredToDescriptorDropdownList||[]}
+                    isPartiallyDisabled={descriptorsenable ? true : false}
+                    isSelectallVisible={false}
+                  />
+              {/* <DynamicMultiSelectSearch
                 id={`descriptorListproduct`}
                 value={descriptorsList}
                 setValue={options => ondescriptorsClick(options?.mcssValues)}
@@ -744,7 +782,7 @@ export const Product = (props: IProductProps) => {
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                   handleOnChangeMultiSearchDes({ searchValue: value.search_text })
                 }
-              />
+              /> */}
               {showEmptySelected == 'Descriptor' && showEmptyOption && !isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
               {showEmptySelected == 'Descriptor' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
               <span className={validdescriptors ? 'span' : 'errorspan'} >Please Enter Valid Descriptor</span>

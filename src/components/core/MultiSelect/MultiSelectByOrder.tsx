@@ -20,11 +20,10 @@ export interface IMultiselectProps {
   placeholder?: any;
   defaultValues: any[];
   isPartiallyDisabled?: boolean;
-  isSelectallVisible?: boolean;
   customClass?: string;
 }
 
-export const MultiSelect = ({
+export const MultiSelectByOrder = ({
   options,
   onClick,
   onDropdownVisibleChange,
@@ -32,7 +31,6 @@ export const MultiSelect = ({
   placeholder,
   defaultValues,
   isPartiallyDisabled,
-  isSelectallVisible=true,
   customClass = ''
 }: IMultiselectProps) => {
   const defaultValueItems = () => {
@@ -41,15 +39,14 @@ export const MultiSelect = ({
         ...option,
         checked: true,
         inSearch: true,
-        disabled: !!isPartiallyDisabled,
-        selectAll:!!isSelectallVisible
+        disabled: !!isPartiallyDisabled
       };
     }) : [];
   };
 
   const allItems = (checked = false) => {
     return options.map(option => {
-      return { ...option, checked, inSearch: true, disabled: !!isPartiallyDisabled,selectAll:!!isSelectallVisible };
+      return { ...option, checked, inSearch: true, disabled: !!isPartiallyDisabled };
     });
   };
 
@@ -79,9 +76,7 @@ export const MultiSelect = ({
   useEffect(() => {
     setSearchResult(allItems());
   }, [isPartiallyDisabled]);
-  useEffect(() => {
-    setSearchResult(allItems());
-  }, [isSelectallVisible]);
+
   useEffect(() => {
     if (allItems().length <= selectedIDs.length || selectedItems.length === selectedIDs.length)
       showSelectAll(true);
@@ -95,21 +90,12 @@ export const MultiSelect = ({
     sortResults();
   }, [showMultiselect]);
   const sortResults = () => {
-//for selecting the check box of options which has selected value 
-    let copysearchResult = [...searchResult];
-    copysearchResult.forEach(element => {
-      const searchedObj = selectedItems.find(x => x.value === element.value);
-      if(searchedObj){
-        element.checked = searchedObj.checked;
-      }
-    });
-     //for selecting the check box of options which has selected value 
     const checkedItems = setInSearchResults(
-      copysearchResult.filter(({ checked }) => checked).sort(compare),
+      searchResult.filter(({ checked }) => checked).sort(compare),
       ''
     );
     const unCheckedItems = setInSearchResults(
-      copysearchResult.filter(({ checked }) => !checked).sort(compare),
+      searchResult.filter(({ checked }) => !checked).sort(compare),
       ''
     );
     const result = [...checkedItems, ...unCheckedItems];
@@ -117,10 +103,10 @@ export const MultiSelect = ({
   };
 
   const compare = (a: any, b: any) => {
-    const labelA = a.label?.toUpperCase();
-    const labelB = b.label?.toUpperCase();
-    if (labelA > labelB) return 1;
-    else if (labelA < labelB) return -1;
+    const valueA = a.value;
+    const valueB = b.value;
+    if (valueA > valueB) return 1;
+    else if (valueA < valueB) return -1;
     return 0;
   };
 
@@ -129,7 +115,7 @@ export const MultiSelect = ({
     const searchResultNew = searchResult.map((item: any) =>
       item.value === value ? { ...item, checked: !item.checked } : item
     );
-    const searchResultsBasedOnInput = setInSearchResults(searchResultNew, searchValue.toLowerCase());
+    const searchResultsBasedOnInput = setInSearchResults(searchResultNew, searchValue);
     setSearchResult(searchResultsBasedOnInput);
 
     const index = selectedIDs.indexOf(value);
@@ -245,7 +231,7 @@ export const MultiSelect = ({
         <div className='multiselect-body' id={`multiselect-body-${id}`}>
           <>
             <MultiSelectInput value={searchValue} onChange={onInputChange} />
-            {!isPartiallyDisabled && isSelectallVisible ?  (
+            {!isPartiallyDisabled ? (
               <MultiSelectAll
                 id={id}
                 onClick={selectAllClick}
