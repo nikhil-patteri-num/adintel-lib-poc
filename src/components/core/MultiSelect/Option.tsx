@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IMultiSelectOption } from './MultiSelectOptions';
 import { FontAwesomeIcon as Icon } from '@fortawesome/react-fontawesome';
 import { faCheckSquare, faSquare } from '@fortawesome/free-regular-svg-icons';
@@ -11,6 +11,8 @@ export interface IOptionProps {
 }
 
 export const Option = (props: IOptionProps) => {
+  const optionRef = useRef<HTMLDivElement>(null);
+  const [isOverflown, setIsOverflown] = useState(false);
   const { option, onClick, focus, index, onkeyPressed } = props;
   const { value, label, checked } = option;
   const ref = useRef<any>(null);
@@ -18,6 +20,19 @@ export const Option = (props: IOptionProps) => {
   useEffect(() => {
     if (focus && ref.current) ref.current.focus();
   }, [focus]);
+
+  const compareSize = () => {
+    const element = optionRef.current;
+    const compare = element
+      ? element.offsetWidth < element.scrollWidth ||
+      element.offsetHeight < element.scrollHeight
+      : false;
+    setIsOverflown(compare);
+  };
+
+  useEffect(() => {
+    compareSize();
+  }, []);
 
   return (
     <div
@@ -37,7 +52,7 @@ export const Option = (props: IOptionProps) => {
           <Icon icon={checked ? faCheckSquare : faSquare} />
         </span>
       </div>
-      <div className='multiselect-option-label'>{label}</div>
+      <div ref={optionRef} title={isOverflown ? label : ''} className='multiselect-option-label'>{label}</div>
     </div>
   );
 };

@@ -54,7 +54,7 @@ export const MultiSelectChips = (props: IMultiselectChipsProps) => {
       chipContainerWidth += getChipWidth(label);
       if (
         multiSelectButtonWidth &&
-        chipContainerWidth + getChipWidth(MultiSelectChipStyles.moreChipLabel) <
+        chipContainerWidth + (checkedItems.length > 1 ? getChipWidth(MultiSelectChipStyles.moreChipLabel) : 0) <
           multiSelectButtonWidth
       )
         selectedItems.push(

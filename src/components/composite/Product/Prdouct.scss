@@ -301,3 +301,11 @@ div.childprd {
     overflow: auto !important;
   }
 }
+.multiselect .chip, .multiselect .more-label {
+  height: 16px !important;
+}
+.multiselect-body .multiselect-options {
+  max-height: 150px !important;
+  overflow-x: auto !important;
+  overflow-y: auto !important;
+}
