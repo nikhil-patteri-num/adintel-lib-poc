@@ -614,7 +614,8 @@ export const Product = (props: IProductProps) => {
             <div className={`${!isProductmode ? 'hide' : ''}`}>
               <div className='role-container-right'>
                 <p>
-                  <a href="https://ktglbuc.sharepoint.com/:w:/s/VivvixUnifiedTaxonomy/EcIdGtpaDrxJuPnFK1lNq7gBcCCIOBZtZMsbBrQ78Smw1Q?e=1e2yhE" target="_blank" className='heyperlinkgeneral removeunderline'>General Guidelines</a>
+                  {/* <a href="https://ktglbuc.sharepoint.com/:w:/s/VivvixUnifiedTaxonomy/EcIdGtpaDrxJuPnFK1lNq7gBcCCIOBZtZMsbBrQ78Smw1Q?e=1e2yhE" target="_blank" className='heyperlinkgeneral removeunderline'>General Guidelines</a> */}
+                  <a href="https://ktglbuc.sharepoint.com/:w:/r/sites/VivvixUnifiedTaxonomy/_layouts/15/Doc.aspx?sourcedoc=%7BD1CD9409-1EBC-45DB-A783-C439D20E9A50%7D&file=General%20Guidelines.docx&action=default&mobileredirect=truev" target="_blank" className='heyperlinkgeneral removeunderline'>General Guidelines</a>
                   <a href={classurlupdate} target="_blank" className={classurlupdate ? 'heyperlink removeunderline' : 'heyperlink removeunderline  heyperlinknew'}>Class Instructions</a></p>
               </div>
             </div>
