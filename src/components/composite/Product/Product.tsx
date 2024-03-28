@@ -103,8 +103,8 @@ export const Product = (props: IProductProps) => {
       else {
         formData.status = 1;
       }
-      formData.descriptorsList = descriptorsList;
-      formData.descriptorsTypeList = descriptorsTypeList;
+      formData.descriptorsList = (descriptorsList!==null && descriptorsList.value!==0)?descriptorsList:[];
+      formData.descriptorsTypeList = (descriptorsTypeList!==null && descriptorsTypeList.value!==0)?descriptorsTypeList:[];
       formData.classId = formData.classIddisplay?.value.toString();
       if(formData.productTypeId.toString().includes('--')==true)
       {
