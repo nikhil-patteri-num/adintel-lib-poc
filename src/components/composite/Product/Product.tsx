@@ -539,7 +539,7 @@ export const Product = (props: IProductProps) => {
    
   }
 
-  /* const onBrandaddname = () => {
+   const onBrandaddname = () => {
     setFormData({
       ...formData,
       brandname:textFormData.brandname,
@@ -551,10 +551,10 @@ export const Product = (props: IProductProps) => {
     }
     else {
       setvalidBrandID(false);
-    }ss
+    }
    
    
-  } */
+  } 
   const onbrandname = (values: any) => {
     setFormData({
       ...formData,
@@ -847,7 +847,10 @@ export const Product = (props: IProductProps) => {
                       )
                     }
                     : { 
-                      entities: []            
+                      entities: [],
+                      isSearchComplete: true,
+                      createButtonText:"Add New Text",
+                      onCreateButtonClick: () => {onBrandaddname()}     
                     }
                 }
                 disabled={false}
