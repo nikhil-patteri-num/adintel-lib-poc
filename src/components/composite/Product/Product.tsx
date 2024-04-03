@@ -396,7 +396,7 @@ export const Product = (props: IProductProps) => {
          let indexcount= values.filter((item:any) =>item.value.split('-')[1].includes(element.value)).length;
          let count =0;
          values.forEach((item:any) => {
-           if(item.value.split('-')[1]=element.value){
+           if(Number(item.value.split('-')[1])===element.value){
              count++;
              if(count!==indexcount){
                item.checked=false;
@@ -434,6 +434,15 @@ export const Product = (props: IProductProps) => {
     else {
       setdescriptortypeenable(true);
       setclassurlupdate('');
+      setdescriptorsTypeList({ label: '', value: 0 });
+      setdescriptorsList({ label: '', value: 0 });
+      setdescriptorsListNew([]);
+      setproducttypeidnew(0);
+      setFormData({
+      ...formData,
+      productTypeId:'',
+      productType: '',
+    });
       const payload = {
         descriptorsTypeList: formData.descriptorsTypeList,
         descriptorsList: (formData.descriptorsList.length>0)?formData.descriptorsList:[],
