@@ -254,9 +254,15 @@ export const Product = (props: IProductProps) => {
     let descriptorslist = '';
     if (payload.descriptorsList !== undefined && payload.descriptorsList !== null && payload.descriptorsList.length > 0) {
       for (let obj of payload.descriptorsList) {
-        descriptorslist = descriptorslist + obj['label'] + ' - ';
+        descriptorslist = descriptorslist + obj['label'].split(' : ')[1] + ' - ';
       }
-      descriptorslist = descriptorslist.substring(0, descriptorslist.length - 3);
+      const desclist = descriptorslist.substring(0, descriptorslist.length - 3).split('-').sort();
+      descriptorslist='';
+      for (let obj of desclist) {
+        descriptorslist = descriptorslist + obj.trim() + ' - ';
+      }
+      descriptorslist= descriptorslist.substring(0, descriptorslist.length - 3);
+
     }
 
     let productname = '';
