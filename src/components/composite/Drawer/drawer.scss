@@ -23,6 +23,7 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      justify-content: center;
 
       &-text {
         font-weight: bold;
@@ -31,9 +32,9 @@
 
       &-icon {
         // width: 25px;
-        padding: 15px;
-        font-size: 18px;
-        margin-right: 12px;
+        padding: 10px;
+        font-size: 16px;
+        // margin-right: 12px;
       }
     }
 
@@ -325,6 +326,15 @@
     }
   }
 
+  .creativeassignment-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    polygon,
+    rect {
+      stroke:  #a84d97 !important;
+    }
+  }
   // Attribute management SVG
   .attribute-svg-icon svg {
     color: #a84d97 !important;
