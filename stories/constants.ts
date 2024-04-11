@@ -188,9 +188,23 @@ export const sampleSidePanelData = [
         "icon": "tasks",
         "submenus": [
             {
-                "key": "classification/#/creative-assignment",
-                "label": "Creative Assignment",
-                "value": 9,
+                "key": "classification/#/digital-mapping",
+                "label": "Digital Mapping",
+                "value": 6,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "classification/#/digital-classification",
+                "label": "Digital Classification",
+                "value": 7,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "classification/#/review",
+                "label": "Creative Review",
+                "value": 8,
                 "icon": null,
                 "submenus": null
             },
@@ -259,6 +273,13 @@ export const sampleSidePanelData = [
                 "submenus": null
             },
             {
+                "key": "ingestion/#/dashboard/DigitalMappingQAReport",
+                "label": "Digital Mapping QA",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
                 "key": "ingestion/#/dashboard/mappingActivity",
                 "label": "Mapping Activity",
                 "value": 0,
@@ -287,6 +308,13 @@ export const sampleSidePanelData = [
                 "submenus": null
             },
             {
+                "key": "ingestion/#/dashboard/spotfireReport",
+                "label": "Spotfire Report",
+                "value": 0,
+                "icon": null,
+                "submenus": null
+            },
+            {
                 "key": "ingestion/#/dashboard/DigitalUncodedAdsReport",
                 "label": "Uncoded Ads",
                 "value": 0,
@@ -309,9 +337,16 @@ export const sampleSidePanelData = [
         "icon": "folder-open",
         "submenus": [
             {
-                "key": "indexing-attribute",
-                "label": "Indexing Attribute",
+                "key": "classification-attribute",
+                "label": "Classification Attribute",
                 "value": 22,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "component-attribute",
+                "label": "Component Attribute",
+                "value": 30,
                 "icon": null,
                 "submenus": null
             }
@@ -323,6 +358,13 @@ export const sampleSidePanelData = [
         "value": 15,
         "icon": "tags",
         "submenus": [
+            {
+                "key": "ratesmanagement/#/rates-summary",
+                "label": "Media Properties",
+                "value": 16,
+                "icon": null,
+                "submenus": null
+            },
             {
                 "key": "ratesmanagement/#/rategroupsummary",
                 "label": "Rates Groups",
@@ -343,13 +385,6 @@ export const sampleSidePanelData = [
                 "value": 20,
                 "icon": null,
                 "submenus": null
-            },
-            {
-                "key": "ratesmanagement/#/admin-overview",
-                "label": "Rate Admin",
-                "value": 19,
-                "icon": null,
-                "submenus": null
             }
         ]
     },
@@ -360,9 +395,16 @@ export const sampleSidePanelData = [
         "icon": "file",
         "submenus": [
             {
-                "key": "indexing-template",
-                "label": "Indexing Template",
+                "key": "attribution-template",
+                "label": "Attribution Template",
                 "value": 24,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "component-template",
+                "label": "Component Template",
+                "value": 42,
                 "icon": null,
                 "submenus": null
             }
@@ -398,85 +440,113 @@ export const sampleSidePanelData = [
         ]
     },
     {
-        "key": "ProductMaintenance/#",
-        "label": "Product Maintenance",
-        "value": 1,
+        "key": "productmaintenance",
+        "label": "Product Central",
+        "value": 31,
         "icon": "productmaintenance",
         "submenus": [
             {
-                "key": "Products",
+                "key": "product",
                 "label": "Products",
-                "value": 2,
+                "value": 32,
                 "icon": null,
                 "submenus": null
             },
             {
-                "key": "Advertisers",
+                "key": "advertiser",
                 "label": "Advertisers",
-                "value": 3,
+                "value": 33,
                 "icon": null,
                 "submenus": null
             },
             {
-                "key": "Brands",
+                "key": "brands",
                 "label": "Brands",
-                "value": 4,
+                "value": 34,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "Categories",
-                "label": "Categories",
-                "value": 5,
+                "key": "classes",
+                "label": "Classes",
+                "value": 46,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "Descriptortypes",
-                "label": "Descriptor types",
-                "value": 6,
+                "key": "descriptor",
+                "label": "Descriptors",
+                "value": 35,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "Parents",
+                "key": "descriptortypes",
+                "label": "Descriptor Types",
+                "value": 36,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "parents",
                 "label": "Parents",
-                "value": 7,
+                "value": 37,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "Productnames",
-                "label": "Product names",
-                "value": 8,
+                "key": "productnames",
+                "label": "Product Names",
+                "value": 38,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "Producttags",
-                "label": "Product tags",
-                "value": 9,
+                "key": "producttags",
+                "label": "Product Tags",
+                "value": 39,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "Subsidiaries",
+                "key": "producttype",
+                "label": "Product Types",
+                "value": 47,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "subsidiaries",
                 "label": "Subsidiaries",
-                "value": 10,
+                "value": 40,
                 "icon": null,
                 "submenus": null
-            }
-            ,
+            },
             {
-                "key": "UltimateOwners",
-                "label": "Ultimate Owners",
-                "value": 11,
+                "key": "singleproductmap",
+                "label": "Single-Product Mapping",
+                "value": 51,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "multiproductmap",
+                "label": "Multi-Product Mapping",
+                "value": 52,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "vx1productcreation",
+                "label": "VX1 Product Request",
+                "value": 54,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "vx2productcreation",
+                "label": "VX2 Product Request",
+                "value": 55,
                 "icon": null,
                 "submenus": null
             }
@@ -494,6 +564,20 @@ export const sampleSidePanelData = [
                 "value": 27,
                 "icon": null,
                 "submenus": null
+            },
+            {
+                "key": "attribution-qa",
+                "label": "Attribution QA",
+                "value": 53,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "references",
+                "label": "Manage References",
+                "value": 58,
+                "icon": null,
+                "submenus": null
             }
         ]
     },
@@ -504,9 +588,76 @@ export const sampleSidePanelData = [
         "icon": "chart-line",
         "submenus": [
             {
-                "key": "tv-queue",
-                "label": "TV Queue",
+                "key": "attribution-queue",
+                "label": "Attribution Queue",
                 "value": 29,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "component-programming/#",
+        "label": "Component Programming",
+        "value": 43,
+        "icon": "componentprogramming",
+        "submenus": [
+            {
+                "key": "component-queue",
+                "label": "Component Queue",
+                "value": 44,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "creativeassignment/#",
+        "label": "Creative Assignment",
+        "value": 48,
+        "icon": "Creativeassignment",
+        "submenus": [
+            {
+                "key": "creativeassignmentclassification",
+                "label": "Classification",
+                "value": 49,
+                "icon": null,
+                "submenus": null
+            },
+            {
+                "key": "creativeassignmentattribution",
+                "label": "Attribution",
+                "value": 50,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "evaluation",
+        "label": "Evaluation",
+        "value": 59,
+        "icon": "evaluation",
+        "submenus": [
+            {
+                "key": "evaluation/evaluation-queue",
+                "label": "Evaluation Queue",
+                "value": 60,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "classificationmediaagnostic",
+        "label": "Classification Media-Agnostic",
+        "value": 56,
+        "icon": "classificationmediaagnostic",
+        "submenus": [
+            {
+                "key": "classificationmediaagnostic/classification",
+                "label": "Classification",
+                "value": 57,
                 "icon": null,
                 "submenus": null
             }
