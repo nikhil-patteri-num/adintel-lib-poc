@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Prdouct.scss';
 import { FormGroup, FormItemLabel, TextArea, buttonVariant, Button, Icon, CheckboxInput } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
-import { getDropdownClassesCompatibleData, getDropdownCompatibleData } from '../../utility/CommonMethods';
+import { checkExactSearchMatch, getDropdownClassesCompatibleData, getDropdownCompatibleData} from '../../utility/CommonMethods';
 import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { DropdownSearchField } from '../../core/Dropdown/SearchDropdown/DropdownSearch';
@@ -678,6 +678,20 @@ export const Product = (props: IProductProps) => {
                               value: 'producttypeId',
                             }
                           ),
+                          isSearchComplete:false,
+                          createButtonText: checkExactSearchMatch(
+                          textFormData.productTypeName,
+                          dropdownData.referredToProductTypesForProductDropdownList,
+                            'producttypeName'
+                          )
+                            ? null
+                          : 'Add New',
+                          onCreateButtonClick: () => {
+                            addNewProductType({
+                              label: textFormData.productTypeName,
+                              value: -1,
+                            });
+                          }
                         }
                       : { entities: [],
                         isSearchComplete: true,
@@ -823,7 +837,18 @@ export const Product = (props: IProductProps) => {
                           label: 'productName',
                           value: 'productnameId'
                         }
-                      )
+                      ),
+                      isSearchComplete: false,
+                      createButtonText: checkExactSearchMatch(
+                       textFormData.productName,
+                       dropdownData.referredToProductNameDropdownList,
+                       'productName'
+                     )
+                       ? null
+                     : 'Add New',
+                     onCreateButtonClick: () => {
+                       onproductaddname();
+                     }
                     }
                     : { 
                       entities: [],
@@ -859,7 +884,18 @@ export const Product = (props: IProductProps) => {
                           label: 'companydisplayName',
                           value: 'companyId'
                         }
-                      )
+                      ),
+                      isSearchComplete: false,
+                            createButtonText: checkExactSearchMatch(
+                              textFormData.brandname,
+                              dropdownData.referredToBrandDropdownList,
+                              'companydisplayName'
+                            )
+                              ? null
+                            : 'Add New', 
+                            onCreateButtonClick: () => {
+                              onBrandaddname();
+                            }
                     }
                     : { 
                       entities: [],
