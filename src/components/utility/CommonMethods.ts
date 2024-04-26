@@ -26,3 +26,19 @@ export const getDropdownClassesCompatibleData = (
     return [];
   }
 };
+// check exact search value in drop-down data
+export const checkExactSearchMatch = (searchedText: string, data: Array<any>, labelKey: string) => {
+  debugger;
+  try {
+    if(searchedText.indexOf('%') > -1)
+    {
+      return true;
+    }
+    else{
+    const searchResult = data.some(item => item[labelKey]?.toLowerCase() === searchedText?.toLowerCase());
+    return searchResult;
+    }
+  } catch {
+    return false;;
+  }
+};
