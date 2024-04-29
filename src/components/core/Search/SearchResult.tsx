@@ -94,6 +94,16 @@ export const SearchResult = (props: ISearchResultProps) => {
               </div>
             </div>
           ) : null}
+          {createButtonText && (options.length >0) ? (
+            <div>
+              <hr />
+              <div className='create-button'>
+                <Button onClick={onCreateButtonClickHandler} onKeyDown={onCreateButtonKeyDown}>
+                  {createButtonText}
+                </Button>
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : isSearchComplete ? (
         <div>
