@@ -34,9 +34,15 @@ export interface IMultiSelectSearchProps<Option extends IOption> {
   customClass?: string;
   setSearchResultList?: () => void;
   maxOptionLength?: number;
+  onMoreButtonClickCallback?: () => void;
+  maxLength?: number;
+  canAddMoreProds?: boolean;
+  setDirtyFields?: (key: string | any, flag: boolean) => any;
+  keyName?:string;
+  can_create_new?: boolean;
 }
 
-export function MultiSelectSearch<Option extends IOption>({
+export function MultiSelectSearch<Option>({
   defaultItems = [],
   minCharCount,
   onSearch,
@@ -47,7 +53,7 @@ export function MultiSelectSearch<Option extends IOption>({
   onOptionClick,
   onChipRightClick,
   primaryChip,
-  isSearchComplete,
+  isSearchComplete = false,
   disabled,
   createButtonText,
   onCreateButtonClick,
@@ -57,7 +63,13 @@ export function MultiSelectSearch<Option extends IOption>({
   isPartiallyDisabled,
   autoFocus = false,
   customClass,
-  maxOptionLength = 1000
+  maxOptionLength = 1000,
+  onMoreButtonClickCallback,
+  //maxLength,
+  canAddMoreProds = true,
+  setDirtyFields,
+  keyName,
+  //can_create_new
 }: IMultiSelectSearchProps<Option>): JSX.Element {
   const getCheckedOption = (option: any) => ({
     ...option,
@@ -74,6 +86,10 @@ export function MultiSelectSearch<Option extends IOption>({
   );
   const prevSelectedItems: any = usePrevious(selectedItems);
 
+  useEffect(() => {
+    setSelectedItems(selectedItems.map((item) => ({ ...item, disabled })));
+  }, [disabled]);
+
   const isSearchResultItemDefaultItem = (item: any): boolean => {
     return (
       !isEmpty(selectedItems) &&
@@ -88,15 +104,17 @@ export function MultiSelectSearch<Option extends IOption>({
   };
 
   const getInitialItems = () => {
-    const initialItems: any[] = searchResults.map((searchResultItem: any) => {
-      if (isSearchResultItemDefaultItem(searchResultItem))
-        return {
-          ...searchResultItem,
-          checked: true,
-          disabled: isPartiallyDisabled || disabled ? true : false
-        };
-      return { ...searchResultItem, checked: false };
-    });
+    const initialItems: any[] = (allSearchResults?.length ? allSearchResults : searchResults).map(
+      (searchResultItem: any) => {
+        if (isSearchResultItemDefaultItem(searchResultItem))
+          return {
+            ...searchResultItem,
+            checked: true,
+            disabled: isPartiallyDisabled || disabled ? true : false
+          };
+        return { ...searchResultItem, checked: false };
+      }
+    );
     return arrangeCheckedAndUncheckedItemsInConsecutiveOrder(initialItems);
   };
   const onSearchInputChange: any = React.useCallback(debounce(onSearch, SEARCH_DEBOUNCE_TIME), [
@@ -116,6 +134,11 @@ export function MultiSelectSearch<Option extends IOption>({
   const [allSearchResults, setSearchResults]: any = useState(getInitialItems());
   const [searchVal, setSearchVal]: any = useState('');
   const [showMultiselectSearchResult, setShowMultiSelectSearchResult]: any = useState(false);
+  const [isSearchCompleted, setIsSearchCompleted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsSearchCompleted(isSearchComplete);
+  }, [isSearchComplete]);
 
   const previousSearchItems: any = usePrevious(searchResults);
   useEffect(() => {
@@ -139,6 +162,7 @@ export function MultiSelectSearch<Option extends IOption>({
   }, [searchResults]);
 
   useEffect(() => {
+    
     if (JSON.stringify(prevSelectedItems) !== JSON.stringify(defaultItems)) {
       if (!isEmpty(defaultItems)) {
         setSelectedItems(generateCheckedOptions(Array.isArray(defaultItems) ?defaultItems : []));
@@ -149,7 +173,10 @@ export function MultiSelectSearch<Option extends IOption>({
   useEffect(() => {
     document.addEventListener('mousedown', outSideClick);
     if (!showMultiselectSearchResult)
+    {
+      setSearchResults([])
       return document.removeEventListener('mousedown', outSideClick);
+    }
   }, [showMultiselectSearchResult]);
 
   const onSearchOptionClick = (option: any) => {
@@ -159,27 +186,51 @@ export function MultiSelectSearch<Option extends IOption>({
     if (selectedItems.length < maxOptionLength || (selectedItems.length === maxOptionLength && isOptionPresent)) {
       if (id=='search-entity-value-descriptorListproduct')
       {
-          setSearchResults(toggleOptionByValuedesc(allSearchResults, option.value.split('-')[0]));
-          newSelectedItemsdesc =newSelectedItemsdesc.filter((obj: any) => obj.value.split('-')[1] != option.value.split('-')[1]);
-          newSelectedItemsdesc.push(option);
-          setSelectedItems(newSelectedItemsdesc);
+          const index = newSelectedItemsdesc.findIndex(selectedItem => selectedItem.value.split('-')[1] === option.value.split('-')[1]);
+          if (index > -1) {
+            setSearchResults(toggleOptionByValuedesc(allSearchResults, option.value.split('-')[0]));
+            newSelectedItemsdesc.splice(index, 1);
+            setSelectedItems(newSelectedItemsdesc);
+          }
+          else
+          {
+            if (canAddMoreProds) {
+              setSearchResults(toggleOptionByValuedesc(allSearchResults, option.value.split('-')[0]));
+              newSelectedItemsdesc = newSelectedItemsdesc.filter((obj: any) => obj.value.split('-')[1] != option.value.split('-')[1]);
+              newSelectedItemsdesc.push(option);
+              setSelectedItems(newSelectedItemsdesc);
+            } else {
+              showErrorMessage();
+            }
+          }
       }
       else
       {
-      setSearchResults(toggleOptionByValue(allSearchResults, option.value));
       const index = newSelectedItems.findIndex(selectedItem => selectedItem.value === option.value);
       if (index > -1) {
+        setSearchResults(toggleOptionByValue(allSearchResults, option.value));
         newSelectedItems.splice(index, 1);
         setSelectedItems(newSelectedItems);
       } else {
-        newSelectedItems.push(option);
-        setSelectedItems(newSelectedItems);
+        if (canAddMoreProds) {
+          setSearchResults(toggleOptionByValue(allSearchResults, option.value));
+          newSelectedItems.push(option);
+          setSelectedItems(newSelectedItems);
+        } else {
+          showErrorMessage();
+        }  
       }
-      }
+    }
       if (onOptionClick) onOptionClick(selectedItems);
       setSearchVal('');
+    } else {
+      showErrorMessage();
     }
   };
+
+  const showErrorMessage = () => {
+    //MessageService.showToastMessage('Max product limit reached for creative.')
+  }
 
   const outSideClick = (event: any) => {
     const selectedElement = document.getElementById(id);
@@ -209,6 +260,7 @@ export function MultiSelectSearch<Option extends IOption>({
       item.value.split('-')[0] === value ? { ...item, checked: true } :{ ...item, checked: false }
     );
   };
+
   const filterItemsByValue = (items: any, value: any) => {
     return items.filter((item: any) => item.value !== value);
   };
@@ -223,6 +275,9 @@ export function MultiSelectSearch<Option extends IOption>({
   const onMoreButtonClick = () => {
     setSearchResults([...selectedItems]);
     setShowMultiSelectSearchResult(true);
+    if (onMoreButtonClickCallback) {
+      onMoreButtonClickCallback();
+    }
   };
 
   useEffect(() => {
@@ -255,11 +310,19 @@ export function MultiSelectSearch<Option extends IOption>({
             ? `multiselect-search disabled${customClass ? ` ${customClass}` : ''}`
             : `multiselect-search${customClass ? ` ${customClass}` : ''}`
         }
-      >
+      > 
         <MultiSelectSearchInput
           id={id}
           selectedItems={primaryChip ? movePrimaryProductFirst(selectedItems) : selectedItems}
           onChange={event => {
+            if (allSearchResults.length) {
+              setShowMultiSelectSearchResult(false);
+              setSearchResults([]);
+              setIsSearchCompleted(false);
+            }
+            if (setDirtyFields) {
+              setDirtyFields(keyName, event.target.value !== null && event.target.value !== undefined && event.target.value !== "" ? true : false);
+            }
             getSearchValue(event.target.value);
           }}
           searchVal={searchVal}
@@ -272,6 +335,7 @@ export function MultiSelectSearch<Option extends IOption>({
           isPartiallyDisabled={isPartiallyDisabled}
           placeholder={selectedItems.length === 0 ? placeholder : ''}
           autoFocus={autoFocus}
+          //maxLength={maxLength}
         />
         {showMultiselectSearchResult && (
           <MultiSelectSearchResult
@@ -280,13 +344,14 @@ export function MultiSelectSearch<Option extends IOption>({
             onClick={onSearchOptionClick}
             searchOption={searchOptionCard}
             searchVal={searchVal}
-            isSearchComplete={isSearchComplete}
+            isSearchComplete={isSearchCompleted}
             setShowMultiSelectSearchResult={setShowMultiSelectSearchResult}
             createButtonText={createButtonText}
             onCreateButtonClick={handleCreateButtonClick}
             isDisabled={disabled}
             onOptionRightClick={onChipRightClick}
             primaryChip={primaryChip}
+            //can_create_new={can_create_new}
           />
         )}
       </div>
