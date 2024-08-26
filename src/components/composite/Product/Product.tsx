@@ -224,12 +224,9 @@ export const Product = (props: IProductProps) => {
     if (!formData.brandId && !formData.brandname) {
       setvalidBrandID(false);
     }
-    if (!descriptorsTypeList != null && descriptorsTypeList.length > 0) {
-      if (!descriptorsList == null || descriptorsList.length == 0) {
-        setvaliddescriptors(false);
-        return false;
-      }
-
+    if (descriptorsTypeList.length && !descriptorsList.length) {
+      setvaliddescriptors(false);
+      return false;
     }
     if(validProduct!=true)
     {
@@ -397,32 +394,32 @@ export const Product = (props: IProductProps) => {
 
   }
   const ondescriptorsClick = (values: any) => {
-    if(values!=null && values.length>1){
-      descriptorsTypeList.forEach((element:any) => {
-         let indexcount= values.filter((item:any) =>item.value.split('-')[1].includes(element.value)).length;
-         let count =0;
-         values.forEach((item:any) => {
-           if(Number(item.value.split('-')[1])===element.value){
-             count++;
-             if(count!==indexcount){
-               item.checked=false;
-             }else{
-               item.checked = true; 
-             }
-           }
-         });
+    setvaliddescriptors(true);
+    if (values != null && values.length > 1) {
+      descriptorsTypeList.forEach((element: any) => {
+        let indexcount = values.filter((item: any) => item.value.split('-')[1].includes(element.value)).length;
+        let count = 0;
+        values.forEach((item: any) => {
+          if (Number(item.value.split('-')[1]) === element.value) {
+            count++;
+            if (count !== indexcount) {
+              item.checked = false;
+            } else {
+              item.checked = true;
+            }
+          }
         });
-        values = values.filter((item:any)=>item.checked==true);
-     }
-  setdescriptorsList(values);
-  setdescriptorsListNew(values);
+      });
+      values = values.filter((item: any) => item.checked == true);
+    }
+    setdescriptorsList(values);
+    setdescriptorsListNew(values);
     const payload = {
       descriptorsTypeList: descriptorsTypeList,
       descriptorsList: values,
       productname: formData.productname,
       productType: formData.productType
     };
-
     productnameformation(payload);
   }
   const onClassSelect = (values: any) => {
@@ -781,7 +778,7 @@ export const Product = (props: IProductProps) => {
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
-              <FormItemLabel>Descriptor(s)</FormItemLabel>
+              <FormItemLabel isMandatory={descriptorsTypeList?.length}>Descriptor(s)</FormItemLabel>
               <MultiSelect
                     id='descriptorListproduct'
                     key={dropdownData?.referredToDescriptorDropdownList||null}
