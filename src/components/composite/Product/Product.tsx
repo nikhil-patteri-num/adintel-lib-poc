@@ -224,7 +224,7 @@ export const Product = (props: IProductProps) => {
     if (!formData.brandId && !formData.brandname) {
       setvalidBrandID(false);
     }
-    if (descriptorsTypeList.length && !descriptorsList.length) {
+    if (descriptorsTypeList.length && (!descriptorsList.length || descriptorsTypeList.length !== descriptorsList.length)) {
       setvaliddescriptors(false);
       return false;
     }
