@@ -3,7 +3,7 @@ import './Prdouct.scss';
 import { FormGroup, FormItemLabel, TextArea, buttonVariant, Button, Icon, CheckboxInput } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
 import { checkExactSearchMatch, getDropdownClassesCompatibleData, getDropdownCompatibleData} from '../../utility/CommonMethods';
-import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
+// import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { DropdownSearchField } from '../../core/Dropdown/SearchDropdown/DropdownSearch';
 import { MultiSelect } from '../../core/MultiSelect';
@@ -41,7 +41,7 @@ export const Product = (props: IProductProps) => {
   const [descriptorsenable, setdescriptorsenable] = useState(true);
   const [descriptortypeenable, setdescriptortypeenable] = useState(true);
   const [producttypeidnew,setproducttypeidnew]:any=useState(0);
-  const [descriptorsTypeList, setdescriptorsTypeList]: any = useState({ label: '', value: 0 });
+  const [descriptorsTypeList, setdescriptorsTypeList]: any = useState([]);
   const [productNameList, setproductNameList]: any = useState({ label: '', value: 0 });
   const [descriptorsList, setdescriptorsList]: any = useState({ label: '', value: 0 });
   const [descriptorsListNew, setdescriptorsListNew]:any = useState([]);
@@ -131,7 +131,7 @@ export const Product = (props: IProductProps) => {
       if (productTypeId?.descriptorsType != null && productTypeId?.descriptorsType?.length > 0) {
         setdescriptorsTypeList(getDropdownCompatibleData(productTypeId?.descriptorsType, { label: 'label', value: 'value' }));
       } else {
-        setdescriptorsTypeList({ label: '', value: 0 });
+        setdescriptorsTypeList([]);
       }
       if (productTypeId?.descriptors != null && productTypeId?.descriptors?.length > 0) {
         setvaliddescriptors(true);
@@ -144,7 +144,7 @@ export const Product = (props: IProductProps) => {
       }
       setclassurlupdate(productTypeId?.class_instruction_url);
       const payload = {
-        descriptorsTypeList: descriptorsTypeList,
+        descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
         descriptorsList: descriptorsList,
         productname: formData.productname,
         productType: productTypeId?.productType,
@@ -178,7 +178,7 @@ export const Product = (props: IProductProps) => {
 
   useEffect(() => {
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: formData.productname,
       productType: formData.productType
@@ -201,7 +201,7 @@ export const Product = (props: IProductProps) => {
           productType: producttypeidnew.split('--')[1],
         })
         const payload = {
-          descriptorsTypeList: descriptorsTypeList,
+          descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
           descriptorsList: descriptorsList,
           productname: formData.productname,
           productType: producttypeidnew.split('--')[1],
@@ -342,12 +342,12 @@ export const Product = (props: IProductProps) => {
     onFieldsTextChange('brandname', value.search_text);
   }
 
-  const handleOnChangeMultiSearchDestype = (value: any) => {
-    value['name'] = 'descriptorsType';
-    value['classId'] = formData.classIddisplay?.value;
-    props.onchange(value);
+  // const handleOnChangeMultiSearchDestype = (value: any) => {
+  //   value['name'] = 'descriptorsType';
+  //   value['classId'] = formData.classIddisplay?.value;
+  //   props.onchange(value);
 
-  }
+  // }
 
   const handleOnChangeMultiSearchProducttype = (value: any) => {
     value['name'] = 'producttypeName';
@@ -415,7 +415,7 @@ export const Product = (props: IProductProps) => {
     setdescriptorsList(values);
     setdescriptorsListNew(values);
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: values,
       productname: formData.productname,
       productType: formData.productType
@@ -437,7 +437,7 @@ export const Product = (props: IProductProps) => {
     else {
       setdescriptortypeenable(true);
       setclassurlupdate('');
-      setdescriptorsTypeList({ label: '', value: 0 });
+      setdescriptorsTypeList([]);
       setdescriptorsList({ label: '', value: 0 });
       setdescriptorsListNew([]);
       setproducttypeidnew(0);
@@ -447,7 +447,7 @@ export const Product = (props: IProductProps) => {
       productType: '',
     });
       const payload = {
-        descriptorsTypeList: formData.descriptorsTypeList,
+        descriptorsTypeList: formData.descriptorsTypeList.length>0?formData.descriptorsTypeList:[],
         descriptorsList: (formData.descriptorsList.length>0)?formData.descriptorsList:[],
         productname: formData.productname,
         productType: formData.productType,
@@ -466,7 +466,7 @@ export const Product = (props: IProductProps) => {
     setproductTypeList(values);
     setproducttypeidnew(values.value+'--'+values.label);
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: formData.productname,
       productType: values.label,
@@ -487,7 +487,7 @@ export const Product = (props: IProductProps) => {
     });
     setproductNameList(values);
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: values.label,
       productType: formData.productType,
@@ -513,7 +513,7 @@ export const Product = (props: IProductProps) => {
 
     setproductTypeList({ label: values.label, value: -1 });
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: formData.productname,
       productType: values.label,
@@ -533,7 +533,7 @@ export const Product = (props: IProductProps) => {
     setBrandList({ label: textFormData.productName, value: -1 });
     setproductNameList({ label: textFormData.productName, value: -1 });
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: textFormData.productName,
       productType: formData.productType,
@@ -781,7 +781,7 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel>Descriptor Type(s)</FormItemLabel>
-              <DynamicMultiSelectSearch
+              {/* <DynamicMultiSelectSearch
                 id={`descriptortypeList`}
                 value={descriptorsTypeList}
                 setValue={options => ondescriptorsTypeClick(options?.mcssValues)}
@@ -802,7 +802,25 @@ export const Product = (props: IProductProps) => {
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                   handleOnChangeMultiSearchDestype({ searchValue: value.search_text })
                 }
-              />
+              /> */}
+              <MultiSelect
+                      id='descriptortypeList'
+                      key={dropdownData?.referredToClassDataValidation?.descriptorsType}
+                      defaultValues={descriptorsTypeList}
+                      onClick={(value: any) => ondescriptorsTypeClick(value)}
+                      isPartiallyDisabled={descriptortypeenable}
+                      options={
+                        props.dropdownData?.referredToClassDataValidation
+                          ? getDropdownCompatibleData(
+                            props.dropdownData?.referredToClassDataValidation.descriptorsType,
+                            {
+                              label: 'label',
+                              value: 'value'
+                            }
+                          )
+                          : []
+                      }
+                    />
               {showEmptySelected == 'DescriptorType' && showEmptyOption && !isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
               {showEmptySelected == 'DescriptorType' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
             </FormGroup>
