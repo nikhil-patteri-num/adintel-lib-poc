@@ -86,6 +86,7 @@
     .dropdown-options {
       background: $white;
       max-height: 150px;
+      overflow: auto;
 
       .check-box {
         color: $deepteal;

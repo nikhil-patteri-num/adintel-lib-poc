@@ -3,7 +3,7 @@ import './Prdouct.scss';
 import { FormGroup, FormItemLabel, TextArea, buttonVariant, Button, Icon, CheckboxInput } from '../../core';
 import { DynamicSearch } from '../../core/DynamicRenderer/DynamicSearch/DynamicSearch';
 import { checkExactSearchMatch, getDropdownClassesCompatibleData, getDropdownCompatibleData} from '../../utility/CommonMethods';
-import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
+// import { DynamicMultiSelectSearch } from '../../core/DynamicRenderer/DynamicMultiSelectSearch/DynamicMultiselectSearch';
 import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { DropdownSearchField } from '../../core/Dropdown/SearchDropdown/DropdownSearch';
 import { MultiSelect } from '../../core/MultiSelect';
@@ -41,13 +41,14 @@ export const Product = (props: IProductProps) => {
   const [descriptorsenable, setdescriptorsenable] = useState(true);
   const [descriptortypeenable, setdescriptortypeenable] = useState(true);
   const [producttypeidnew,setproducttypeidnew]:any=useState(0);
-  const [descriptorsTypeList, setdescriptorsTypeList]: any = useState({ label: '', value: 0 });
+  const [descriptorsTypeList, setdescriptorsTypeList]: any = useState([]);
   const [productNameList, setproductNameList]: any = useState({ label: '', value: 0 });
   const [descriptorsList, setdescriptorsList]: any = useState({ label: '', value: 0 });
   const [descriptorsListNew, setdescriptorsListNew]:any = useState([]);
   const [showfreproducttype, setshowfreproducttype] = useState(true);
   const [productAlready, setproductAlready] = useState(true);
   const [productTypesForPreviousData, setProductTypesForPreviousData]: any = useState([]);
+  const [showfrebrand, setShowfrebrand] = useState<boolean>(true);
   const buttonRef:any =useRef(null);
    useEffect(() => {
     if (dropdownData?.ProductTypesForPreviousProductDropdown?.length)
@@ -116,40 +117,34 @@ export const Product = (props: IProductProps) => {
       props.onCreateProductSave(formData);
     }
   };
+
   useEffect(() => {
-    if (formData.classIddisplay?.value!=0 && formData.classIddisplay.label != '') {
+    if (formData.classIddisplay?.value != 0 && formData.classIddisplay.label != '') {
       setFormData({
         ...formData,
         productTypeId: productTypeId?.productTypeId,
         productType: productTypeId?.productType
       })
-      setproductNameList({label: productTypeId?.product_n, value: productTypeId?.productname_id})
+      setproductNameList({ label: productTypeId?.product_n, value: productTypeId?.productname_id })
       setproductTypeList({ label: productTypeId?.productType, value: productTypeId?.productTypeId });
       setdescriptortypeenable(false);
-      if(productTypeId?.descriptorsType!=null && productTypeId?.descriptorsType?.length>0)
-      {
+      if (productTypeId?.descriptorsType != null && productTypeId?.descriptorsType?.length > 0) {
         setdescriptorsTypeList(getDropdownCompatibleData(productTypeId?.descriptorsType, { label: 'label', value: 'value' }));
+      } else {
+        setdescriptorsTypeList([]);
       }
-      else
-      {
-        setdescriptorsTypeList({ label: '', value: 0 });
-       
-      }
-      if(productTypeId?.descriptors!=null && productTypeId?.descriptors?.length>0)
-      {
+      if (productTypeId?.descriptors != null && productTypeId?.descriptors?.length > 0) {
         setvaliddescriptors(true);
         setdescriptorsList(getDropdownCompatibleData(productTypeId?.descriptors, { label: 'label', value: 'value' }));
         setdescriptorsListNew(getDropdownCompatibleData(productTypeId?.descriptors, { label: 'label', value: 'value' }));
-      }
-      else
-      {
+      } else {
         setvaliddescriptors(true);
         setdescriptorsList({ label: '', value: 0 });
         setdescriptorsListNew([]);
       }
       setclassurlupdate(productTypeId?.class_instruction_url);
       const payload = {
-        descriptorsTypeList: descriptorsTypeList,
+        descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
         descriptorsList: descriptorsList,
         productname: formData.productname,
         productType: productTypeId?.productType,
@@ -160,12 +155,13 @@ export const Product = (props: IProductProps) => {
       productnameformation(payload);
     }
   }, [productTypeId]);
+
   useEffect(() => {
     setValidProduct(productValiationflg);
     setproductAlready(true);
   }, [productValiationflg]);
-  useEffect(() => {
 
+  useEffect(() => {
     setFormData({
       ...formData,
       brandId: Brand?.BrandId
@@ -173,44 +169,48 @@ export const Product = (props: IProductProps) => {
     setBrandList({ label: Brand?.Brand, value: Brand?.BrandId });
     if (Brand?.BrandId != null && Brand?.BrandId != '') {
       setvalidBrandID(true);
+      // onFieldsTextChange('brandname', Brand?.Brand?.split(' ')[0]);
+      const value = { search_text: Brand?.Brand?.split(' ')[0], name: 'brand' }
+      // value['name'] = 'brand';
+      props.onchange(value);
     }
   }, [Brand]);
 
   useEffect(() => {
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: formData.productname,
       productType: formData.productType
     };
     productnameformation(payload);
   }, [producatname_n]);
+
   useEffect(() => {
-    if(shortcutsaveflg==true)
-    {
+    if (shortcutsaveflg == true) {
       buttonRef.current.click();
     }
   }, [shortcutsaveflg]);
+
   useEffect(() => {
-    if(producttypeidnew.length>0)
-    {
-      if(producttypeidnew.split('--')[0]!='null' && formData.productType!=producttypeidnew.split('--')[1])
-    {
-    setFormData({
-      ...formData,
-      productTypeId: producttypeidnew.split('--')[0],
-      productType: producttypeidnew.split('--')[1],
-    })
-    const payload = {
-      descriptorsTypeList:descriptorsTypeList  ,
-      descriptorsList:descriptorsList ,
-      productname:formData.productname,
-      productType: producttypeidnew.split('--')[1],
-    };
-    productnameformation(payload);
-   }
-   }
+    if (producttypeidnew.length > 0) {
+      if (producttypeidnew.split('--')[0] != 'null' && formData.productType != producttypeidnew.split('--')[1]) {
+        setFormData({
+          ...formData,
+          productTypeId: producttypeidnew.split('--')[0],
+          productType: producttypeidnew.split('--')[1],
+        })
+        const payload = {
+          descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
+          descriptorsList: descriptorsList,
+          productname: formData.productname,
+          productType: producttypeidnew.split('--')[1],
+        };
+        productnameformation(payload);
+      }
+    }
   }, [producttypeidnew]);
+
   const isValidInputs = (): boolean => {
     if (!formData.classIddisplay?.value) {
       setvalidClass(false);
@@ -224,12 +224,9 @@ export const Product = (props: IProductProps) => {
     if (!formData.brandId && !formData.brandname) {
       setvalidBrandID(false);
     }
-    if (!descriptorsTypeList != null && descriptorsTypeList.length > 0) {
-      if (!descriptorsList == null || descriptorsList.length == 0) {
-        setvaliddescriptors(false);
-        return false;
-      }
-
+    if (descriptorsTypeList.length && (!descriptorsList.length || descriptorsTypeList.length !== descriptorsList.length)) {
+      setvaliddescriptors(false);
+      return false;
     }
     if(validProduct!=true)
     {
@@ -339,18 +336,18 @@ export const Product = (props: IProductProps) => {
     props.onchange(value);
     if (value != null && value != '' && value != '0') {
       setvalidBrandID(true);
-    }
-    else {
+    } else {
       setvalidBrandID(false);
     }
     onFieldsTextChange('brandname', value.search_text);
   }
-  const handleOnChangeMultiSearchDestype = (value: any) => {
-    value['name'] = 'descriptorsType';
-    value['classId'] = formData.classIddisplay?.value;
-    props.onchange(value);
 
-  }
+  // const handleOnChangeMultiSearchDestype = (value: any) => {
+  //   value['name'] = 'descriptorsType';
+  //   value['classId'] = formData.classIddisplay?.value;
+  //   props.onchange(value);
+
+  // }
 
   const handleOnChangeMultiSearchProducttype = (value: any) => {
     value['name'] = 'producttypeName';
@@ -397,32 +394,32 @@ export const Product = (props: IProductProps) => {
 
   }
   const ondescriptorsClick = (values: any) => {
-    if(values!=null && values.length>1){
-      descriptorsTypeList.forEach((element:any) => {
-         let indexcount= values.filter((item:any) =>item.value.split('-')[1].includes(element.value)).length;
-         let count =0;
-         values.forEach((item:any) => {
-           if(Number(item.value.split('-')[1])===element.value){
-             count++;
-             if(count!==indexcount){
-               item.checked=false;
-             }else{
-               item.checked = true; 
-             }
-           }
-         });
+    setvaliddescriptors(true);
+    if (values != null && values.length > 1) {
+      descriptorsTypeList.forEach((element: any) => {
+        let indexcount = values.filter((item: any) => item.value.split('-')[1].includes(element.value)).length;
+        let count = 0;
+        values.forEach((item: any) => {
+          if (Number(item.value.split('-')[1]) === element.value) {
+            count++;
+            if (count !== indexcount) {
+              item.checked = false;
+            } else {
+              item.checked = true;
+            }
+          }
         });
-        values = values.filter((item:any)=>item.checked==true);
-     }
-  setdescriptorsList(values);
-  setdescriptorsListNew(values);
+      });
+      values = values.filter((item: any) => item.checked == true);
+    }
+    setdescriptorsList(values);
+    setdescriptorsListNew(values);
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: values,
       productname: formData.productname,
       productType: formData.productType
     };
-
     productnameformation(payload);
   }
   const onClassSelect = (values: any) => {
@@ -440,7 +437,7 @@ export const Product = (props: IProductProps) => {
     else {
       setdescriptortypeenable(true);
       setclassurlupdate('');
-      setdescriptorsTypeList({ label: '', value: 0 });
+      setdescriptorsTypeList([]);
       setdescriptorsList({ label: '', value: 0 });
       setdescriptorsListNew([]);
       setproducttypeidnew(0);
@@ -450,7 +447,7 @@ export const Product = (props: IProductProps) => {
       productType: '',
     });
       const payload = {
-        descriptorsTypeList: formData.descriptorsTypeList,
+        descriptorsTypeList: formData.descriptorsTypeList.length>0?formData.descriptorsTypeList:[],
         descriptorsList: (formData.descriptorsList.length>0)?formData.descriptorsList:[],
         productname: formData.productname,
         productType: formData.productType,
@@ -469,7 +466,7 @@ export const Product = (props: IProductProps) => {
     setproductTypeList(values);
     setproducttypeidnew(values.value+'--'+values.label);
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: formData.productname,
       productType: values.label,
@@ -486,21 +483,18 @@ export const Product = (props: IProductProps) => {
     setFormData({
       ...formData,
       productnameId: values.value,
-      productname: values.label 
+      productname: values.label
     });
-    
-    
     setproductNameList(values);
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: values.label,
       productType: formData.productType,
     };
     if (values.value != null && values.value != '' && values.value != '0') {
       setvalidProductName(true);
-    }
-    else {
+    } else {
       setvalidProductName(false);
       setBrandList({ label: '', value: 0 });
     }
@@ -519,7 +513,7 @@ export const Product = (props: IProductProps) => {
 
     setproductTypeList({ label: values.label, value: -1 });
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: formData.productname,
       productType: values.label,
@@ -539,7 +533,7 @@ export const Product = (props: IProductProps) => {
     setBrandList({ label: textFormData.productName, value: -1 });
     setproductNameList({ label: textFormData.productName, value: -1 });
     const payload = {
-      descriptorsTypeList: descriptorsTypeList,
+      descriptorsTypeList: descriptorsTypeList.length>0?descriptorsTypeList:[],
       descriptorsList: descriptorsList,
       productname: textFormData.productName,
       productType: formData.productType,
@@ -563,13 +557,11 @@ export const Product = (props: IProductProps) => {
     setBrandList({ label: textFormData.brandname, value: -1 });
     if (textFormData.brandname != null && textFormData.brandname != '' && textFormData.brandname != '0') {
       setvalidBrandID(true);
-    }
-    else {
+    } else {
       setvalidBrandID(false);
     }
-   
-   
-  } 
+  }
+
   const onbrandname = (values: any) => {
     setFormData({
       ...formData,
@@ -589,6 +581,42 @@ export const Product = (props: IProductProps) => {
       ...textFormData,
       [fieldKey]: value
     });
+  };
+
+  const getCommonBrandData = () => {
+    return dropdownData?.referredToBrandDropdownList?.length > 0 ? {
+      entities: getDropdownCompatibleData(
+        dropdownData.referredToBrandDropdownList,
+        {
+          label: 'companydisplayName',
+          value: 'companyId'
+        }
+      ),
+      isSearchComplete: false,
+      createButtonText: checkExactSearchMatch(
+        textFormData.brandname,
+        dropdownData.referredToBrandDropdownList,
+        'companydisplayName'
+      )
+        ? null
+        : 'Add New',
+      onCreateButtonClick: () => {
+        onBrandaddname();
+      }
+    } : {
+      entities: [],
+      isSearchComplete: true,
+      createButtonText: "Add New Text",
+      onCreateButtonClick: () => { onBrandaddname() }
+    }
+  }
+
+  const getBrandOptions = () => {
+    return dropdownData?.referredToBrandDropdownList?.length > 0 ?
+      getDropdownCompatibleData(dropdownData.referredToBrandDropdownList, {
+        label: 'companydisplayName',
+        value: 'companyId'
+      }) : [];
   };
 
   return (
@@ -753,7 +781,7 @@ export const Product = (props: IProductProps) => {
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
               <FormItemLabel>Descriptor Type(s)</FormItemLabel>
-              <DynamicMultiSelectSearch
+              {/* <DynamicMultiSelectSearch
                 id={`descriptortypeList`}
                 value={descriptorsTypeList}
                 setValue={options => ondescriptorsTypeClick(options?.mcssValues)}
@@ -774,14 +802,32 @@ export const Product = (props: IProductProps) => {
                 getMultiselectSearchResults={(value: { search_text: any; }) =>
                   handleOnChangeMultiSearchDestype({ searchValue: value.search_text })
                 }
-              />
+              /> */}
+              <MultiSelect
+                      id='descriptortypeList'
+                      key={dropdownData?.referredToClassDataValidation?.descriptorsType}
+                      defaultValues={descriptorsTypeList}
+                      onClick={(value: any) => ondescriptorsTypeClick(value)}
+                      isPartiallyDisabled={descriptortypeenable}
+                      options={
+                        props.dropdownData?.referredToClassDataValidation
+                          ? getDropdownCompatibleData(
+                            props.dropdownData?.referredToClassDataValidation.descriptorsType,
+                            {
+                              label: 'label',
+                              value: 'value'
+                            }
+                          )
+                          : []
+                      }
+                    />
               {showEmptySelected == 'DescriptorType' && showEmptyOption && !isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
               {showEmptySelected == 'DescriptorType' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
             </FormGroup>
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`} >
             <FormGroup>
-              <FormItemLabel>Descriptor(s)</FormItemLabel>
+              <FormItemLabel isMandatory={descriptorsTypeList?.length}>Descriptor(s)</FormItemLabel>
               <MultiSelect
                     id='descriptorListproduct'
                     key={dropdownData?.referredToDescriptorDropdownList||null}
@@ -867,45 +913,40 @@ export const Product = (props: IProductProps) => {
           </div>
           <div className={`${isProductmode ? 'childprd' : 'child'}`}>
             <FormGroup>
+              <FormItemLabel>Previously Used</FormItemLabel>
+              <CheckboxInput customClass='checkboxdesignproducttype'
+                id={'checkbox_brand'}
+                checked={showfrebrand}
+                label={''}
+                onChange={(event: any) => setShowfrebrand(event.target.checked)} />
+            </FormGroup>
+            <FormGroup>
               <FormItemLabel isMandatory>Brand</FormItemLabel>
-              <DynamicSearch
+              {!showfrebrand ? <DynamicSearch
                 id={'brand'}
                 name={'companyName'}
                 fieldName={'companyName'}
                 value={BrandList}
                 setValue={selectedOption => onbrandname(selectedOption)}
                 getMultiselectSearchResults={handleOnChangeMultiSearchBrand}
-                commonData={
-                  dropdownData?.referredToBrandDropdownList?.length > 0
-                    ? {
-                      entities: getDropdownCompatibleData(
-                        dropdownData.referredToBrandDropdownList,
-                        {
-                          label: 'companydisplayName',
-                          value: 'companyId'
-                        }
-                      ),
-                      isSearchComplete: false,
-                            createButtonText: checkExactSearchMatch(
-                              textFormData.brandname,
-                              dropdownData.referredToBrandDropdownList,
-                              'companydisplayName'
-                            )
-                              ? null
-                            : 'Add New', 
-                            onCreateButtonClick: () => {
-                              onBrandaddname();
-                            }
-                    }
-                    : { 
-                      entities: [],
-                      isSearchComplete: true,
-                      createButtonText:"Add New Text",
-                      onCreateButtonClick: () => {onBrandaddname()}     
-                    }
-                }
+                commonData={getCommonBrandData()}
                 disabled={false}
-              />
+              /> :
+              <DropdownSearchField
+                id={'brandId'}
+                options={getBrandOptions()}
+                onClick={(value) => {
+                  const getSelectedItem = dropdownData?.referredToBrandDropdownList?.filter(
+                    (item: any) => item.companyId == value
+                  );
+                  onbrandname({
+                    label: getSelectedItem[0].companydisplayName,
+                    value: getSelectedItem[0].companyId,
+                  });
+                }}
+                value={BrandList.value}
+                placeholder={'Select a Brand'}
+              />}
               {showEmptySelected == 'BrandId' && showEmptyOption && !isLoading && (<div className='empty-optionproduct'>No results found!</div>)}
               {showEmptySelected == 'BrandId' && isLoading && (<div className='empty-optionproduct'>Loading...</div>)}
               <span className={validBrandID ? 'span' : 'errorspan'} >Please Enter Valid Brand</span>
