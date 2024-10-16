@@ -170,7 +170,7 @@ export const Product = (props: IProductProps) => {
     if (Brand?.BrandId != null && Brand?.BrandId != '') {
       setvalidBrandID(true);
       // onFieldsTextChange('brandname', Brand?.Brand?.split(' ')[0]);
-      const value = { search_text: Brand?.Brand?.split(' ')[0], name: 'brand' }
+      const value = { search_text: Brand?.Brand, name: 'brand' }
       // value['name'] = 'brand';
       props.onchange(value);
     }
