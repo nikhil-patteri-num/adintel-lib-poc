@@ -156,8 +156,6 @@
     color: black;
   }
 
-
-
   .collapse-drawer {
     width: 55px !important;
   }
@@ -174,7 +172,6 @@
   }
 }
 
-
 .menu-selected {
   background-color: #edece6;
   color: #A84D97 !important;
@@ -183,8 +180,6 @@
     color: #a84d97 !important;
   }
 }
-
-
 
 .menu-active {
   background-color: #edece6;
@@ -289,16 +284,45 @@
     }
   }
 
+  .qa-svg-icon svg {
+    color: #000 !important;
+
+    path {
+      stroke: #000 !important;
+      fill: #000 !important;
+    }
+
+    path,
+    circle,
+    rect {
+      stroke: #000 !important;
+    }
+  }
+
+  .map-svg-icon svg {
+    color: #000 !important;
+
+    path {
+      stroke: #000 !important;
+      fill: #000 !important;
+    }
+
+    path,
+    circle,
+    rect {
+      stroke: #000 !important;
+    }
+  }
 }
 
 .menu-selected {
   background-color: #edece6;
   color: #A84D97 !important;
 
-    // Dashboard SVG
+  // Dashboard SVG
   .dashboard-svg-icon svg {
-    // color: #a84d97 !important;
 
+    // color: #a84d97 !important;
     path,
     circle,
     rect {
@@ -313,16 +337,17 @@
     path,
     circle,
     rect {
-      stroke:  #a84d97 !important;
+      stroke: #a84d97 !important;
     }
   }
+
   .productmaintenance-svg-icon svg {
     color: #a84d97 !important;
 
     path,
     circle,
     rect {
-      stroke:  #a84d97 !important;
+      stroke: #a84d97 !important;
     }
   }
 
@@ -332,7 +357,7 @@
     path,
     polygon,
     rect {
-      stroke:  #a84d97 !important;
+      stroke: #a84d97 !important;
     }
   }
   // Attribute management SVG
@@ -342,7 +367,7 @@
     path,
     circle,
     rect {
-      fill:  #a84d97 !important;
+      fill: #a84d97 !important;
     }
   }
 
@@ -353,7 +378,7 @@
     path,
     circle,
     rect {
-      fill:  #a84d97 !important;
+      fill: #a84d97 !important;
     }
   }
 
@@ -375,7 +400,7 @@
     path,
     circle,
     rect {
-      fill:  #a84d97 !important;
+      fill: #a84d97 !important;
       stroke: #a84d97 !important;
     }
   }
@@ -403,8 +428,25 @@
     }
   }
 
+  .qa-svg-icon svg {
+    color: #a84d97 !important;
 
+    path,
+    circle,
+    rect {
+      fill: #a84d97 !important;
+    }
+  }
 
+  .map-svg-icon svg {
+    color: #a84d97 !important;
+
+    path,
+    circle,
+    rect {
+      fill: #a84d97 !important;
+    }
+  }
 }
 
 
@@ -415,39 +457,30 @@
   }
 }
 
-
-
 // @media ($mediumScreenMedia) {
 //   .drawer-submenu {
 //     width: 165px;
 //   }
-
 //   .drawer-menu-item {
 //     width: 220px;
 //   }
-
 //   .drawer-menu:hover {
 //     width: 220px;
 //   }
-
 //   .drawer-menu:hover .build-version {
 //     display: block;
 //   }
 // }
-
 // @media ($largeScreenMedia) {
 //   .drawer-submenu {
 //     width: 205px;
 //   }
-
 //   .drawer-menu:hover {
 //     width: 260px;
 //   }
-
 //   .drawer-menu-item {
 //     width: 260px;
 //   }
-
 //   .drawer-menu:hover .build-version {
 //     display: block;
 //   }

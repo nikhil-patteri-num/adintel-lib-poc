@@ -218,6 +218,21 @@ export const sampleSidePanelData = [
         ]
     },
     {
+        "key": "mapping",
+        "label": "Mapping",
+        "value": 62,
+        "icon": "map-nav",
+        "submenus": [
+            {
+                "key": "mapping/mapping",
+                "label": "Mapping",
+                "value": 63,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
         "key": "ingestion/#/dashboard",
         "label": "Dashboard",
         "value": 11,
@@ -657,6 +672,21 @@ export const sampleSidePanelData = [
             {
                 "key": "classificationmediaagnostic/classification",
                 "label": "Classification",
+                "value": 57,
+                "icon": null,
+                "submenus": null
+            }
+        ]
+    },
+    {
+        "key": "qa",
+        "label": "QA",
+        "value": 56,
+        "icon": "qa-nav",
+        "submenus": [
+            {
+                "key": "qa/attribution-qa",
+                "label": "Attribution QA",
                 "value": 57,
                 "icon": null,
                 "submenus": null
