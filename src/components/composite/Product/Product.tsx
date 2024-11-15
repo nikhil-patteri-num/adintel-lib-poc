@@ -128,7 +128,7 @@ export const Product = (props: IProductProps) => {
       setdescriptortypeenable(false);
       if(productTypeId?.descriptorsType!=null && productTypeId?.descriptorsType?.length>0)
       {
-        setdescriptorsTypeList(getDropdownCompatibleData(productTypeId?.descriptorsType, { label: 'label', value: 'value' }));
+        // setdescriptorsTypeList(getDropdownCompatibleData(productTypeId?.descriptorsType, { label: 'label', value: 'value' }));
       }
       else
       {
