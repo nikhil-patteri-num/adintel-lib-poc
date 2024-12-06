@@ -106,6 +106,7 @@ export const Product = (props: IProductProps) => {
     if (isEditmode) {
       props.onEditProductSave({ id: selectedRowData.id, ...formData });
     } else {
+      props.onchange('');
       formData.display_n = producatname_n;
       if (isProductmode) {
         formData.status = -1;
